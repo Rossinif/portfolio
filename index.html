@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="scroll-behavior: smooth;">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -30,16 +30,11 @@
             --secondary: #fd79a8;
             --dark: #0f0e17;
             --dark-light: #1a1a2e;
-            --dark-card: #16213e;
             --text-light: #fffffe;
             --text-muted: #a7a9be;
             --shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
             --radius: 16px;
             --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        html {
-            scroll-behavior: smooth;
         }
 
         body {
@@ -54,9 +49,6 @@
             text-decoration: none;
             color: inherit;
         }
-        ul {
-            list-style: none;
-        }
         img {
             max-width: 100%;
             display: block;
@@ -66,45 +58,6 @@
             max-width: 1240px;
             margin: 0 auto;
             padding: 0 24px;
-        }
-
-        section {
-            padding: 80px 0;
-        }
-
-        .section-label {
-            display: inline-block;
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--primary-light);
-            background: rgba(108, 92, 231, 0.15);
-            padding: 6px 16px;
-            border-radius: 50px;
-            margin-bottom: 12px;
-        }
-
-        .section-title {
-            font-size: clamp(2rem, 4vw, 3.2rem);
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 12px;
-        }
-
-        .section-subtitle {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            max-width: 540px;
-            margin-bottom: 40px;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-        .mx-auto {
-            margin-left: auto;
-            margin-right: auto;
         }
 
         /* ===== BUTTONS ===== */
@@ -163,7 +116,9 @@
             width: 100%;
         }
 
-        /* ===== NAVBAR ===== */
+        /* ============================================ */
+        /* ===== NAVBAR WITH HAMBURGER MENU ===== */
+        /* ============================================ */
         .navbar {
             position: fixed;
             top: 0;
@@ -192,66 +147,138 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            color: var(--text-light);
         }
         .logo span {
             color: var(--primary);
         }
 
-        .nav-links {
+        /* Hamburger Toggle */
+        .nav-toggle {
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.8rem;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 32px;
+            transition: var(--transition);
+            z-index: 1001;
         }
-        .nav-links a {
-            font-size: 0.95rem;
+        .nav-toggle:hover {
+            color: var(--primary-light);
+        }
+
+        /* Mobile Drawer Overlay */
+        .nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+        .nav-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Mobile Drawer */
+        .nav-drawer {
+            position: fixed;
+            top: 0;
+            left: -320px;
+            width: 300px;
+            height: 100%;
+            background: var(--dark-light);
+            z-index: 1001;
+            padding: 40px 32px;
+            transition: left 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            border-right: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .nav-drawer.open {
+            left: 0;
+        }
+
+        .nav-drawer .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .nav-drawer .drawer-close {
+            font-size: 2rem;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: var(--transition);
+        }
+        .nav-drawer .drawer-close:hover {
+            opacity: 1;
+        }
+
+        .nav-drawer a {
+            font-size: 1.2rem;
             font-weight: 500;
             opacity: 0.8;
             transition: var(--transition);
-            position: relative;
+            cursor: pointer;
         }
-        .nav-links a:hover {
+        .nav-drawer a:hover {
             opacity: 1;
             color: var(--primary-light);
         }
-        .nav-links .cart-icon {
-            position: relative;
-            font-size: 1.3rem;
-        }
-        .cart-icon .badge {
-            position: absolute;
-            top: -8px;
-            right: -10px;
-            background: var(--secondary);
-            font-size: 0.65rem;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 50px;
-            color: #fff;
+        .nav-drawer .cart-link {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
-        /* ===== HERO ===== */
+        /* Force drawer logo to match navbar logo exactly */
+        .nav-drawer .drawer-header a.logo {
+            font-size: 1.6rem;
+            font-weight: 900;
+            opacity: 1;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .nav-drawer .drawer-header a.logo span {
+            color: var(--primary);
+        }
+
+        /* ============================================ */
+        /* ===== HERO ===== (Reference Spacing: 30px) */
+        /* ============================================ */
         .hero {
-            min-height: 100vh;
+            min-height: 70vh;
             display: flex;
             align-items: center;
             background: radial-gradient(ellipse at 70% 30%, rgba(108, 92, 231, 0.12), transparent 60%);
-            padding: 60px 0 80px 0;
+            padding: 30px 0; /* 30px gap from navbar to hero */
+            margin-bottom: 30px; /* 30px gap between hero and portfolio */
         }
 
-        /* ===== WIDER CAROUSEL & ALIGNED COLUMNS ===== */
         .hero-grid {
             display: grid;
-            grid-template-columns: 1fr 1.3fr; /* carousel wider */
+            grid-template-columns: 1fr 1.3fr;
             gap: 60px;
-            align-items: stretch; /* both columns same height */
+            align-items: stretch;
         }
 
-        /* Left column: flex container to push top/bottom content */
         .hero-content {
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            height: 400px; /* match carousel height */
+            gap: 2rem;
             padding-bottom: 0;
         }
 
@@ -259,26 +286,27 @@
             font-size: clamp(2.8rem, 6vw, 4.5rem);
             font-weight: 900;
             line-height: 1.1;
-            margin-bottom: 0;
         }
         .hero-content h1 .highlight {
             color: var(--primary);
         }
 
-        /* Middle section: skill roulette + description perfectly centered */
-        .hero-middle {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            margin: 0;
-            padding: 0;
+        .section-label {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--primary-light);
+            background: rgba(108, 92, 231, 0.15);
+            padding: 6px 16px;
+            border-radius: 50px;
+            width: fit-content;
         }
 
         .skill-roulette-wrapper {
             height: 60px;
             position: relative;
-            margin: 0 0 8px 0; /* small gap between skill and description */
         }
         .skill-roulette-wrapper .skill-text {
             position: absolute;
@@ -299,25 +327,22 @@
         .hero-description {
             color: var(--text-muted);
             max-width: 480px;
-            margin: 0;
         }
 
-        /* Buttons at bottom */
         .hero-actions {
             display: flex;
             gap: 16px;
             flex-wrap: wrap;
-            margin-top: 0;
         }
 
-        /* Right column: carousel fills height */
         .hero-image {
             position: relative;
             overflow: hidden;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             border: 1px solid rgba(255, 255, 255, 0.06);
-            height: 400px; /* fixed height to match left column */
+            height: 100%;
+            min-height: 400px;
         }
         .carousel-track {
             display: flex;
@@ -351,41 +376,275 @@
             transform: scale(1.2);
         }
 
-        /* ===== PORTFOLIO ===== */
+        /* ============================================ */
+        /* ===== PORTFOLIO ===== (Uniform 30px spacing) */
+        /* ============================================ */
+        .portfolio-section {
+            padding: 30px 0;
+            margin-bottom: 30px;
+            background: var(--dark);
+        }
+
+        .portfolio-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .portfolio-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+
         .portfolio-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 32px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
         }
+
         .portfolio-item {
             background: var(--dark-card);
             border-radius: var(--radius);
             overflow: hidden;
-            transition: var(--transition);
             border: 1px solid rgba(255, 255, 255, 0.04);
+            cursor: pointer;
+            transition: var(--transition);
+            aspect-ratio: 4 / 3;
+            position: relative;
         }
         .portfolio-item:hover {
-            transform: translateY(-8px);
+            transform: translateY(-6px);
             border-color: var(--primary);
-        }
-        .portfolio-item img {
-            height: 240px;
-            width: 100%;
-            object-fit: cover;
-        }
-        .portfolio-info {
-            padding: 24px;
-        }
-        .portfolio-info h3 {
-            font-size: 1.2rem;
-            margin-bottom: 6px;
-        }
-        .portfolio-info p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
+            box-shadow: 0 12px 40px rgba(108, 92, 231, 0.25);
         }
 
-        /* ===== STORE ===== */
+        .portfolio-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .portfolio-item-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(15, 14, 23, 0.9) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .portfolio-item-overlay h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .portfolio-item-overlay p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* ============================================ */
+        /* ===== TESTIMONIALS ===== (Uniform 30px spacing) */
+        /* ============================================ */
+        .testimonials-section {
+            padding: 30px 0;
+            margin-bottom: 30px;
+            overflow: hidden;
+            background: var(--dark);
+        }
+
+        .testimonials-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .testimonials-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+
+        .testimonial-marquee {
+            display: flex;
+            overflow: hidden;
+            width: 100%;
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+
+        .testimonial-track {
+            display: flex;
+            gap: 4rem;
+            width: max-content;
+            animation: slideRightToLeft 45s linear infinite;
+        }
+
+        .testimonial-marquee:hover .testimonial-track {
+            animation-play-state: paused;
+        }
+
+        @keyframes slideRightToLeft {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .testimonial-item {
+            flex: 0 0 auto;
+            width: 420px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 0 8px;
+        }
+
+        .testimonial-quote {
+            font-size: 1.15rem;
+            font-style: italic;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .testimonial-author {
+            font-size: 1rem;
+            font-weight: 700;
+            font-style: normal;
+            color: var(--primary-light);
+            margin-top: 16px;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .testimonial-author:hover {
+            color: var(--primary);
+        }
+
+        /* ============================================ */
+        /* ===== LATEST STUDIES ===== (Uniform 30px spacing) */
+        /* ============================================ */
+        .studies-section {
+            padding: 30px 0;
+            margin-bottom: 30px;
+            background: var(--dark);
+        }
+
+        .studies-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .studies-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+
+        /* ============================================ */
+        /* ===== SIDE PANEL (Portfolio/Study Detail) ===== */
+        /* ============================================ */
+        .panel-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(6px);
+            z-index: 3000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+        .panel-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .side-panel {
+            position: fixed;
+            top: 0;
+            right: -540px;
+            width: 520px;
+            height: 100%;
+            background: var(--dark-light);
+            z-index: 3001;
+            padding: 40px 36px;
+            overflow-y: auto;
+            transition: right 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            border-left: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .side-panel.open {
+            right: 0;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+        }
+        .panel-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        .panel-close {
+            font-size: 2rem;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: var(--transition);
+            line-height: 1;
+        }
+        .panel-close:hover {
+            opacity: 1;
+        }
+
+        .panel-body {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .panel-body img {
+            width: 100%;
+            border-radius: var(--radius);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .panel-body video {
+            width: 100%;
+            border-radius: var(--radius);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .panel-body p {
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* ============================================ */
+        /* ===== STORE ===== (Uniform 30px spacing) */
+        /* ============================================ */
+        .store-section {
+            padding: 30px 0;
+            margin-bottom: 30px;
+            background: var(--dark);
+        }
+
+        .store-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .store-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+
         .store-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -433,7 +692,9 @@
             min-width: 100px;
         }
 
+        /* ============================================ */
         /* ===== CART SIDEBAR ===== */
+        /* ============================================ */
         .cart-overlay {
             position: fixed;
             top: 0;
@@ -545,7 +806,26 @@
             padding: 40px 0;
         }
 
-        /* ===== CONTACT ===== */
+        /* ============================================ */
+        /* ===== CONTACT ===== (Uniform 30px spacing, no bottom margin) */
+        /* ============================================ */
+        .contact-section {
+            padding: 30px 0;
+            margin-bottom: 0; /* No margin needed as it's the last section */
+            background: var(--dark);
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .contact-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+
         .contact-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -594,7 +874,9 @@
             resize: vertical;
         }
 
-        /* ===== WHATSAPP FLOATING BUTTON ===== */
+        /* ============================================ */
+        /* ===== WHATSAPP & FOOTER ===== */
+        /* ============================================ */
         .whatsapp-float {
             position: fixed;
             bottom: 28px;
@@ -637,7 +919,6 @@
             opacity: 1;
         }
 
-        /* ===== FOOTER ===== */
         footer {
             border-top: 1px solid rgba(255, 255, 255, 0.04);
             padding: 40px 0;
@@ -646,7 +927,9 @@
             font-size: 0.9rem;
         }
 
+        /* ============================================ */
         /* ===== RESPONSIVE ===== */
+        /* ============================================ */
         @media (max-width: 768px) {
             .hero-grid {
                 grid-template-columns: 1fr;
@@ -654,92 +937,112 @@
                 text-align: center;
             }
             .hero-content {
-                height: auto;
-                gap: 16px;
+                align-items: center;
+            }
+            .section-label {
+                align-self: center;
             }
             .hero-actions {
                 justify-content: center;
             }
             .hero-image {
                 height: 300px;
+                min-height: 300px;
             }
-            .contact-grid {
-                grid-template-columns: 1fr;
+            .testimonial-item {
+                width: 300px;
             }
-            .nav-links {
+            .testimonial-track {
+                gap: 2rem;
+            }
+            .side-panel {
+                width: 100%;
+                right: -100%;
+                padding: 28px 20px;
+            }
+            .portfolio-grid {
+                grid-template-columns: repeat(2, 1fr);
                 gap: 16px;
-            }
-            .nav-links a:not(.cart-icon) {
-                display: none;
             }
             .cart-sidebar {
                 width: 100%;
                 right: -100%;
             }
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
-
 <body>
 
-    <!-- ===== NAVBAR ===== -->
+    <!-- ===== NAVBAR WITH HAMBURGER ===== -->
     <nav class="navbar" id="navbar">
         <div class="container">
-            <a href="#" class="logo"><i class="fas fa-bolt" style="color:var(--primary);"></i> Nova<span>Studio</span></a>
-            <ul class="nav-links">
-                <li><a href="#portfolio">Portfolio</a></li>
-                <li><a href="#store">Store</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="#" class="cart-icon" id="cartToggle">
-                        <i class="fas fa-shopping-bag"></i>
-                        <span class="badge" id="cartCount">0</span>
-                    </a></li>
-            </ul>
+            <!-- Hamburger Button on LEFT -->
+            <button class="nav-toggle" id="navToggle" aria-label="Open menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <!-- Logo on RIGHT -->
+            <a href="#home" class="logo">
+                <i class="fas fa-bolt" style="color:var(--primary);"></i> Nova<span>Studio</span>
+            </a>
         </div>
     </nav>
 
-    <!-- ===== HERO – CENTERED DESCRIPTION ===== -->
+    <!-- Mobile Menu Overlay -->
+    <div class="nav-overlay" id="navOverlay"></div>
+    <!-- Mobile Menu Drawer -->
+    <div class="nav-drawer" id="navDrawer">
+        <div class="drawer-header">
+            <!-- Drawer Logo (Identical to navbar logo) -->
+            <a href="#home" class="logo">
+                <i class="fas fa-bolt" style="color:var(--primary);"></i> Nova<span>Studio</span>
+            </a>
+            <span class="drawer-close" id="navClose">&times;</span>
+        </div>
+        <a data-target="portfolio">Portfolio</a>
+        <a data-target="testimonials">Testimonials</a>
+        <a data-target="studies">Studies</a>
+        <a data-target="store">Store</a>
+        <a data-target="contact">Contact</a>
+        <a href="#" class="cart-link" id="cartToggle">
+            <i class="fas fa-shopping-bag"></i> Cart <span class="badge" id="cartCount" style="background:var(--secondary);padding:2px 8px;border-radius:50px;font-size:0.7rem;">0</span>
+        </a>
+    </div>
+
+    <!-- ===== HERO ===== -->
     <section class="hero" id="home">
         <div class="container">
             <div class="hero-grid">
-                <!-- LEFT: Perfectly aligned with centered middle content -->
                 <div class="hero-content">
-                    <!-- Top: Label + Name -->
-                    <div>
-                        <span class="section-label">✦ Creative Director</span>
-                        <h1>Hi, I'm <span class="highlight">Alex Nova</span></h1>
+                    <span class="section-label">✦ Creative Director</span>
+                    <h1>Hi, I'm <span class="highlight">Alex Nova</span></h1>
+                    
+                    <div class="skill-roulette-wrapper" id="skillRoulette">
+                        <span class="skill-text active" data-index="0">UI/UX Design</span>
+                        <span class="skill-text" data-index="1">Web Development</span>
+                        <span class="skill-text" data-index="2">Brand Strategy</span>
+                        <span class="skill-text" data-index="3">Motion Graphics</span>
                     </div>
 
-                    <!-- Middle: Centered skill roulette & description -->
-                    <div class="hero-middle">
-                        <div class="skill-roulette-wrapper" id="skillRoulette">
-                            <span class="skill-text active" data-index="0">UI/UX Design</span>
-                            <span class="skill-text" data-index="1">Web Development</span>
-                            <span class="skill-text" data-index="2">Brand Strategy</span>
-                            <span class="skill-text" data-index="3">Motion Graphics</span>
-                        </div>
-                        <p class="hero-description">
-                            I craft digital experiences that blend aesthetics with function. Let's build something unforgettable.
-                        </p>
-                    </div>
+                    <p class="hero-description">
+                        I craft digital experiences that blend aesthetics with function. Let's build something unforgettable.
+                    </p>
 
-                    <!-- Bottom: Buttons -->
                     <div class="hero-actions">
                         <a href="#portfolio" class="btn btn-primary"><i class="fas fa-eye"></i> View Portfolio</a>
                         <a href="#store" class="btn btn-outline"><i class="fas fa-store"></i> Shop Now</a>
                     </div>
                 </div>
 
-                <!-- RIGHT: Wider Carousel (height matches left column) -->
                 <div class="hero-image" id="heroCarousel">
                     <div class="carousel-track" id="carouselTrack">
-                        <!-- Replace these URLs with your own images -->
                         <img src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600&h=400&fit=crop&auto=format" alt="Work 1" class="carousel-slide" data-index="0" />
                         <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&auto=format" alt="Work 2" class="carousel-slide" data-index="1" />
                         <img src="https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&h=400&fit=crop&auto=format" alt="Work 3" class="carousel-slide" data-index="2" />
                         <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop&auto=format" alt="Work 4" class="carousel-slide" data-index="3" />
                     </div>
-                    <!-- Navigation Dots -->
                     <div class="carousel-dots" id="carouselDots">
                         <span class="active" data-index="0"></span>
                         <span data-index="1"></span>
@@ -752,46 +1055,53 @@
     </section>
 
     <!-- ===== PORTFOLIO ===== -->
-    <section id="portfolio">
+    <section class="portfolio-section" id="portfolio">
         <div class="container">
-            <div class="text-center">
+            <div class="portfolio-header">
                 <span class="section-label">✦ Featured Work</span>
-                <h2 class="section-title">Recent Projects</h2>
-                <p class="section-subtitle mx-auto">A curated selection of design, branding, and digital work.</p>
+                <h2>Recent Projects</h2>
             </div>
-            <div class="portfolio-grid">
-                <div class="portfolio-item">
-                    <img src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=400&h=240&fit=crop&auto=format" alt="Project 1" />
-                    <div class="portfolio-info">
-                        <h3>Brand Identity</h3>
-                        <p>Minimalist branding for a tech startup.</p>
-                    </div>
-                </div>
-                <div class="portfolio-item">
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=240&fit=crop&auto=format" alt="Project 2" />
-                    <div class="portfolio-info">
-                        <h3>E-Commerce UI</h3>
-                        <p>Modern interface with dark mode & animations.</p>
-                    </div>
-                </div>
-                <div class="portfolio-item">
-                    <img src="https://images.unsplash.com/photo-1555421689-491a97ff2040?w=400&h=240&fit=crop&auto=format" alt="Project 3" />
-                    <div class="portfolio-info">
-                        <h3>Mobile App</h3>
-                        <p>Fitness tracker with gamification.</p>
-                    </div>
+            <div class="portfolio-grid" id="portfolioGrid">
+                <!-- injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TESTIMONIALS ===== -->
+    <section class="testimonials-section" id="testimonials">
+        <div class="container">
+            <div class="testimonials-header">
+                <span class="section-label">✦ Client Stories</span>
+                <h2>What People Say</h2>
+            </div>
+            <div class="testimonial-marquee">
+                <div class="testimonial-track" id="testimonialTrack">
+                    <!-- injected by JS -->
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== STORE ===== -->
-    <section id="store">
+    <!-- ===== LATEST STUDIES ===== -->
+    <section class="studies-section" id="studies">
         <div class="container">
-            <div class="text-center">
+            <div class="studies-header">
+                <span class="section-label">✦ Continuous Learning</span>
+                <h2>Latest Studies</h2>
+            </div>
+            <div class="portfolio-grid" id="studiesGrid">
+                <!-- injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== STORE ===== -->
+    <section class="store-section" id="store">
+        <div class="container">
+            <div class="store-header">
                 <span class="section-label">✦ Shop</span>
-                <h2 class="section-title">Digital &amp; Physical Goods</h2>
-                <p class="section-subtitle mx-auto">Each purchase supports independent creation. Secure payments via PayPal (cards accepted).</p>
+                <h2>Digital &amp; Physical Goods</h2>
+                <p class="section-subtitle mx-auto" style="color:var(--text-muted);max-width:540px;margin:0 auto;">Each purchase supports independent creation. Secure payments via PayPal (cards accepted).</p>
             </div>
             <div class="store-grid" id="productGrid">
                 <!-- products injected by JS -->
@@ -800,12 +1110,12 @@
     </section>
 
     <!-- ===== CONTACT ===== -->
-    <section id="contact">
+    <section class="contact-section" id="contact">
         <div class="container">
-            <div class="text-center">
+            <div class="contact-header">
                 <span class="section-label">✦ Get in touch</span>
-                <h2 class="section-title">Let's work together</h2>
-                <p class="section-subtitle mx-auto">Have a project in mind? Reach out and let's create something amazing.</p>
+                <h2>Let's work together</h2>
+                <p class="section-subtitle mx-auto" style="color:var(--text-muted);max-width:540px;margin:0 auto;">Have a project in mind? Reach out and let's create something amazing.</p>
             </div>
             <div class="contact-grid">
                 <div class="contact-info">
@@ -863,12 +1173,81 @@
         </div>
     </div>
 
+    <!-- ===== PORTFOLIO/STUDY SIDE PANEL ===== -->
+    <div class="panel-overlay" id="panelOverlay"></div>
+    <div class="side-panel" id="sidePanel">
+        <div class="panel-header">
+            <h2 id="panelTitle">Project Title</h2>
+            <span class="panel-close" id="panelClose">&times;</span>
+        </div>
+        <div class="panel-body" id="panelBody">
+            <!-- dynamic content -->
+        </div>
+    </div>
+
     <!-- ============================================ -->
     <!-- ===== JAVASCRIPT ===== -->
     <script>
-        // ============================================
-        // 1. SYNCED SKILL SEQUENTIAL FADE & CAROUSEL
-        // ============================================
+        // ===== HAMBURGER NAV MENU LOGIC =====
+        const navToggle = document.getElementById('navToggle');
+        const navOverlay = document.getElementById('navOverlay');
+        const navDrawer = document.getElementById('navDrawer');
+        const navClose = document.getElementById('navClose');
+
+        function openNav() {
+            navOverlay.classList.add('open');
+            navDrawer.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeNav() {
+            navOverlay.classList.remove('open');
+            navDrawer.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        navToggle.addEventListener('click', openNav);
+        navClose.addEventListener('click', closeNav);
+        navOverlay.addEventListener('click', closeNav);
+
+        // ===== FIXED NAVIGATION SCROLL =====
+        const navLinks = document.querySelectorAll('.nav-drawer a[data-target]');
+        
+        function scrollToTop() {
+            closeNav();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('data-target');
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    closeNav();
+                    const navbarHeight = document.querySelector('.navbar').offsetHeight;
+                    const topPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navbarHeight - 20;
+                    window.scrollTo({ top: topPosition, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // ===== LOGO CLICKS (Both scroll to the top) =====
+        const navbarLogo = document.querySelector('.navbar .logo');
+        const drawerLogo = document.querySelector('.nav-drawer .drawer-header a.logo');
+
+        function handleLogoClick(e) {
+            e.preventDefault();
+            if (navDrawer.classList.contains('open')) {
+                closeNav();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        if (navbarLogo) navbarLogo.addEventListener('click', handleLogoClick);
+        if (drawerLogo) drawerLogo.addEventListener('click', handleLogoClick);
+
+        // ===== HERO CAROUSEL & SKILL ROULETTE =====
         const skillSpans = document.querySelectorAll('#skillRoulette .skill-text');
         const track = document.getElementById('carouselTrack');
         const dots = document.querySelectorAll('#carouselDots span');
@@ -877,22 +1256,15 @@
         let autoRotateInterval;
         let skillTimeout = null;
 
-        // Update skill text with sequential fade (no overlap)
         function updateSkill(index) {
             if (skillTimeout) {
                 clearTimeout(skillTimeout);
                 skillTimeout = null;
             }
-
             const current = document.querySelector('#skillRoulette .skill-text.active');
             const next = skillSpans[index];
-
             if (current === next) return;
-
-            if (current) {
-                current.classList.remove('active');
-            }
-
+            if (current) current.classList.remove('active');
             skillTimeout = setTimeout(() => {
                 next.classList.add('active');
                 skillTimeout = null;
@@ -928,34 +1300,174 @@
             });
         });
 
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 60);
+        });
+
         rotateTo(0);
         startAutoRotate();
 
-        // ============================================
-        // 2. PRODUCT DATA & STORE
-        // ============================================
-        const products = [{
+        // ===== PORTFOLIO DATA & RENDER =====
+        const portfolioData = [{
             id: 1,
-            name: 'Minimalist Poster',
-            price: 19.99,
-            image: 'https://images.unsplash.com/photo-1585843611891-77d8759d4aab?w=300&h=200&fit=crop&auto=format'
+            title: "Brand Identity",
+            category: "Branding",
+            image: "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600&h=400&fit=crop&auto=format",
+            detail: { text: "A complete brand identity for a tech startup.", images: [ "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600&h=400&fit=crop&auto=format", "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&auto=format" ], video: "https://www.w3schools.com/html/mov_bbb.mp4" }
         }, {
             id: 2,
-            name: 'T-Shirt · Unisex',
-            price: 29.99,
-            image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&h=200&fit=crop&auto=format'
+            title: "E-Commerce UI",
+            category: "UI/UX",
+            image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&auto=format",
+            detail: { text: "A modern, dark-themed e-commerce interface.", images: [ "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&auto=format", "https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&h=400&fit=crop&auto=format" ], video: "https://www.w3schools.com/html/mov_bbb.mp4" }
         }, {
             id: 3,
-            name: 'Coffee Mug · Design',
-            price: 14.99,
-            image: 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=300&h=200&fit=crop&auto=format'
+            title: "Mobile App",
+            category: "App Design",
+            image: "https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&h=400&fit=crop&auto=format",
+            detail: { text: "A fitness tracker app with gamification.", images: [ "https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&h=400&fit=crop&auto=format", "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop&auto=format" ], video: "https://www.w3schools.com/html/mov_bbb.mp4" }
         }, {
             id: 4,
-            name: 'Digital Art Print',
-            price: 9.99,
-            image: 'https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=300&h=200&fit=crop&auto=format'
+            title: "Motion Graphics",
+            category: "Animation",
+            image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop&auto=format",
+            detail: { text: "Motion graphics for a product launch.", images: [ "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop&auto=format", "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600&h=400&fit=crop&auto=format" ], video: "https://www.w3schools.com/html/mov_bbb.mp4" }
+        }, {
+            id: 5,
+            title: "Rebrand Strategy",
+            category: "Strategy",
+            image: "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600&h=400&fit=crop&auto=format",
+            detail: { text: "Comprehensive rebrand for a legacy company.", images: [ "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600&h=400&fit=crop&auto=format", "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&auto=format" ], video: "https://www.w3schools.com/html/mov_bbb.mp4" }
+        }, {
+            id: 6,
+            title: "Product Photography",
+            category: "Photography",
+            image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&auto=format",
+            detail: { text: "Art direction for a luxury product line.", images: [ "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&auto=format", "https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&h=400&fit=crop&auto=format" ], video: "https://www.w3schools.com/html/mov_bbb.mp4" }
+        }, {
+            id: 7,
+            title: "Web3 Platform",
+            category: "Web Development",
+            image: "https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&h=400&fit=crop&auto=format",
+            detail: { text: "Futuristic glassmorphic Web3 interface.", images: [ "https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&h=400&fit=crop&auto=format", "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop&auto=format" ], video: "https://www.w3schools.com/html/mov_bbb.mp4" }
+        }, {
+            id: 8,
+            title: "Editorial Design",
+            category: "Print",
+            image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop&auto=format",
+            detail: { text: "Bold typography magazine spread.", images: [ "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop&auto=format", "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600&h=400&fit=crop&auto=format" ], video: "https://www.w3schools.com/html/mov_bbb.mp4" }
         }];
 
+        const portfolioGrid = document.getElementById('portfolioGrid');
+        function renderPortfolio() {
+            portfolioGrid.innerHTML = portfolioData.map(item => `
+                <div class="portfolio-item" data-id="${item.id}">
+                    <img src="${item.image}" alt="${item.title}" />
+                    <div class="portfolio-item-overlay">
+                        <h3>${item.title}</h3>
+                        <p>${item.category}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+        renderPortfolio();
+
+        // ===== STUDIES DATA & RENDER =====
+        const studiesData = [{
+            id: 1,
+            title: "Google UX Design Certificate",
+            category: "Coursera",
+            image: "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600&h=400&fit=crop&auto=format",
+            detail: { text: "User research, wireframing, prototyping, and usability testing.", images: [ "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600&h=400&fit=crop&auto=format", "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&auto=format" ], video: "https://www.w3schools.com/html/mov_bbb.mp4" }
+        }, {
+            id: 2,
+            title: "Full Stack Web Development",
+            category: "The Odin Project",
+            image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&auto=format",
+            detail: { text: "HTML, CSS, JavaScript, React, Node.js, and databases.", images: [ "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&auto=format", "https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&h=400&fit=crop&auto=format" ], video: "https://www.w3schools.com/html/mov_bbb.mp4" }
+        }, {
+            id: 3,
+            title: "Motion Graphics Masterclass",
+            category: "School of Motion",
+            image: "https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&h=400&fit=crop&auto=format",
+            detail: { text: "After Effects, 3D integration, and narrative storytelling.", images: [ "https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&h=400&fit=crop&auto=format", "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop&auto=format" ], video: "https://www.w3schools.com/html/mov_bbb.mp4" }
+        }, {
+            id: 4,
+            title: "Data Science & AI Fundamentals",
+            category: "IBM · edX",
+            image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop&auto=format",
+            detail: { text: "Python, data analysis, machine learning basics, and AI ethics.", images: [ "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop&auto=format", "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600&h=400&fit=crop&auto=format" ], video: "https://www.w3schools.com/html/mov_bbb.mp4" }
+        }];
+
+        const studiesGrid = document.getElementById('studiesGrid');
+        function renderStudies() {
+            studiesGrid.innerHTML = studiesData.map(item => `
+                <div class="portfolio-item" data-id="${item.id}">
+                    <img src="${item.image}" alt="${item.title}" />
+                    <div class="portfolio-item-overlay">
+                        <h3>${item.title}</h3>
+                        <p>${item.category}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+        renderStudies();
+
+        // ===== SHARED SIDE PANEL =====
+        const panelOverlay = document.getElementById('panelOverlay');
+        const sidePanel = document.getElementById('sidePanel');
+        const panelTitle = document.getElementById('panelTitle');
+        const panelBody = document.getElementById('panelBody');
+        const panelClose = document.getElementById('panelClose');
+
+        function populatePanel(title, detail) {
+            panelTitle.textContent = title;
+            let html = `<p>${detail.text}</p>`;
+            if (detail.images && detail.images.length) {
+                detail.images.forEach(img => { html += `<img src="${img}" alt="Process image" />`; });
+            }
+            if (detail.video) {
+                html += `<video controls><source src="${detail.video}" type="video/mp4" />Your browser does not support the video tag.</video>`;
+            }
+            panelBody.innerHTML = html;
+            panelOverlay.classList.add('open');
+            sidePanel.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePanel() {
+            panelOverlay.classList.remove('open');
+            sidePanel.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        portfolioGrid.addEventListener('click', (e) => {
+            const item = e.target.closest('.portfolio-item');
+            if (item) {
+                const id = parseInt(item.dataset.id);
+                const project = portfolioData.find(p => p.id === id);
+                if (project) populatePanel(project.title, project.detail);
+            }
+        });
+        studiesGrid.addEventListener('click', (e) => {
+            const item = e.target.closest('.portfolio-item');
+            if (item) {
+                const id = parseInt(item.dataset.id);
+                const study = studiesData.find(s => s.id === id);
+                if (study) populatePanel(study.title, study.detail);
+            }
+        });
+        panelClose.addEventListener('click', closePanel);
+        panelOverlay.addEventListener('click', closePanel);
+
+        // ===== STORE & CART =====
+        const products = [
+            { id: 1, name: 'Minimalist Poster', price: 19.99, image: 'https://images.unsplash.com/photo-1585843611891-77d8759d4aab?w=300&h=200&fit=crop&auto=format' },
+            { id: 2, name: 'T-Shirt · Unisex', price: 29.99, image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&h=200&fit=crop&auto=format' },
+            { id: 3, name: 'Coffee Mug · Design', price: 14.99, image: 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=300&h=200&fit=crop&auto=format' },
+            { id: 4, name: 'Digital Art Print', price: 9.99, image: 'https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=300&h=200&fit=crop&auto=format' }
+        ];
         const productGrid = document.getElementById('productGrid');
         function renderStore() {
             productGrid.innerHTML = products.map(p => `
@@ -964,97 +1476,61 @@
                     <h3>${p.name}</h3>
                     <div class="price">$${p.price.toFixed(2)}</div>
                     <div class="product-actions">
-                        <button class="btn btn-outline btn-small" onclick="addToCart(${p.id})">
-                            <i class="fas fa-cart-plus"></i> Add
-                        </button>
-                        <button class="btn btn-secondary btn-small" onclick="buyNow(${p.id})">
-                            <i class="fas fa-bolt"></i> Buy
-                        </button>
+                        <button class="btn btn-outline btn-small" onclick="addToCart(${p.id})"><i class="fas fa-cart-plus"></i> Add</button>
+                        <button class="btn btn-secondary btn-small" onclick="buyNow(${p.id})"><i class="fas fa-bolt"></i> Buy</button>
                     </div>
                 </div>
             `).join('');
         }
         renderStore();
 
-        // ============================================
-        // 3. CART STATE & PAYPAL
-        // ============================================
         let cart = [];
-
         function addToCart(id) {
             const product = products.find(p => p.id === id);
             const existing = cart.find(item => item.id === id);
-            if (existing) {
-                existing.qty += 1;
-            } else {
-                cart.push({ ...product, qty: 1 });
-            }
+            if (existing) existing.qty += 1;
+            else cart.push({ ...product, qty: 1 });
             updateCartUI();
             openCart();
         }
-
         function removeFromCart(id) {
             cart = cart.filter(item => item.id !== id);
             updateCartUI();
-            if (cart.length === 0) {
-                document.getElementById('paypal-button-container').innerHTML = '';
-            }
+            if (cart.length === 0) document.getElementById('paypal-button-container').innerHTML = '';
         }
-
         function updateCartUI() {
             const itemsContainer = document.getElementById('cartItems');
             const totalEl = document.getElementById('cartTotal');
             const badge = document.getElementById('cartCount');
             const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-
             badge.textContent = cart.reduce((sum, item) => sum + item.qty, 0);
-
             if (cart.length === 0) {
                 itemsContainer.innerHTML = `<div class="empty-cart-msg">Your cart is empty.</div>`;
                 totalEl.textContent = `Total: $0.00`;
                 document.getElementById('paypal-button-container').innerHTML = '';
                 return;
             }
-
             itemsContainer.innerHTML = cart.map(item => `
                 <div class="cart-item">
                     <img src="${item.image}" alt="${item.name}" />
-                    <div class="cart-item-info">
-                        <h4>${item.name}</h4>
-                        <p>$${item.price.toFixed(2)} × ${item.qty}</p>
-                    </div>
-                    <span class="cart-item-remove" onclick="removeFromCart(${item.id})">
-                        <i class="fas fa-trash-alt"></i>
-                    </span>
+                    <div class="cart-item-info"><h4>${item.name}</h4><p>$${item.price.toFixed(2)} × ${item.qty}</p></div>
+                    <span class="cart-item-remove" onclick="removeFromCart(${item.id})"><i class="fas fa-trash-alt"></i></span>
                 </div>
             `).join('');
-
             totalEl.textContent = `Total: $${total.toFixed(2)}`;
             renderPayPalButton(total);
         }
-
         let paypalRendered = false;
-
         function renderPayPalButton(total) {
             const container = document.getElementById('paypal-button-container');
-            if (!window.paypal) {
-                container.innerHTML = `<p style="color:var(--text-muted);font-size:0.8rem;">PayPal SDK loading...</p>`;
-                return;
-            }
-            if (paypalRendered) {
-                container.innerHTML = '';
-                paypalRendered = false;
-            }
+            if (!window.paypal) { container.innerHTML = `<p style="color:var(--text-muted);font-size:0.8rem;">PayPal SDK loading...</p>`; return; }
+            if (paypalRendered) { container.innerHTML = '';
+                paypalRendered = false; }
             if (cart.length === 0) return;
-
             paypal.Buttons({
                 style: { layout: 'vertical', color: 'blue', shape: 'pill', label: 'paypal' },
                 createOrder: function(data, actions) {
-                    return actions.order.create({
-                        purchase_units: [{
-                            amount: { value: total.toFixed(2), currency_code: 'USD' }
-                        }]
-                    });
+                    return actions.order.create({ purchase_units: [{ amount: { value: total.toFixed(2), currency_code: 'USD' } }] });
                 },
                 onApprove: function(data, actions) {
                     return actions.order.capture().then(function(details) {
@@ -1064,14 +1540,11 @@
                         closeCart();
                     });
                 },
-                onError: function(err) {
-                    console.error(err);
-                    alert('PayPal error. Please try again.');
-                }
+                onError: function(err) { console.error(err);
+                    alert('PayPal error. Please try again.'); }
             }).render(container);
             paypalRendered = true;
         }
-
         function buyNow(id) {
             const product = products.find(p => p.id === id);
             cart = [{ ...product, qty: 1 }];
@@ -1079,61 +1552,61 @@
             openCart();
         }
 
-        // ============================================
-        // 4. CART SIDEBAR TOGGLES
-        // ============================================
-        const overlay = document.getElementById('cartOverlay');
-        const sidebar = document.getElementById('cartSidebar');
-        const openBtn = document.getElementById('cartToggle');
-        const closeBtn = document.getElementById('cartClose');
-
+        // ===== CART TOGGLES =====
+        const cartOverlay = document.getElementById('cartOverlay');
+        const cartSidebar = document.getElementById('cartSidebar');
+        const cartClose = document.getElementById('cartClose');
         function openCart() {
-            overlay.classList.add('open');
-            sidebar.classList.add('open');
+            cartOverlay.classList.add('open');
+            cartSidebar.classList.add('open');
             document.body.style.overflow = 'hidden';
         }
-
         function closeCart() {
-            overlay.classList.remove('open');
-            sidebar.classList.remove('open');
+            cartOverlay.classList.remove('open');
+            cartSidebar.classList.remove('open');
             document.body.style.overflow = '';
         }
-
-        openBtn.addEventListener('click', (e) => { e.preventDefault();
+        document.querySelector('.cart-link').addEventListener('click', (e) => { e.preventDefault();
             openCart(); });
-        closeBtn.addEventListener('click', closeCart);
-        overlay.addEventListener('click', closeCart);
+        cartClose.addEventListener('click', closeCart);
+        cartOverlay.addEventListener('click', closeCart);
 
-        // ============================================
-        // 5. NAVBAR SCROLL
-        // ============================================
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            navbar.classList.toggle('scrolled', window.scrollY > 60);
-        });
+        // ===== TESTIMONIALS =====
+        const testimonialsData = [
+            { quote: "Working with Alex was an absolute game-changer.", name: "Sarah K. · Creative Director", link: "#" },
+            { quote: "The attention to detail and creative flow is unmatched.", name: "James L. · Product Lead", link: "#" },
+            { quote: "Alex took our vague ideas and turned them into a stunning platform.", name: "Maria R. · Founder", link: "#" },
+            { quote: "One of the most talented designers I've ever collaborated with.", name: "David M. · Developer", link: "#" },
+            { quote: "Alex has a rare ability to blend aesthetics with function perfectly.", name: "Chloe W. · Brand Manager", link: "#" },
+            { quote: "Incredible work. Huge increase in engagement.", name: "Tom H. · Marketing Lead", link: "#" },
+            { quote: "Fast, efficient, and incredibly creative. Highly recommend.", name: "Laura P. · Startup Founder", link: "#" },
+            { quote: "Alex is a problem solver with an artistic touch.", name: "Ryan O. · Executive Director", link: "#" }
+        ];
+        function renderTestimonials() {
+            const trackEl = document.getElementById('testimonialTrack');
+            const doubledData = [...testimonialsData, ...testimonialsData];
+            trackEl.innerHTML = doubledData.map(item => `
+                <div class="testimonial-item">
+                    <p class="testimonial-quote">“${item.quote}”</p>
+                    <a href="${item.link}" target="_blank" class="testimonial-author">— ${item.name}</a>
+                </div>
+            `).join('');
+        }
+        renderTestimonials();
 
-        // ============================================
-        // 6. CONTACT FORM
-        // ============================================
+        // ===== CONTACT FORM =====
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
             alert('Thanks for reaching out! (Demo) I’ll get back to you soon.');
             this.reset();
         });
 
-        // ============================================
-        // 7. INIT PAYPAL
-        // ============================================
+        // ===== INIT PAYPAL =====
         if (window.paypal) {
             setTimeout(() => {
-                if (cart.length > 0) renderPayPalButton(
-                    cart.reduce((s, i) => s + i.price * i.qty, 0)
-                );
+                if (cart.length > 0) renderPayPalButton(cart.reduce((s, i) => s + i.price * i.qty, 0));
             }, 500);
         }
-
-        console.log('🚀 Perfectly centered description with wider carousel ready! Replace PayPal Client ID for live payments.');
     </script>
-
 </body>
 </html>
