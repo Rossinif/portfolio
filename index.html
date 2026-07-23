@@ -264,7 +264,7 @@
             display: flex;
             align-items: center;
             background: radial-gradient(ellipse at 70% 30%, rgba(108, 92, 231, 0.12), transparent 60%);
-            padding: 80px 0 30px 0; /* Increased top padding to 80px to clear fixed navbar */
+            padding: 80px 0 30px 0;
             margin-bottom: 30px;
         }
 
@@ -682,7 +682,6 @@
             margin: 8px 0 16px;
         }
 
-        /* === Quantity & Options styling === */
         .product-options {
             display: flex;
             align-items: center;
@@ -830,7 +829,6 @@
             color: var(--text-muted);
             font-size: 0.85rem;
         }
-        /* In-cart quantity controls */
         .cart-qty-control {
             display: flex;
             align-items: center;
@@ -1192,7 +1190,7 @@
         </div>
     </section>
 
-    <!-- ===== CONTACT ===== -->
+    <!-- ===== CONTACT ===== (UPDATED TO SEND EMAIL VIA FORMSPREE) -->
     <section class="contact-section" id="contact">
         <div class="container">
             <div class="contact-header">
@@ -1212,12 +1210,13 @@
                     </div>
                 </div>
                 <div class="contact-form">
+                    <!-- Added name attributes and Formspree action -->
                     <form id="contactForm">
-                        <input type="text" placeholder="Your Name" required />
-                        <input type="email" placeholder="Your Email" required />
-                        <textarea placeholder="Tell me about your project..." required></textarea>
+                        <input type="text" name="name" placeholder="Your Name" required />
+                        <input type="email" name="email" placeholder="Your Email" required />
+                        <textarea name="message" placeholder="Tell me about your project..." required></textarea>
                         <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-paper-plane"></i> Send Message</button>
-                        <p style="margin-top:12px;font-size:0.8rem;color:var(--text-muted);">* This is a demo form. Messages are not actually sent.</p>
+                        <p style="margin-top:12px;font-size:0.8rem;color:var(--text-muted);">Messages are securely sent to my inbox.</p>
                     </form>
                 </div>
             </div>
@@ -1754,11 +1753,35 @@
         }
         renderTestimonials();
 
-        // ===== CONTACT FORM =====
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
+        // ============================================
+        // ===== CONTACT FORM (NOW SENDING EMAIL VIA FORMSPREE) =====
+        // ============================================
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            alert('Thanks for reaching out! (Demo) I’ll get back to you soon.');
-            this.reset();
+            const form = this;
+            const data = new FormData(form);
+            
+            // === 💡 IMPORTANT: REPLACE 'YOUR_FORMSPREE_ID' WITH YOUR ACTUAL ID ===
+            const formspreeEndpoint = 'https://formspree.io/f/xzdnjbwy';
+
+            try {
+                const response = await fetch(formspreeEndpoint, {
+                    method: 'POST',
+                    body: data,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    alert('✅ Message sent successfully! I will get back to you soon.');
+                    form.reset();
+                } else {
+                    alert('❌ Oops! Something went wrong. Please try again later.');
+                }
+            } catch (error) {
+                alert('❌ Network error. Please check your internet connection.');
+            }
         });
 
         // ===== INIT PAYPAL =====
