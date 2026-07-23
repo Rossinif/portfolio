@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nova Studio · Portfolio & Store</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- PayPal SDK (replace client-id with your own) -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AVLS5rdWgH1zKhi3kIqYYOmsP2_t_nXh2yuoUes4H8Ep2soR1YEppmk1Gimi2sQ9dxxImBvK43A8_1U4&currency=USD"></script>
+
+    <style>
+        /* ===== RESET & BASE ===== */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6c5ce7;
+            --primary-dark: #5a4bd1;
+            --primary-light: #a29bfe;
+            --secondary: #fd79a8;
+            --dark: #0f0e17;
+            --dark-light: #1a1a2e;
+            --dark-card: #16213e;
+            --text-light: #fffffe;
+            --text-muted: #a7a9be;
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            --radius: 16px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        ul {
+            list-style: none;
+        }
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        .section-label {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--primary-light);
+            background: rgba(108, 92, 231, 0.15);
+            padding: 6px 16px;
+            border-radius: 50px;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 12px;
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 540px;
+            margin-bottom: 40px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            text-align: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 8px 30px rgba(108, 92, 231, 0.35);
+        }
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(108, 92, 231, 0.5);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-light);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        .btn-outline:hover {
+            border-color: var(--primary);
+            background: rgba(108, 92, 231, 0.1);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: #fff;
+            box-shadow: 0 8px 30px rgba(253, 121, 168, 0.35);
+        }
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(253, 121, 168, 0.5);
+        }
+
+        .btn-small {
+            padding: 10px 20px;
+            font-size: 0.85rem;
+        }
+        .btn-block {
+            width: 100%;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 16px 0;
+            transition: var(--transition);
+            background: transparent;
+        }
+        .navbar.scrolled {
+            background: rgba(15, 14, 23, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 10px 0;
+        }
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+        .nav-links a {
+            font-size: 0.95rem;
+            font-weight: 500;
+            opacity: 0.8;
+            transition: var(--transition);
+            position: relative;
+        }
+        .nav-links a:hover {
+            opacity: 1;
+            color: var(--primary-light);
+        }
+        .nav-links .cart-icon {
+            position: relative;
+            font-size: 1.3rem;
+        }
+        .cart-icon .badge {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background: var(--secondary);
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 50px;
+            color: #fff;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: radial-gradient(ellipse at 70% 30%, rgba(108, 92, 231, 0.12), transparent 60%);
+        }
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .hero-content h1 {
+            font-size: clamp(2.8rem, 6vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+        .hero-content h1 .highlight {
+            color: var(--primary);
+        }
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 480px;
+            margin-bottom: 32px;
+        }
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .hero-image img {
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        /* ===== PORTFOLIO ===== */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+        }
+        .portfolio-item {
+            background: var(--dark-card);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .portfolio-item:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+        }
+        .portfolio-item img {
+            height: 240px;
+            width: 100%;
+            object-fit: cover;
+        }
+        .portfolio-info {
+            padding: 24px;
+        }
+        .portfolio-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 6px;
+        }
+        .portfolio-info p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ===== STORE ===== */
+        .store-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 32px;
+        }
+        .product-card {
+            background: var(--dark-card);
+            border-radius: var(--radius);
+            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+        .product-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+        }
+        .product-card img {
+            height: 180px;
+            width: 100%;
+            object-fit: contain;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            background: rgba(255, 255, 255, 0.03);
+        }
+        .product-card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 4px;
+        }
+        .product-card .price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-light);
+            margin: 8px 0 16px;
+        }
+        .product-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: auto;
+            flex-wrap: wrap;
+        }
+        .product-actions .btn {
+            flex: 1;
+            min-width: 100px;
+        }
+
+        /* ===== CART SIDEBAR ===== */
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+        .cart-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -420px;
+            width: 400px;
+            height: 100%;
+            background: var(--dark-light);
+            z-index: 2001;
+            padding: 32px 28px;
+            overflow-y: auto;
+            transition: var(--transition);
+            border-left: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            flex-direction: column;
+        }
+        .cart-sidebar.open {
+            right: 0;
+        }
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+        .cart-header h2 {
+            font-size: 1.6rem;
+        }
+        .cart-close {
+            font-size: 1.8rem;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: var(--transition);
+        }
+        .cart-close:hover {
+            opacity: 1;
+        }
+        .cart-items {
+            flex: 1;
+            margin-bottom: 20px;
+        }
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .cart-item img {
+            width: 56px;
+            height: 56px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .cart-item-info {
+            flex: 1;
+        }
+        .cart-item-info h4 {
+            font-size: 0.95rem;
+        }
+        .cart-item-info p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        .cart-item-remove {
+            color: var(--secondary);
+            cursor: pointer;
+            font-size: 1.2rem;
+            opacity: 0.7;
+            transition: var(--transition);
+        }
+        .cart-item-remove:hover {
+            opacity: 1;
+        }
+        .cart-total {
+            font-size: 1.4rem;
+            font-weight: 700;
+            padding: 20px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            text-align: right;
+        }
+        .cart-payment {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        #paypal-button-container {
+            margin-top: 8px;
+        }
+        .empty-cart-msg {
+            color: var(--text-muted);
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        /* ===== CONTACT ===== */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+        .contact-info h3 {
+            font-size: 1.4rem;
+            margin-bottom: 16px;
+        }
+        .contact-info p {
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .contact-detail i {
+            font-size: 1.4rem;
+            color: var(--primary);
+            width: 28px;
+        }
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            color: var(--text-light);
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            margin-bottom: 16px;
+        }
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(108, 92, 231, 0.06);
+        }
+        .contact-form textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        /* ===== WHATSAPP FLOATING BUTTON ===== */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 999;
+            background: #25d366;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            color: #fff;
+            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4);
+            transition: var(--transition);
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.08);
+            box-shadow: 0 12px 40px rgba(37, 211, 102, 0.6);
+        }
+        .whatsapp-float .tooltip {
+            position: absolute;
+            right: 76px;
+            background: var(--dark-light);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+            color: var(--text-light);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .whatsapp-float:hover .tooltip {
+            opacity: 1;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 40px 0;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+            .hero-content p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .hero-actions {
+                justify-content: center;
+            }
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            .nav-links {
+                gap: 16px;
+            }
+            .nav-links a:not(.cart-icon) {
+                display: none;
+            }
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="#" class="logo"><i class="fas fa-bolt" style="color:var(--primary);"></i> Nova<span>Studio</span></a>
+            <ul class="nav-links">
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#store">Store</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#" class="cart-icon" id="cartToggle">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="badge" id="cartCount">0</span>
+                    </a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <span class="section-label">✦ Design &amp; Innovation</span>
+                    <h1>Create. Sell.<br><span class="highlight">Connect</span> with clients.</h1>
+                    <p>Showcase your work, sell your products, and chat live with customers — all in one place.</p>
+                    <div class="hero-actions">
+                        <a href="#portfolio" class="btn btn-primary"><i class="fas fa-eye"></i> View Portfolio</a>
+                        <a href="#store" class="btn btn-outline"><i class="fas fa-store"></i> Shop Now</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop&auto=format" alt="Creative workspace" style="border-radius:var(--radius);" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PORTFOLIO ===== -->
+    <section id="portfolio">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-label">✦ Featured Work</span>
+                <h2 class="section-title">Recent Projects</h2>
+                <p class="section-subtitle mx-auto">A curated selection of design, branding, and digital work.</p>
+            </div>
+            <div class="portfolio-grid">
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=400&h=240&fit=crop&auto=format" alt="Project 1" />
+                    <div class="portfolio-info">
+                        <h3>Brand Identity</h3>
+                        <p>Minimalist branding for a tech startup.</p>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=240&fit=crop&auto=format" alt="Project 2" />
+                    <div class="portfolio-info">
+                        <h3>E-Commerce UI</h3>
+                        <p>Modern interface with dark mode & animations.</p>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1555421689-491a97ff2040?w=400&h=240&fit=crop&auto=format" alt="Project 3" />
+                    <div class="portfolio-info">
+                        <h3>Mobile App</h3>
+                        <p>Fitness tracker with gamification.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== STORE ===== -->
+    <section id="store">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-label">✦ Shop</span>
+                <h2 class="section-title">Digital &amp; Physical Goods</h2>
+                <p class="section-subtitle mx-auto">Each purchase supports independent creation. Secure payments via PayPal (cards accepted).</p>
+            </div>
+            <div class="store-grid" id="productGrid">
+                <!-- products injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="contact">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-label">✦ Get in touch</span>
+                <h2 class="section-title">Let's work together</h2>
+                <p class="section-subtitle mx-auto">Have a project in mind? Reach out and let's create something amazing.</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Contact info</h3>
+                    <p>I'm always open to new projects, collaborations, or just a friendly chat.</p>
+                    <div class="contact-detail"><i class="fas fa-envelope"></i> <span>hello@novastudio.design</span></div>
+                    <div class="contact-detail"><i class="fas fa-phone-alt"></i> <span>+351 961 530 632</span></div>
+                    <div class="contact-detail"><i class="fas fa-map-pin"></i> <span>Remote · Worldwide</span></div>
+                    <div style="margin-top:24px;">
+                        <a href="https://wa.me/+351961530632?text=Hi%20Nova%20Studio!" target="_blank" class="btn btn-secondary" style="background:#25d366;"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <input type="text" placeholder="Your Name" required />
+                        <input type="email" placeholder="Your Email" required />
+                        <textarea placeholder="Tell me about your project..." required></textarea>
+                        <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-paper-plane"></i> Send Message</button>
+                        <p style="margin-top:12px;font-size:0.8rem;color:var(--text-muted);">* This is a demo form. Messages are not actually sent.</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Nova Studio. Built with <i class="fas fa-heart" style="color:var(--secondary);"></i> for creators.</p>
+        </div>
+    </footer>
+
+    <!-- ===== WHATSAPP FLOATING BUTTON ===== -->
+    <a href="https://wa.me/+351961530632?text=Hi%20Nova%20Studio!%20I%20have%20a%20question." target="_blank" class="whatsapp-float" aria-label="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+        <span class="tooltip">Chat with me</span>
+    </a>
+
+    <!-- ===== CART OVERLAY & SIDEBAR ===== -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2><i class="fas fa-shopping-bag"></i> Cart</h2>
+            <span class="cart-close" id="cartClose">&times;</span>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="empty-cart-msg">Your cart is empty.</div>
+        </div>
+        <div class="cart-total" id="cartTotal">Total: $0.00</div>
+        <div class="cart-payment">
+            <!-- === PAYPAL BUTTON (Processes cards too) === -->
+            <div id="paypal-button-container"></div>
+            <p style="font-size:0.7rem;color:var(--text-muted);text-align:center;margin-top:6px;">
+                <i class="fas fa-lock"></i> Secured checkout via PayPal. Cards accepted.
+            </p>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        // ============================================
+        // 1. PRODUCT DATA
+        // ============================================
+        const products = [{
+            id: 1,
+            name: 'Minimalist Poster',
+            price: 19.99,
+            image: 'https://images.unsplash.com/photo-1585843611891-77d8759d4aab?w=300&h=200&fit=crop&auto=format'
+        }, {
+            id: 2,
+            name: 'T-Shirt · Unisex',
+            price: 29.99,
+            image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&h=200&fit=crop&auto=format'
+        }, {
+            id: 3,
+            name: 'Coffee Mug · Design',
+            price: 14.99,
+            image: 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=300&h=200&fit=crop&auto=format'
+        }, {
+            id: 4,
+            name: 'Digital Art Print',
+            price: 9.99,
+            image: 'https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=300&h=200&fit=crop&auto=format'
+        }];
+
+        // ============================================
+        // 2. RENDER STORE
+        // ============================================
+        const productGrid = document.getElementById('productGrid');
+        function renderStore() {
+            productGrid.innerHTML = products.map(p => `
+                <div class="product-card">
+                    <img src="${p.image}" alt="${p.name}" />
+                    <h3>${p.name}</h3>
+                    <div class="price">$${p.price.toFixed(2)}</div>
+                    <div class="product-actions">
+                        <button class="btn btn-outline btn-small" onclick="addToCart(${p.id})">
+                            <i class="fas fa-cart-plus"></i> Add
+                        </button>
+                        <button class="btn btn-secondary btn-small" onclick="buyNow(${p.id})">
+                            <i class="fas fa-bolt"></i> Buy
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        renderStore();
+
+        // ============================================
+        // 3. CART STATE
+        // ============================================
+        let cart = [];
+
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            const existing = cart.find(item => item.id === id);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+            updateCartUI();
+            openCart();
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCartUI();
+            if (cart.length === 0) {
+                // hide PayPal button if empty
+                document.getElementById('paypal-button-container').innerHTML = '';
+            }
+        }
+
+        function updateCartUI() {
+            const itemsContainer = document.getElementById('cartItems');
+            const totalEl = document.getElementById('cartTotal');
+            const badge = document.getElementById('cartCount');
+            const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+            badge.textContent = cart.reduce((sum, item) => sum + item.qty, 0);
+
+            if (cart.length === 0) {
+                itemsContainer.innerHTML = `<div class="empty-cart-msg">Your cart is empty.</div>`;
+                totalEl.textContent = `Total: $0.00`;
+                document.getElementById('paypal-button-container').innerHTML = '';
+                return;
+            }
+
+            itemsContainer.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <img src="${item.image}" alt="${item.name}" />
+                    <div class="cart-item-info">
+                        <h4>${item.name}</h4>
+                        <p>$${item.price.toFixed(2)} × ${item.qty}</p>
+                    </div>
+                    <span class="cart-item-remove" onclick="removeFromCart(${item.id})">
+                        <i class="fas fa-trash-alt"></i>
+                    </span>
+                </div>
+            `).join('');
+
+            totalEl.textContent = `Total: $${total.toFixed(2)}`;
+
+            // Render PayPal button if not already rendered
+            renderPayPalButton(total);
+        }
+
+        // ============================================
+        // 4. PAYPAL BUTTON (rendered inside cart)
+        // ============================================
+        let paypalRendered = false;
+
+        function renderPayPalButton(total) {
+            const container = document.getElementById('paypal-button-container');
+            if (!window.paypal) {
+                container.innerHTML = `<p style="color:var(--text-muted);font-size:0.8rem;">PayPal SDK loading...</p>`;
+                return;
+            }
+            if (paypalRendered) {
+                // Re-render if total changed – we simply clear and re-render
+                container.innerHTML = '';
+                paypalRendered = false;
+            }
+            if (cart.length === 0) return;
+
+            paypal.Buttons({
+                style: { layout: 'vertical', color: 'blue', shape: 'pill', label: 'paypal' },
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                value: total.toFixed(2),
+                                currency_code: 'USD'
+                            }
+                        }]
+                    });
+                },
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(details) {
+                        alert('Payment completed! Transaction ID: ' + details.id);
+                        cart = [];
+                        updateCartUI();
+                        closeCart();
+                    });
+                },
+                onError: function(err) {
+                    console.error(err);
+                    alert('PayPal error. Please try again.');
+                }
+            }).render(container);
+            paypalRendered = true;
+        }
+
+        // ============================================
+        // 5. BUY NOW (direct checkout)
+        // ============================================
+        function buyNow(id) {
+            const product = products.find(p => p.id === id);
+            cart = [{ ...product, qty: 1 }];
+            updateCartUI();
+            openCart();
+        }
+
+        // ============================================
+        // 6. CART SIDEBAR TOGGLES
+        // ============================================
+        const overlay = document.getElementById('cartOverlay');
+        const sidebar = document.getElementById('cartSidebar');
+        const openBtn = document.getElementById('cartToggle');
+        const closeBtn = document.getElementById('cartClose');
+
+        function openCart() {
+            overlay.classList.add('open');
+            sidebar.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCart() {
+            overlay.classList.remove('open');
+            sidebar.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        openBtn.addEventListener('click', (e) => { e.preventDefault();
+            openCart(); });
+        closeBtn.addEventListener('click', closeCart);
+        overlay.addEventListener('click', closeCart);
+
+        // ============================================
+        // 7. NAVBAR SCROLL EFFECT
+        // ============================================
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 60) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // ============================================
+        // 8. CONTACT FORM (demo)
+        // ============================================
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thanks for reaching out! (Demo) I’ll get back to you soon.');
+            this.reset();
+        });
+
+        // ============================================
+        // 9. INIT: ensure PayPal renders when SDK is ready
+        // ============================================
+        if (window.paypal) {
+            setTimeout(() => {
+                if (cart.length > 0) renderPayPalButton(
+                    cart.reduce((s, i) => s + i.price * i.qty, 0)
+                );
+            }, 500);
+        }
+
+        console.log('🚀 Nova Studio ready! Only PayPal enabled. Replace PayPal Client ID for live payments.');
+    </script>
+
+</body>
+</html>
