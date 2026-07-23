@@ -257,15 +257,15 @@
         }
 
         /* ============================================ */
-        /* ===== HERO ===== (Reference Spacing: 30px) */
+        /* ===== HERO ===== (Added top padding to avoid navbar overlap) */
         /* ============================================ */
         .hero {
             min-height: 70vh;
             display: flex;
             align-items: center;
             background: radial-gradient(ellipse at 70% 30%, rgba(108, 92, 231, 0.12), transparent 60%);
-            padding: 30px 0; /* 30px gap from navbar to hero */
-            margin-bottom: 30px; /* 30px gap between hero and portfolio */
+            padding: 80px 0 30px 0; /* Increased top padding to 80px to clear fixed navbar */
+            margin-bottom: 30px;
         }
 
         .hero-grid {
@@ -681,15 +681,70 @@
             color: var(--primary-light);
             margin: 8px 0 16px;
         }
+
+        /* === Quantity & Options styling === */
+        .product-options {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+        .qty-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 4px 8px;
+        }
+        .qty-control button {
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 0 6px;
+            font-weight: 700;
+            transition: var(--transition);
+        }
+        .qty-control button:hover {
+            color: var(--primary-light);
+        }
+        .qty-control span {
+            min-width: 24px;
+            text-align: center;
+            font-weight: 600;
+        }
+        .size-selector {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: var(--text-light);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            cursor: pointer;
+            outline: none;
+            transition: var(--transition);
+        }
+        .size-selector:focus {
+            border-color: var(--primary);
+        }
+        .size-selector option {
+            background: var(--dark-light);
+            color: var(--text-light);
+        }
+
         .product-actions {
             display: flex;
             gap: 10px;
-            margin-top: auto;
+            margin-top: 12px;
             flex-wrap: wrap;
         }
         .product-actions .btn {
             flex: 1;
-            min-width: 100px;
+            min-width: 80px;
         }
 
         /* ============================================ */
@@ -775,6 +830,34 @@
             color: var(--text-muted);
             font-size: 0.85rem;
         }
+        /* In-cart quantity controls */
+        .cart-qty-control {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 6px;
+            padding: 2px 6px;
+            margin: 0 8px;
+        }
+        .cart-qty-control button {
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 0 4px;
+            transition: var(--transition);
+        }
+        .cart-qty-control button:hover {
+            color: var(--primary-light);
+        }
+        .cart-qty-control span {
+            min-width: 20px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
         .cart-item-remove {
             color: var(--secondary);
             cursor: pointer;
@@ -811,7 +894,7 @@
         /* ============================================ */
         .contact-section {
             padding: 30px 0;
-            margin-bottom: 0; /* No margin needed as it's the last section */
+            margin-bottom: 0;
             background: var(--dark);
         }
 
@@ -1011,7 +1094,7 @@
         </a>
     </div>
 
-    <!-- ===== HERO ===== -->
+    <!-- ===== HERO ===== (Padding adjusted for fixed navbar) -->
     <section class="hero" id="home">
         <div class="container">
             <div class="hero-grid">
@@ -1095,7 +1178,7 @@
         </div>
     </section>
 
-    <!-- ===== STORE ===== -->
+    <!-- ===== STORE ===== (With Quantity & Options) -->
     <section class="store-section" id="store">
         <div class="container">
             <div class="store-header">
@@ -1461,72 +1544,155 @@
         panelClose.addEventListener('click', closePanel);
         panelOverlay.addEventListener('click', closePanel);
 
-        // ===== STORE & CART =====
+        // ===== STORE (With Quantity & Options) =====
         const products = [
             { id: 1, name: 'Minimalist Poster', price: 19.99, image: 'https://images.unsplash.com/photo-1585843611891-77d8759d4aab?w=300&h=200&fit=crop&auto=format' },
             { id: 2, name: 'T-Shirt · Unisex', price: 29.99, image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&h=200&fit=crop&auto=format' },
             { id: 3, name: 'Coffee Mug · Design', price: 14.99, image: 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=300&h=200&fit=crop&auto=format' },
             { id: 4, name: 'Digital Art Print', price: 9.99, image: 'https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=300&h=200&fit=crop&auto=format' }
         ];
+
         const productGrid = document.getElementById('productGrid');
+        const sizes = ['S', 'M', 'L'];
+
         function renderStore() {
             productGrid.innerHTML = products.map(p => `
                 <div class="product-card">
                     <img src="${p.image}" alt="${p.name}" />
                     <h3>${p.name}</h3>
                     <div class="price">$${p.price.toFixed(2)}</div>
+                    
+                    <div class="product-options">
+                        <div class="qty-control">
+                            <button onclick="changeQty(${p.id}, -1)">−</button>
+                            <span id="qty-${p.id}">1</span>
+                            <button onclick="changeQty(${p.id}, 1)">+</button>
+                        </div>
+                        <select id="size-${p.id}" class="size-selector">
+                            ${sizes.map(s => `<option value="${s}">${s}</option>`).join('')}
+                        </select>
+                    </div>
+
                     <div class="product-actions">
-                        <button class="btn btn-outline btn-small" onclick="addToCart(${p.id})"><i class="fas fa-cart-plus"></i> Add</button>
-                        <button class="btn btn-secondary btn-small" onclick="buyNow(${p.id})"><i class="fas fa-bolt"></i> Buy</button>
+                        <button class="btn btn-outline btn-small" onclick="addToCart(${p.id})">
+                            <i class="fas fa-cart-plus"></i> Add
+                        </button>
+                        <button class="btn btn-secondary btn-small" onclick="buyNow(${p.id})">
+                            <i class="fas fa-bolt"></i> Buy
+                        </button>
                     </div>
                 </div>
             `).join('');
         }
         renderStore();
 
+        function changeQty(id, delta) {
+            const el = document.getElementById(`qty-${id}`);
+            let val = parseInt(el.textContent) + delta;
+            if (val < 1) val = 1;
+            el.textContent = val;
+        }
+
+        function getProductSelections(id) {
+            const qty = parseInt(document.getElementById(`qty-${id}`).textContent);
+            const size = document.getElementById(`size-${id}`).value;
+            return { qty, size };
+        }
+
+        // ===== CART STATE =====
         let cart = [];
+
         function addToCart(id) {
+            const { qty, size } = getProductSelections(id);
             const product = products.find(p => p.id === id);
-            const existing = cart.find(item => item.id === id);
-            if (existing) existing.qty += 1;
-            else cart.push({ ...product, qty: 1 });
+            const existing = cart.find(item => item.id === id && item.size === size);
+            if (existing) {
+                existing.qty += qty;
+            } else {
+                cart.push({ ...product, qty, size });
+            }
             updateCartUI();
             openCart();
         }
-        function removeFromCart(id) {
-            cart = cart.filter(item => item.id !== id);
+
+        function buyNow(id) {
+            const { qty, size } = getProductSelections(id);
+            const product = products.find(p => p.id === id);
+            const existing = cart.find(item => item.id === id && item.size === size);
+            if (existing) {
+                existing.qty += qty;
+            } else {
+                cart.push({ ...product, qty, size });
+            }
             updateCartUI();
-            if (cart.length === 0) document.getElementById('paypal-button-container').innerHTML = '';
+            openCart();
         }
+
+        function updateCartItemQty(id, size, delta) {
+            const item = cart.find(i => i.id === id && i.size === size);
+            if (item) {
+                item.qty += delta;
+                if (item.qty <= 0) {
+                    removeFromCart(id, size);
+                } else {
+                    updateCartUI();
+                }
+            }
+        }
+
+        function removeFromCart(id, size) {
+            cart = cart.filter(item => !(item.id === id && item.size === size));
+            updateCartUI();
+            if (cart.length === 0) {
+                document.getElementById('paypal-button-container').innerHTML = '';
+            }
+        }
+
         function updateCartUI() {
             const itemsContainer = document.getElementById('cartItems');
             const totalEl = document.getElementById('cartTotal');
             const badge = document.getElementById('cartCount');
             const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
             badge.textContent = cart.reduce((sum, item) => sum + item.qty, 0);
+
             if (cart.length === 0) {
                 itemsContainer.innerHTML = `<div class="empty-cart-msg">Your cart is empty.</div>`;
                 totalEl.textContent = `Total: $0.00`;
                 document.getElementById('paypal-button-container').innerHTML = '';
                 return;
             }
+
             itemsContainer.innerHTML = cart.map(item => `
                 <div class="cart-item">
                     <img src="${item.image}" alt="${item.name}" />
-                    <div class="cart-item-info"><h4>${item.name}</h4><p>$${item.price.toFixed(2)} × ${item.qty}</p></div>
-                    <span class="cart-item-remove" onclick="removeFromCart(${item.id})"><i class="fas fa-trash-alt"></i></span>
+                    <div class="cart-item-info">
+                        <h4>${item.name} <span style="color:var(--primary-light);font-size:0.8rem;font-weight:400;">(${item.size})</span></h4>
+                        <p>$${item.price.toFixed(2)} × ${item.qty}</p>
+                    </div>
+                    <div class="cart-qty-control">
+                        <button onclick="updateCartItemQty(${item.id}, '${item.size}', -1)">−</button>
+                        <span>${item.qty}</span>
+                        <button onclick="updateCartItemQty(${item.id}, '${item.size}', 1)">+</button>
+                    </div>
+                    <span class="cart-item-remove" onclick="removeFromCart(${item.id}, '${item.size}')">
+                        <i class="fas fa-trash-alt"></i>
+                    </span>
                 </div>
             `).join('');
+
             totalEl.textContent = `Total: $${total.toFixed(2)}`;
             renderPayPalButton(total);
         }
+
         let paypalRendered = false;
+
         function renderPayPalButton(total) {
             const container = document.getElementById('paypal-button-container');
             if (!window.paypal) { container.innerHTML = `<p style="color:var(--text-muted);font-size:0.8rem;">PayPal SDK loading...</p>`; return; }
             if (paypalRendered) { container.innerHTML = '';
                 paypalRendered = false; }
             if (cart.length === 0) return;
+
             paypal.Buttons({
                 style: { layout: 'vertical', color: 'blue', shape: 'pill', label: 'paypal' },
                 createOrder: function(data, actions) {
@@ -1544,12 +1710,6 @@
                     alert('PayPal error. Please try again.'); }
             }).render(container);
             paypalRendered = true;
-        }
-        function buyNow(id) {
-            const product = products.find(p => p.id === id);
-            cart = [{ ...product, qty: 1 }];
-            updateCartUI();
-            openCart();
         }
 
         // ===== CART TOGGLES =====
