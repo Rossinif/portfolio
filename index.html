@@ -10,8 +10,8 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-    <!-- PayPal SDK (replace client-id with your own) -->
-    <script src="https://www.paypal.com/sdk/js?client-id=ASwONStGFgFGFzaBiw8baZX3WiDz9sNiFGnNjnDcyeO_PjZOuwWfkjvaLQ8A4LgvbJlOQUvkytf8whID"></script>
+    <!-- PayPal SDK (Updated to EUR currency) -->
+    <script src="https://www.paypal.com/sdk/js?client-id=ASwONStGFgFGFzaBiw8baZX3WiDz9sNiFGnNjnDcyeO_PjZOuwWfkjvaLQ8A4LgvbJlOQUvkytf8whID&currency=EUR"></script>
 
     <style>
         /* ===== RESET & BASE ===== */
@@ -257,7 +257,7 @@
         }
 
         /* ============================================ */
-        /* ===== HERO ===== (Added top padding to avoid navbar overlap) */
+        /* ===== HERO ===== */
         /* ============================================ */
         .hero {
             min-height: 70vh;
@@ -377,7 +377,7 @@
         }
 
         /* ============================================ */
-        /* ===== PORTFOLIO ===== (Uniform 30px spacing) */
+        /* ===== PORTFOLIO ===== */
         /* ============================================ */
         .portfolio-section {
             padding: 30px 0;
@@ -445,7 +445,7 @@
         }
 
         /* ============================================ */
-        /* ===== TESTIMONIALS ===== (Uniform 30px spacing) */
+        /* ===== TESTIMONIALS ===== */
         /* ============================================ */
         .testimonials-section {
             padding: 30px 0;
@@ -524,7 +524,7 @@
         }
 
         /* ============================================ */
-        /* ===== LATEST STUDIES ===== (Uniform 30px spacing) */
+        /* ===== LATEST STUDIES ===== */
         /* ============================================ */
         .studies-section {
             padding: 30px 0;
@@ -544,7 +544,7 @@
         }
 
         /* ============================================ */
-        /* ===== SIDE PANEL (Portfolio/Study Detail) ===== */
+        /* ===== SIDE PANEL (Portfolio/Study/Product Detail) ===== */
         /* ============================================ */
         .panel-overlay {
             position: fixed;
@@ -608,16 +608,49 @@
             gap: 28px;
         }
 
-        .panel-body img {
-            width: 100%;
-            border-radius: var(--radius);
-            border: 1px solid rgba(255, 255, 255, 0.04);
+        /* ===== PRODUCT GALLERY CSS ===== */
+        .product-gallery {
+            margin-bottom: 20px;
         }
-
-        .panel-body video {
+        .product-main-image {
             width: 100%;
+            height: 300px;
+            background: rgba(255,255,255,0.03);
             border-radius: var(--radius);
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+        .product-main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s ease;
+        }
+        .product-thumbnails {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .product-thumbnails img {
+            width: 70px;
+            height: 70px;
+            border-radius: 8px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: var(--transition);
+            opacity: 0.7;
+        }
+        .product-thumbnails img:hover {
+            opacity: 1;
+        }
+        .product-thumbnails img.active {
+            border-color: var(--primary);
+            opacity: 1;
         }
 
         .panel-body p {
@@ -626,7 +659,7 @@
         }
 
         /* ============================================ */
-        /* ===== STORE ===== (Uniform 30px spacing) */
+        /* ===== STORE ===== */
         /* ============================================ */
         .store-section {
             padding: 30px 0;
@@ -658,6 +691,7 @@
             transition: var(--transition);
             display: flex;
             flex-direction: column;
+            cursor: pointer;
         }
         .product-card:hover {
             border-color: var(--primary);
@@ -670,16 +704,19 @@
             border-radius: 12px;
             margin-bottom: 16px;
             background: rgba(255, 255, 255, 0.03);
+            pointer-events: none;
         }
         .product-card h3 {
             font-size: 1.15rem;
             margin-bottom: 4px;
+            pointer-events: none;
         }
         .product-card .price {
             font-size: 1.4rem;
             font-weight: 700;
             color: var(--primary-light);
             margin: 8px 0 16px;
+            pointer-events: none;
         }
 
         .product-options {
@@ -688,6 +725,7 @@
             gap: 12px;
             margin-top: 8px;
             flex-wrap: wrap;
+            pointer-events: auto;
         }
         .qty-control {
             display: flex;
@@ -717,7 +755,7 @@
         }
         .size-selector {
             background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.08);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             color: var(--text-light);
             padding: 6px 12px;
             border-radius: 8px;
@@ -740,6 +778,7 @@
             gap: 10px;
             margin-top: 12px;
             flex-wrap: wrap;
+            pointer-events: auto;
         }
         .product-actions .btn {
             flex: 1;
@@ -747,7 +786,7 @@
         }
 
         /* ============================================ */
-        /* ===== CART SIDEBAR ===== */
+        /* ===== CART SIDEBAR (Refined Layout + Shipping) ===== */
         /* ============================================ */
         .cart-overlay {
             position: fixed;
@@ -806,29 +845,82 @@
             flex: 1;
             margin-bottom: 20px;
         }
+
+        /* --- New Cart Item Flex Layout --- */
         .cart-item {
             display: flex;
-            align-items: center;
+            align-items: stretch;
             gap: 16px;
             padding: 16px 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.04);
         }
-        .cart-item img {
-            width: 56px;
+        .cart-item-img {
+            flex: 0 0 56px;
             height: 56px;
+        }
+        .cart-item-img img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
             border-radius: 10px;
         }
         .cart-item-info {
             flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 4px;
         }
-        .cart-item-info h4 {
+        .cart-item-top h4 {
             font-size: 0.95rem;
+            margin: 0;
         }
-        .cart-item-info p {
+        .cart-item-middle p {
             color: var(--text-muted);
             font-size: 0.85rem;
+            margin: 0;
         }
+        .cart-item-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 4px;
+        }
+        .cart-actions-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            justify-content: space-between;
+        }
+        
+        /* Styled Dark Mode Dropdown */
+        .cart-size-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        .cart-size-selector {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: var(--text-light);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            cursor: pointer;
+            outline: none;
+        }
+        .cart-size-selector:focus {
+            border-color: var(--primary);
+        }
+        .cart-size-selector option {
+            background: var(--dark-light);
+            color: var(--text-light);
+        }
+
         .cart-qty-control {
             display: flex;
             align-items: center;
@@ -836,7 +928,6 @@
             background: rgba(255,255,255,0.05);
             border-radius: 6px;
             padding: 2px 6px;
-            margin: 0 8px;
         }
         .cart-qty-control button {
             background: transparent;
@@ -866,6 +957,39 @@
         .cart-item-remove:hover {
             opacity: 1;
         }
+
+        /* --- Shipping Section Styling --- */
+        .cart-shipping {
+            margin-bottom: 16px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .cart-shipping label {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+        .cart-shipping select {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-light);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            cursor: pointer;
+            outline: none;
+        }
+        .cart-shipping select:focus {
+            border-color: var(--primary);
+        }
+        .cart-shipping select option {
+            background: var(--dark-light);
+            color: var(--text-light);
+        }
+
         .cart-total {
             font-size: 1.4rem;
             font-weight: 700;
@@ -888,7 +1012,7 @@
         }
 
         /* ============================================ */
-        /* ===== CONTACT ===== (Uniform 30px spacing, no bottom margin) */
+        /* ===== CONTACT ===== */
         /* ============================================ */
         .contact-section {
             padding: 30px 0;
@@ -1009,7 +1133,7 @@
         }
 
         /* ============================================ */
-        /* ===== THANK YOU MODAL (Order Confirmation) ===== */
+        /* ===== THANK YOU MODAL ===== */
         /* ============================================ */
         .thankyou-overlay {
             position: fixed;
@@ -1131,6 +1255,13 @@
             .thankyou-modal {
                 padding: 28px 20px;
             }
+            .product-main-image {
+                height: 220px;
+            }
+            .product-thumbnails img {
+                width: 60px;
+                height: 60px;
+            }
         }
     </style>
 </head>
@@ -1171,7 +1302,7 @@
         </a>
     </div>
 
-    <!-- ===== HERO ===== (Padding adjusted for fixed navbar) -->
+    <!-- ===== HERO ===== -->
     <section class="hero" id="home">
         <div class="container">
             <div class="hero-grid">
@@ -1255,7 +1386,7 @@
         </div>
     </section>
 
-    <!-- ===== STORE ===== (With Quantity & Options) -->
+    <!-- ===== STORE ===== -->
     <section class="store-section" id="store">
         <div class="container">
             <div class="store-header">
@@ -1269,7 +1400,7 @@
         </div>
     </section>
 
-    <!-- ===== CONTACT ===== (UPDATED TO SEND EMAIL VIA FORMSPREE) -->
+    <!-- ===== CONTACT ===== -->
     <section class="contact-section" id="contact">
         <div class="container">
             <div class="contact-header">
@@ -1314,7 +1445,7 @@
         <span class="tooltip">Chat with me</span>
     </a>
 
-    <!-- ===== CART OVERLAY & SIDEBAR ===== -->
+    <!-- ===== CART OVERLAY & SIDEBAR (WITH SHIPPING) ===== -->
     <div class="cart-overlay" id="cartOverlay"></div>
     <div class="cart-sidebar" id="cartSidebar">
         <div class="cart-header">
@@ -1324,7 +1455,17 @@
         <div class="cart-items" id="cartItems">
             <div class="empty-cart-msg">Your cart is empty.</div>
         </div>
-        <div class="cart-total" id="cartTotal">Total: $0.00</div>
+        
+        <!-- === SHIPPING SELECTOR WITH PORTUGUESE FLAG === -->
+        <div class="cart-shipping">
+            <label for="shippingSelect">Shipping:</label>
+            <select id="shippingSelect">
+                <option value="4">🇵🇹 Portugal (€4.00)</option>
+                <option value="8">🌍 International (€8.00)</option>
+            </select>
+        </div>
+        
+        <div class="cart-total" id="cartTotal">Total: €0.00</div>
         <div class="cart-payment">
             <div id="paypal-button-container"></div>
             <p style="font-size:0.7rem;color:var(--text-muted);text-align:center;margin-top:6px;">
@@ -1333,7 +1474,7 @@
         </div>
     </div>
 
-    <!-- ===== PORTFOLIO/STUDY SIDE PANEL ===== -->
+    <!-- ===== SIDE PANEL (Portfolio/Studies/Products) ===== -->
     <div class="panel-overlay" id="panelOverlay"></div>
     <div class="side-panel" id="sidePanel">
         <div class="panel-header">
@@ -1594,7 +1735,7 @@
         }
         renderStudies();
 
-        // ===== SHARED SIDE PANEL =====
+        // ===== SHARED SIDE PANEL (Portfolio & Studies) =====
         const panelOverlay = document.getElementById('panelOverlay');
         const sidePanel = document.getElementById('sidePanel');
         const panelTitle = document.getElementById('panelTitle');
@@ -1641,40 +1782,61 @@
         panelClose.addEventListener('click', closePanel);
         panelOverlay.addEventListener('click', closePanel);
 
-        // ===== STORE (With Quantity & Options) =====
+        // ===== STORE (With Gallery Side Panel) =====
         const products = [
-            { id: 1, name: 'Minimalist Poster', price: 19.99, image: 'https://images.unsplash.com/photo-1585843611891-77d8759d4aab?w=300&h=200&fit=crop&auto=format' },
-            { id: 2, name: 'T-Shirt · Unisex', price: 29.99, image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=300&h=200&fit=crop&auto=format' },
-            { id: 3, name: 'Coffee Mug · Design', price: 14.99, image: 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=300&h=200&fit=crop&auto=format' },
-            { id: 4, name: 'Digital Art Print', price: 9.99, image: 'https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=300&h=200&fit=crop&auto=format' }
+            { id: 1, name: 'Minimalist Poster', price: 18.00, description: 'A high-quality minimalist poster printed on premium matte paper. Perfect for modern interiors.', images: [
+                'https://images.unsplash.com/photo-1585843611891-77d8759d4aab?w=600&h=400&fit=crop&auto=format',
+                'https://images.unsplash.com/photo-1544816155-12df9643f363?w=600&h=400&fit=crop&auto=format',
+                'https://images.unsplash.com/photo-1579766929949-89c9b82c8c4a?w=600&h=400&fit=crop&auto=format',
+                'https://images.unsplash.com/photo-1526695664244-1fd46be9e98c?w=600&h=400&fit=crop&auto=format'
+            ]},
+            { id: 2, name: 'T-Shirt · Unisex', price: 27.00, description: 'Soft, breathable 100% cotton t-shirt with a classic fit. Designed for everyday comfort.', images: [
+                'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=400&fit=crop&auto=format',
+                'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&h=400&fit=crop&auto=format',
+                'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=600&h=400&fit=crop&auto=format',
+                'https://images.unsplash.com/photo-1620799140408-ed5341cd2431?w=600&h=400&fit=crop&auto=format'
+            ]},
+            { id: 3, name: 'Coffee Mug · Design', price: 14.00, description: 'Ceramic coffee mug featuring a unique, hand-drawn design. Microwave and dishwasher safe.', images: [
+                'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=600&h=400&fit=crop&auto=format',
+                'https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=600&h=400&fit=crop&auto=format',
+                'https://images.unsplash.com/photo-1570527140754-c821a1882a3e?w=600&h=400&fit=crop&auto=format',
+                'https://images.unsplash.com/photo-1506220926022-cc5c12acdb35?w=600&h=400&fit=crop&auto=format'
+            ]},
+            { id: 4, name: 'Digital Art Print', price: 9.00, description: 'Instant download digital art piece. High-resolution file perfect for printing at any size.', images: [
+                'https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=600&h=400&fit=crop&auto=format',
+                'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=600&h=400&fit=crop&auto=format',
+                'https://images.unsplash.com/photo-1508780709615-79562144fb61?w=600&h=400&fit=crop&auto=format',
+                'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&h=400&fit=crop&auto=format'
+            ]}
         ];
 
         const productGrid = document.getElementById('productGrid');
         const sizes = ['S', 'M', 'L'];
+        let panelProductId = null;
 
         function renderStore() {
             productGrid.innerHTML = products.map(p => `
-                <div class="product-card">
-                    <img src="${p.image}" alt="${p.name}" />
+                <div class="product-card" data-id="${p.id}">
+                    <img src="${p.images[0]}" alt="${p.name}" />
                     <h3>${p.name}</h3>
-                    <div class="price">$${p.price.toFixed(2)}</div>
+                    <div class="price">€${p.price.toFixed(2)}</div>
                     
                     <div class="product-options">
                         <div class="qty-control">
-                            <button onclick="changeQty(${p.id}, -1)">−</button>
+                            <button onclick="event.stopPropagation(); changeQty(${p.id}, -1)">−</button>
                             <span id="qty-${p.id}">1</span>
-                            <button onclick="changeQty(${p.id}, 1)">+</button>
+                            <button onclick="event.stopPropagation(); changeQty(${p.id}, 1)">+</button>
                         </div>
-                        <select id="size-${p.id}" class="size-selector">
+                        <select id="size-${p.id}" class="size-selector" onclick="event.stopPropagation();">
                             ${sizes.map(s => `<option value="${s}">${s}</option>`).join('')}
                         </select>
                     </div>
 
                     <div class="product-actions">
-                        <button class="btn btn-outline btn-small" onclick="addToCart(${p.id})">
+                        <button class="btn btn-outline btn-small" onclick="event.stopPropagation(); addToCart(${p.id})">
                             <i class="fas fa-cart-plus"></i> Add
                         </button>
-                        <button class="btn btn-secondary btn-small" onclick="buyNow(${p.id})">
+                        <button class="btn btn-secondary btn-small" onclick="event.stopPropagation(); buyNow(${p.id})">
                             <i class="fas fa-bolt"></i> Buy
                         </button>
                     </div>
@@ -1696,11 +1858,111 @@
             return { qty, size };
         }
 
+        // Click handler to open the product side panel
+        productGrid.addEventListener('click', (e) => {
+            const card = e.target.closest('.product-card');
+            if (card) {
+                if (e.target.closest('.product-options') || e.target.closest('.product-actions')) {
+                    return;
+                }
+                const id = parseInt(card.dataset.id);
+                openProductPanel(id);
+            }
+        });
+
+        // GLOBAL FUNCTION for gallery thumbnail swapping
+        function changeMainImage(src) {
+            const mainImg = document.getElementById('panelMainImg');
+            if (mainImg) {
+                mainImg.src = src;
+                // Update active class
+                const thumbs = document.querySelectorAll('.product-thumbnails img');
+                thumbs.forEach(thumb => {
+                    thumb.classList.remove('active');
+                    if (thumb.src === src) thumb.classList.add('active');
+                });
+            }
+        }
+
+        function openProductPanel(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+            
+            panelProductId = id;
+            panelTitle.textContent = product.name;
+
+            // Build gallery HTML
+            let images = product.images || ['https://images.unsplash.com/photo-1585843611891-77d8759d4aab?w=600&h=400&fit=crop&auto=format'];
+            let html = `
+                <div class="product-gallery">
+                    <div class="product-main-image">
+                        <img id="panelMainImg" src="${images[0]}" alt="${product.name}" />
+                    </div>
+                    <div class="product-thumbnails">
+                        ${images.map((img, index) => `
+                            <img src="${img}" alt="Thumbnail ${index+1}" onclick="changeMainImage(this.src)" class="${index === 0 ? 'active' : ''}" />
+                        `).join('')}
+                    </div>
+                </div>
+                <p style="margin-bottom:16px;">${product.description || 'A great product for you.'}</p>
+            `;
+            
+            // Add Quantity and Size Controls inside the panel
+            html += `<div class="product-options" style="margin-top:8px; margin-bottom:16px;">
+                        <div class="qty-control">
+                            <button onclick="changePanelQty(-1)">−</button>
+                            <span id="panelQty">1</span>
+                            <button onclick="changePanelQty(1)">+</button>
+                        </div>
+                        <select id="panelSize" class="size-selector">
+                            ${sizes.map(s => `<option value="${s}">${s}</option>`).join('')}
+                        </select>
+                     </div>`;
+            
+            // Add Buttons
+            html += `<div class="product-actions">
+                        <button class="btn btn-outline btn-small" onclick="addProductFromPanel(${id})">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
+                        <button class="btn btn-secondary btn-small" onclick="buyProductFromPanel(${id})">
+                            <i class="fas fa-bolt"></i> Buy Now
+                        </button>
+                     </div>`;
+            
+            panelBody.innerHTML = html;
+            panelOverlay.classList.add('open');
+            sidePanel.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function changePanelQty(delta) {
+            const el = document.getElementById('panelQty');
+            let val = parseInt(el.textContent) + delta;
+            if (val < 1) val = 1;
+            el.textContent = val;
+        }
+
+        function addProductFromPanel(id) {
+            const qty = parseInt(document.getElementById('panelQty').textContent);
+            const size = document.getElementById('panelSize').value;
+            addToCart(id, qty, size);
+        }
+
+        function buyProductFromPanel(id) {
+            const qty = parseInt(document.getElementById('panelQty').textContent);
+            const size = document.getElementById('panelSize').value;
+            buyNow(id, qty, size);
+        }
+
         // ===== CART STATE =====
         let cart = [];
 
-        function addToCart(id) {
-            const { qty, size } = getProductSelections(id);
+        function addToCart(id, qty = null, size = null) {
+            if (qty === null || size === null) {
+                const sel = getProductSelections(id);
+                qty = sel.qty;
+                size = sel.size;
+            }
             const product = products.find(p => p.id === id);
             const existing = cart.find(item => item.id === id && item.size === size);
             if (existing) {
@@ -1710,10 +1972,15 @@
             }
             updateCartUI();
             openCart();
+            closePanel();
         }
 
-        function buyNow(id) {
-            const { qty, size } = getProductSelections(id);
+        function buyNow(id, qty = null, size = null) {
+            if (qty === null || size === null) {
+                const sel = getProductSelections(id);
+                qty = sel.qty;
+                size = sel.size;
+            }
             const product = products.find(p => p.id === id);
             const existing = cart.find(item => item.id === id && item.size === size);
             if (existing) {
@@ -1723,6 +1990,7 @@
             }
             updateCartUI();
             openCart();
+            closePanel();
         }
 
         function updateCartItemQty(id, size, delta) {
@@ -1745,51 +2013,104 @@
             }
         }
 
+        // Change size of a cart item, with merge logic
+        function changeCartItemSize(id, oldSize, newSize) {
+            const item = cart.find(i => i.id === id && i.size === oldSize);
+            if (!item) return;
+            
+            // Check if there's already an item with same id and new size
+            const existing = cart.find(i => i.id === id && i.size === newSize);
+            if (existing && existing !== item) {
+                // Merge: add current qty to existing, then remove current
+                existing.qty += item.qty;
+                cart = cart.filter(i => !(i.id === id && i.size === oldSize));
+            } else {
+                // Just update size
+                item.size = newSize;
+            }
+            updateCartUI();
+        }
+
+        // ===== UPDATED CART UI WITH SHIPPING =====
         function updateCartUI() {
             const itemsContainer = document.getElementById('cartItems');
             const totalEl = document.getElementById('cartTotal');
             const badge = document.getElementById('cartCount');
-            const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+            
+            // Calculate subtotal
+            const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+            
+            // Get shipping cost
+            const shippingSelect = document.getElementById('shippingSelect');
+            const shippingCost = shippingSelect ? parseFloat(shippingSelect.value) : 0;
+            
+            const total = subtotal + shippingCost;
             badge.textContent = cart.reduce((sum, item) => sum + item.qty, 0);
 
             if (cart.length === 0) {
                 itemsContainer.innerHTML = `<div class="empty-cart-msg">Your cart is empty.</div>`;
-                totalEl.textContent = `Total: $0.00`;
+                totalEl.textContent = `Total: €0.00`;
                 document.getElementById('paypal-button-container').innerHTML = '';
                 return;
             }
 
             itemsContainer.innerHTML = cart.map(item => `
                 <div class="cart-item">
-                    <img src="${item.image}" alt="${item.name}" />
+                    <div class="cart-item-img">
+                        <img src="${item.images[0]}" alt="${item.name}" />
+                    </div>
                     <div class="cart-item-info">
-                        <h4>${item.name} <span style="color:var(--primary-light);font-size:0.8rem;font-weight:400;">(${item.size})</span></h4>
-                        <p>$${item.price.toFixed(2)} × ${item.qty}</p>
+                        <div class="cart-item-top">
+                            <h4>${item.name}</h4>
+                        </div>
+                        <div class="cart-item-middle">
+                            <p>€${item.price.toFixed(2)} × ${item.qty}</p>
+                        </div>
+                        <div class="cart-item-bottom">
+                            <div class="cart-actions-row">
+                                <div class="cart-size-wrapper">
+                                    <label>Size:</label>
+                                    <select class="cart-size-selector" onchange="changeCartItemSize(${item.id}, '${item.size}', this.value)">
+                                        ${sizes.map(s => `<option value="${s}" ${s === item.size ? 'selected' : ''}>${s}</option>`).join('')}
+                                    </select>
+                                </div>
+                                <div class="cart-qty-control">
+                                    <button onclick="updateCartItemQty(${item.id}, '${item.size}', -1)">−</button>
+                                    <span>${item.qty}</span>
+                                    <button onclick="updateCartItemQty(${item.id}, '${item.size}', 1)">+</button>
+                                </div>
+                                <span class="cart-item-remove" onclick="removeFromCart(${item.id}, '${item.size}')">
+                                    <i class="fas fa-trash-alt"></i>
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="cart-qty-control">
-                        <button onclick="updateCartItemQty(${item.id}, '${item.size}', -1)">−</button>
-                        <span>${item.qty}</span>
-                        <button onclick="updateCartItemQty(${item.id}, '${item.size}', 1)">+</button>
-                    </div>
-                    <span class="cart-item-remove" onclick="removeFromCart(${item.id}, '${item.size}')">
-                        <i class="fas fa-trash-alt"></i>
-                    </span>
                 </div>
             `).join('');
 
-            totalEl.textContent = `Total: $${total.toFixed(2)}`;
-            renderPayPalButton(total);
+            totalEl.textContent = `Total: €${total.toFixed(2)}`;
+            renderPayPalButton(total, shippingCost);
         }
+
+        // Attach event listener to shipping dropdown
+        document.addEventListener('DOMContentLoaded', function() {
+            const shippingSelect = document.getElementById('shippingSelect');
+            if (shippingSelect) {
+                shippingSelect.addEventListener('change', updateCartUI);
+            }
+        });
 
         let paypalRendered = false;
 
-        // ===== UPDATED PAYPAL FUNCTION WITH PRODUCT LIST & THANK YOU MODAL =====
-        function renderPayPalButton(total) {
+        // ===== UPDATED PAYPAL BUTTON (With Shipping & EUR) =====
+        function renderPayPalButton(total, shipping) {
             const container = document.getElementById('paypal-button-container');
             if (!window.paypal) { container.innerHTML = `<p style="color:var(--text-muted);font-size:0.8rem;">PayPal SDK loading...</p>`; return; }
             if (paypalRendered) { container.innerHTML = '';
                 paypalRendered = false; }
             if (cart.length === 0) return;
+
+            const shippingCost = shipping || 0;
 
             paypal.Buttons({
                 style: { layout: 'vertical', color: 'blue', shape: 'pill', label: 'paypal' },
@@ -1798,7 +2119,7 @@
                         name: `${item.name} (Size: ${item.size})`,
                         description: `Size: ${item.size}`,
                         unit_amount: {
-                            currency_code: 'USD',
+                            currency_code: 'EUR', // Changed to EUR
                             value: item.price.toFixed(2)
                         },
                         quantity: item.qty.toString(),
@@ -1808,12 +2129,16 @@
                     return actions.order.create({
                         purchase_units: [{
                             amount: {
-                                currency_code: 'USD',
+                                currency_code: 'EUR', // Changed to EUR
                                 value: total.toFixed(2),
                                 breakdown: {
                                     item_total: {
-                                        currency_code: 'USD',
-                                        value: total.toFixed(2)
+                                        currency_code: 'EUR', // Changed to EUR
+                                        value: (total - shippingCost).toFixed(2)
+                                    },
+                                    shipping: {
+                                        currency_code: 'EUR', // Changed to EUR
+                                        value: shippingCost.toFixed(2)
                                     }
                                 }
                             },
@@ -1823,16 +2148,11 @@
                 },
                 onApprove: function(data, actions) {
                     return actions.order.capture().then(function(details) {
-                        // Capture the current cart before clearing
                         const currentCart = [...cart];
                         const currentTotal = currentCart.reduce((s, i) => s + i.price * i.qty, 0);
-                        
-                        // Clear cart and close sidebar immediately
                         cart = [];
                         updateCartUI();
                         closeCart();
-                        
-                        // Show the Thank You modal with order details
                         openThankYouModal(details.id, currentCart, currentTotal);
                     });
                 },
@@ -1851,23 +2171,17 @@
 
         function openThankYouModal(txnId, items, total) {
             thankyouTxnId.textContent = txnId;
-            
-            // Build the item list HTML
             thankyouItems.innerHTML = items.map(item => `
                 <div class="thankyou-item-row">
                     <span>${item.name} (${item.size}) × ${item.qty}</span>
-                    <span>$${(item.price * item.qty).toFixed(2)}</span>
+                    <span>€${(item.price * item.qty).toFixed(2)}</span>
                 </div>
             `).join('');
-            
-            thankyouTotal.textContent = `Total: $${total.toFixed(2)}`;
-            
-            // Open the modal
+            thankyouTotal.textContent = `Total: €${total.toFixed(2)}`;
             thankyouOverlay.classList.add('open');
             document.body.style.overflow = 'hidden';
         }
 
-        // Close Thank You modal
         thankyouClose.addEventListener('click', () => {
             thankyouOverlay.classList.remove('open');
             document.body.style.overflow = '';
@@ -1922,7 +2236,7 @@
         renderTestimonials();
 
         // ============================================
-        // ===== CONTACT FORM (NOW SENDING EMAIL VIA FORMSPREE) =====
+        // ===== CONTACT FORM (SENDING EMAIL VIA FORMSPREE) =====
         // ============================================
         document.getElementById('contactForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -1955,7 +2269,8 @@
         // ===== INIT PAYPAL =====
         if (window.paypal) {
             setTimeout(() => {
-                if (cart.length > 0) renderPayPalButton(cart.reduce((s, i) => s + i.price * i.qty, 0));
+                // Initial render of the cart trigger
+                updateCartUI(); 
             }, 500);
         }
     </script>
