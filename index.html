@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nova Studio · Portfolio & Store</title>
+    <title>Portfolio & Store | Nova Studio</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
     <!-- PayPal SDK (replace client-id with your own) -->
-    <script src="https://www.paypal.com/sdk/js?client-id=AVLS5rdWgH1zKhi3kIqYYOmsP2_t_nXh2yuoUes4H8Ep2soR1YEppmk1Gimi2sQ9dxxImBvK43A8_1U4&currency=USD"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=USD"></script>
 
     <style>
         /* ===== RESET & BASE ===== */
@@ -235,42 +235,120 @@
             display: flex;
             align-items: center;
             background: radial-gradient(ellipse at 70% 30%, rgba(108, 92, 231, 0.12), transparent 60%);
+            padding: 60px 0 80px 0;
         }
+
+        /* ===== WIDER CAROUSEL & ALIGNED COLUMNS ===== */
         .hero-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1.3fr; /* carousel wider */
             gap: 60px;
-            align-items: center;
+            align-items: stretch; /* both columns same height */
         }
+
+        /* Left column: flex container to push top/bottom content */
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 400px; /* match carousel height */
+            padding-bottom: 0;
+        }
+
         .hero-content h1 {
             font-size: clamp(2.8rem, 6vw, 4.5rem);
             font-weight: 900;
-            line-height: 1.05;
-            margin-bottom: 20px;
+            line-height: 1.1;
+            margin-bottom: 0;
         }
         .hero-content h1 .highlight {
             color: var(--primary);
         }
-        .hero-content p {
-            font-size: 1.2rem;
+
+        /* Middle section: skill roulette + description perfectly centered */
+        .hero-middle {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .skill-roulette-wrapper {
+            height: 60px;
+            position: relative;
+            margin: 0 0 8px 0; /* small gap between skill and description */
+        }
+        .skill-roulette-wrapper .skill-text {
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--primary-light);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            pointer-events: none;
+        }
+        .skill-roulette-wrapper .skill-text.active {
+            opacity: 1;
+        }
+
+        .hero-description {
             color: var(--text-muted);
             max-width: 480px;
-            margin-bottom: 32px;
+            margin: 0;
         }
+
+        /* Buttons at bottom */
         .hero-actions {
             display: flex;
             gap: 16px;
             flex-wrap: wrap;
+            margin-top: 0;
         }
+
+        /* Right column: carousel fills height */
         .hero-image {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .hero-image img {
+            position: relative;
+            overflow: hidden;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             border: 1px solid rgba(255, 255, 255, 0.06);
+            height: 400px; /* fixed height to match left column */
+        }
+        .carousel-track {
+            display: flex;
+            transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            height: 100%;
+        }
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .carousel-dots {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+        .carousel-dots span {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .carousel-dots span.active {
+            background: var(--primary-light);
+            transform: scale(1.2);
         }
 
         /* ===== PORTFOLIO ===== */
@@ -575,12 +653,15 @@
                 gap: 40px;
                 text-align: center;
             }
-            .hero-content p {
-                margin-left: auto;
-                margin-right: auto;
+            .hero-content {
+                height: auto;
+                gap: 16px;
             }
             .hero-actions {
                 justify-content: center;
+            }
+            .hero-image {
+                height: 300px;
             }
             .contact-grid {
                 grid-template-columns: 1fr;
@@ -617,21 +698,54 @@
         </div>
     </nav>
 
-    <!-- ===== HERO ===== -->
+    <!-- ===== HERO – CENTERED DESCRIPTION ===== -->
     <section class="hero" id="home">
         <div class="container">
             <div class="hero-grid">
+                <!-- LEFT: Perfectly aligned with centered middle content -->
                 <div class="hero-content">
-                    <span class="section-label">✦ Design &amp; Innovation</span>
-                    <h1>Create. Sell.<br><span class="highlight">Connect</span> with clients.</h1>
-                    <p>Showcase your work, sell your products, and chat live with customers — all in one place.</p>
+                    <!-- Top: Label + Name -->
+                    <div>
+                        <span class="section-label">✦ Creative Director</span>
+                        <h1>Hi, I'm <span class="highlight">Alex Nova</span></h1>
+                    </div>
+
+                    <!-- Middle: Centered skill roulette & description -->
+                    <div class="hero-middle">
+                        <div class="skill-roulette-wrapper" id="skillRoulette">
+                            <span class="skill-text active" data-index="0">UI/UX Design</span>
+                            <span class="skill-text" data-index="1">Web Development</span>
+                            <span class="skill-text" data-index="2">Brand Strategy</span>
+                            <span class="skill-text" data-index="3">Motion Graphics</span>
+                        </div>
+                        <p class="hero-description">
+                            I craft digital experiences that blend aesthetics with function. Let's build something unforgettable.
+                        </p>
+                    </div>
+
+                    <!-- Bottom: Buttons -->
                     <div class="hero-actions">
                         <a href="#portfolio" class="btn btn-primary"><i class="fas fa-eye"></i> View Portfolio</a>
                         <a href="#store" class="btn btn-outline"><i class="fas fa-store"></i> Shop Now</a>
                     </div>
                 </div>
-                <div class="hero-image">
-                    <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop&auto=format" alt="Creative workspace" style="border-radius:var(--radius);" />
+
+                <!-- RIGHT: Wider Carousel (height matches left column) -->
+                <div class="hero-image" id="heroCarousel">
+                    <div class="carousel-track" id="carouselTrack">
+                        <!-- Replace these URLs with your own images -->
+                        <img src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600&h=400&fit=crop&auto=format" alt="Work 1" class="carousel-slide" data-index="0" />
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&auto=format" alt="Work 2" class="carousel-slide" data-index="1" />
+                        <img src="https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&h=400&fit=crop&auto=format" alt="Work 3" class="carousel-slide" data-index="2" />
+                        <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop&auto=format" alt="Work 4" class="carousel-slide" data-index="3" />
+                    </div>
+                    <!-- Navigation Dots -->
+                    <div class="carousel-dots" id="carouselDots">
+                        <span class="active" data-index="0"></span>
+                        <span data-index="1"></span>
+                        <span data-index="2"></span>
+                        <span data-index="3"></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -698,10 +812,10 @@
                     <h3>Contact info</h3>
                     <p>I'm always open to new projects, collaborations, or just a friendly chat.</p>
                     <div class="contact-detail"><i class="fas fa-envelope"></i> <span>hello@novastudio.design</span></div>
-                    <div class="contact-detail"><i class="fas fa-phone-alt"></i> <span>+351 961 530 632</span></div>
+                    <div class="contact-detail"><i class="fas fa-phone-alt"></i> <span>+1 (555) 000-0000</span></div>
                     <div class="contact-detail"><i class="fas fa-map-pin"></i> <span>Remote · Worldwide</span></div>
                     <div style="margin-top:24px;">
-                        <a href="https://wa.me/+351961530632?text=Hi%20Nova%20Studio!" target="_blank" class="btn btn-secondary" style="background:#25d366;"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
+                        <a href="https://wa.me/1234567890?text=Hi%20Nova%20Studio!" target="_blank" class="btn btn-secondary" style="background:#25d366;"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
                     </div>
                 </div>
                 <div class="contact-form">
@@ -725,7 +839,7 @@
     </footer>
 
     <!-- ===== WHATSAPP FLOATING BUTTON ===== -->
-    <a href="https://wa.me/+351961530632?text=Hi%20Nova%20Studio!%20I%20have%20a%20question." target="_blank" class="whatsapp-float" aria-label="Chat on WhatsApp">
+    <a href="https://wa.me/1234567890?text=Hi%20Nova%20Studio!%20I%20have%20a%20question." target="_blank" class="whatsapp-float" aria-label="Chat on WhatsApp">
         <i class="fab fa-whatsapp"></i>
         <span class="tooltip">Chat with me</span>
     </a>
@@ -742,7 +856,6 @@
         </div>
         <div class="cart-total" id="cartTotal">Total: $0.00</div>
         <div class="cart-payment">
-            <!-- === PAYPAL BUTTON (Processes cards too) === -->
             <div id="paypal-button-container"></div>
             <p style="font-size:0.7rem;color:var(--text-muted);text-align:center;margin-top:6px;">
                 <i class="fas fa-lock"></i> Secured checkout via PayPal. Cards accepted.
@@ -754,7 +867,72 @@
     <!-- ===== JAVASCRIPT ===== -->
     <script>
         // ============================================
-        // 1. PRODUCT DATA
+        // 1. SYNCED SKILL SEQUENTIAL FADE & CAROUSEL
+        // ============================================
+        const skillSpans = document.querySelectorAll('#skillRoulette .skill-text');
+        const track = document.getElementById('carouselTrack');
+        const dots = document.querySelectorAll('#carouselDots span');
+        const totalSlides = dots.length;
+        let currentIndex = 0;
+        let autoRotateInterval;
+        let skillTimeout = null;
+
+        // Update skill text with sequential fade (no overlap)
+        function updateSkill(index) {
+            if (skillTimeout) {
+                clearTimeout(skillTimeout);
+                skillTimeout = null;
+            }
+
+            const current = document.querySelector('#skillRoulette .skill-text.active');
+            const next = skillSpans[index];
+
+            if (current === next) return;
+
+            if (current) {
+                current.classList.remove('active');
+            }
+
+            skillTimeout = setTimeout(() => {
+                next.classList.add('active');
+                skillTimeout = null;
+            }, 600);
+        }
+
+        function goToSlide(index) {
+            if (index >= totalSlides) index = 0;
+            if (index < 0) index = totalSlides - 1;
+            track.style.transform = `translateX(-${index * 100}%)`;
+            dots.forEach(dot => dot.classList.remove('active'));
+            dots[index].classList.add('active');
+            currentIndex = index;
+        }
+
+        function rotateTo(index) {
+            updateSkill(index);
+            goToSlide(index);
+        }
+
+        function startAutoRotate() {
+            if (autoRotateInterval) clearInterval(autoRotateInterval);
+            autoRotateInterval = setInterval(() => {
+                rotateTo((currentIndex + 1) % totalSlides);
+            }, 3500);
+        }
+
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const idx = parseInt(dot.dataset.index);
+                rotateTo(idx);
+                startAutoRotate();
+            });
+        });
+
+        rotateTo(0);
+        startAutoRotate();
+
+        // ============================================
+        // 2. PRODUCT DATA & STORE
         // ============================================
         const products = [{
             id: 1,
@@ -778,9 +956,6 @@
             image: 'https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=300&h=200&fit=crop&auto=format'
         }];
 
-        // ============================================
-        // 2. RENDER STORE
-        // ============================================
         const productGrid = document.getElementById('productGrid');
         function renderStore() {
             productGrid.innerHTML = products.map(p => `
@@ -802,7 +977,7 @@
         renderStore();
 
         // ============================================
-        // 3. CART STATE
+        // 3. CART STATE & PAYPAL
         // ============================================
         let cart = [];
 
@@ -822,7 +997,6 @@
             cart = cart.filter(item => item.id !== id);
             updateCartUI();
             if (cart.length === 0) {
-                // hide PayPal button if empty
                 document.getElementById('paypal-button-container').innerHTML = '';
             }
         }
@@ -856,14 +1030,9 @@
             `).join('');
 
             totalEl.textContent = `Total: $${total.toFixed(2)}`;
-
-            // Render PayPal button if not already rendered
             renderPayPalButton(total);
         }
 
-        // ============================================
-        // 4. PAYPAL BUTTON (rendered inside cart)
-        // ============================================
         let paypalRendered = false;
 
         function renderPayPalButton(total) {
@@ -873,7 +1042,6 @@
                 return;
             }
             if (paypalRendered) {
-                // Re-render if total changed – we simply clear and re-render
                 container.innerHTML = '';
                 paypalRendered = false;
             }
@@ -884,10 +1052,7 @@
                 createOrder: function(data, actions) {
                     return actions.order.create({
                         purchase_units: [{
-                            amount: {
-                                value: total.toFixed(2),
-                                currency_code: 'USD'
-                            }
+                            amount: { value: total.toFixed(2), currency_code: 'USD' }
                         }]
                     });
                 },
@@ -907,9 +1072,6 @@
             paypalRendered = true;
         }
 
-        // ============================================
-        // 5. BUY NOW (direct checkout)
-        // ============================================
         function buyNow(id) {
             const product = products.find(p => p.id === id);
             cart = [{ ...product, qty: 1 }];
@@ -918,7 +1080,7 @@
         }
 
         // ============================================
-        // 6. CART SIDEBAR TOGGLES
+        // 4. CART SIDEBAR TOGGLES
         // ============================================
         const overlay = document.getElementById('cartOverlay');
         const sidebar = document.getElementById('cartSidebar');
@@ -943,19 +1105,15 @@
         overlay.addEventListener('click', closeCart);
 
         // ============================================
-        // 7. NAVBAR SCROLL EFFECT
+        // 5. NAVBAR SCROLL
         // ============================================
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 60) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
+            navbar.classList.toggle('scrolled', window.scrollY > 60);
         });
 
         // ============================================
-        // 8. CONTACT FORM (demo)
+        // 6. CONTACT FORM
         // ============================================
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -964,7 +1122,7 @@
         });
 
         // ============================================
-        // 9. INIT: ensure PayPal renders when SDK is ready
+        // 7. INIT PAYPAL
         // ============================================
         if (window.paypal) {
             setTimeout(() => {
@@ -974,7 +1132,7 @@
             }, 500);
         }
 
-        console.log('🚀 Nova Studio ready! Only PayPal enabled. Replace PayPal Client ID for live payments.');
+        console.log('🚀 Perfectly centered description with wider carousel ready! Replace PayPal Client ID for live payments.');
     </script>
 
 </body>
