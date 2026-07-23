@@ -1009,6 +1009,82 @@
         }
 
         /* ============================================ */
+        /* ===== THANK YOU MODAL (Order Confirmation) ===== */
+        /* ============================================ */
+        .thankyou-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(6px);
+            z-index: 4000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+        .thankyou-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .thankyou-modal {
+            background: var(--dark-light);
+            padding: 40px;
+            border-radius: var(--radius);
+            max-width: 520px;
+            width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: var(--shadow);
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .thankyou-overlay.open .thankyou-modal {
+            transform: scale(1);
+        }
+        .thankyou-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .thankyou-header h2 {
+            font-size: 1.8rem;
+        }
+        .thankyou-close {
+            font-size: 2rem;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: var(--transition);
+        }
+        .thankyou-close:hover {
+            opacity: 1;
+        }
+        .thankyou-body p {
+            color: var(--text-muted);
+        }
+        .thankyou-item-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 0.95rem;
+        }
+        .thankyou-item-row span:first-child {
+            color: var(--text-light);
+        }
+        .thankyou-item-row span:last-child {
+            color: var(--text-muted);
+        }
+        .thankyou-divider {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            margin: 16px 0;
+        }
+
+        /* ============================================ */
         /* ===== RESPONSIVE ===== */
         /* ============================================ */
         @media (max-width: 768px) {
@@ -1051,6 +1127,9 @@
             }
             .contact-grid {
                 grid-template-columns: 1fr;
+            }
+            .thankyou-modal {
+                padding: 28px 20px;
             }
         }
     </style>
@@ -1210,7 +1289,6 @@
                     </div>
                 </div>
                 <div class="contact-form">
-                    <!-- Added name attributes and Formspree action -->
                     <form id="contactForm">
                         <input type="text" name="name" placeholder="Your Name" required />
                         <input type="email" name="email" placeholder="Your Email" required />
@@ -1264,6 +1342,26 @@
         </div>
         <div class="panel-body" id="panelBody">
             <!-- dynamic content -->
+        </div>
+    </div>
+
+    <!-- ===== THANK YOU MODAL ===== -->
+    <div class="thankyou-overlay" id="thankyouOverlay">
+        <div class="thankyou-modal">
+            <div class="thankyou-header">
+                <h2>🎉 Thank You!</h2>
+                <span class="thankyou-close" id="thankyouClose">&times;</span>
+            </div>
+            <div class="thankyou-body">
+                <p>Your order has been placed successfully.</p>
+                <p style="font-size:0.9rem; margin-top: 8px; color:var(--text-muted);">
+                    Transaction ID: <span id="thankyouTxnId" style="color:var(--primary-light);"></span>
+                </p>
+                <hr class="thankyou-divider" />
+                <div id="thankyouItems"></div>
+                <hr class="thankyou-divider" />
+                <div id="thankyouTotal" style="font-size:1.4rem; font-weight:700; text-align:right;"></div>
+            </div>
         </div>
     </div>
 
@@ -1685,9 +1783,7 @@
 
         let paypalRendered = false;
 
-        // ============================================
-        // ===== UPDATED PAYPAL FUNCTION WITH PRODUCT LIST =====
-        // ============================================
+        // ===== UPDATED PAYPAL FUNCTION WITH PRODUCT LIST & THANK YOU MODAL =====
         function renderPayPalButton(total) {
             const container = document.getElementById('paypal-button-container');
             if (!window.paypal) { container.innerHTML = `<p style="color:var(--text-muted);font-size:0.8rem;">PayPal SDK loading...</p>`; return; }
@@ -1698,7 +1794,6 @@
             paypal.Buttons({
                 style: { layout: 'vertical', color: 'blue', shape: 'pill', label: 'paypal' },
                 createOrder: function(data, actions) {
-                    // Map cart items to PayPal item format
                     const items = cart.map(item => ({
                         name: `${item.name} (Size: ${item.size})`,
                         description: `Size: ${item.size}`,
@@ -1707,7 +1802,7 @@
                             value: item.price.toFixed(2)
                         },
                         quantity: item.qty.toString(),
-                        category: 'PHYSICAL_GOODS' // Change to 'DIGITAL_GOODS' if selling downloads
+                        category: 'PHYSICAL_GOODS'
                     }));
 
                     return actions.order.create({
@@ -1722,16 +1817,23 @@
                                     }
                                 }
                             },
-                            items: items // Pass the item list to PayPal
+                            items: items
                         }]
                     });
                 },
                 onApprove: function(data, actions) {
                     return actions.order.capture().then(function(details) {
-                        alert('Payment completed! Transaction ID: ' + details.id);
+                        // Capture the current cart before clearing
+                        const currentCart = [...cart];
+                        const currentTotal = currentCart.reduce((s, i) => s + i.price * i.qty, 0);
+                        
+                        // Clear cart and close sidebar immediately
                         cart = [];
                         updateCartUI();
                         closeCart();
+                        
+                        // Show the Thank You modal with order details
+                        openThankYouModal(details.id, currentCart, currentTotal);
                     });
                 },
                 onError: function(err) { console.error(err);
@@ -1739,6 +1841,43 @@
             }).render(container);
             paypalRendered = true;
         }
+
+        // ===== THANK YOU MODAL LOGIC =====
+        const thankyouOverlay = document.getElementById('thankyouOverlay');
+        const thankyouClose = document.getElementById('thankyouClose');
+        const thankyouTxnId = document.getElementById('thankyouTxnId');
+        const thankyouItems = document.getElementById('thankyouItems');
+        const thankyouTotal = document.getElementById('thankyouTotal');
+
+        function openThankYouModal(txnId, items, total) {
+            thankyouTxnId.textContent = txnId;
+            
+            // Build the item list HTML
+            thankyouItems.innerHTML = items.map(item => `
+                <div class="thankyou-item-row">
+                    <span>${item.name} (${item.size}) × ${item.qty}</span>
+                    <span>$${(item.price * item.qty).toFixed(2)}</span>
+                </div>
+            `).join('');
+            
+            thankyouTotal.textContent = `Total: $${total.toFixed(2)}`;
+            
+            // Open the modal
+            thankyouOverlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close Thank You modal
+        thankyouClose.addEventListener('click', () => {
+            thankyouOverlay.classList.remove('open');
+            document.body.style.overflow = '';
+        });
+        thankyouOverlay.addEventListener('click', (e) => {
+            if (e.target === thankyouOverlay) {
+                thankyouOverlay.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+        });
 
         // ===== CART TOGGLES =====
         const cartOverlay = document.getElementById('cartOverlay');
