@@ -284,6 +284,27 @@
             background: transparent;
         }
 
+        /* ---- HERO BREAK (Video - Looping, No Controls, Width-based) ---- */
+        .hero-break {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            margin: 0;
+            background: #000;
+        }
+        .hero-break-video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .hero-break .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.25);
+            pointer-events: none;
+            z-index: 1;
+        }
+
         /* ---- WORKS ---- */
         .works-section {
             padding: 100px 0 0 0;
@@ -393,8 +414,11 @@
             display: block;
             aspect-ratio: 4/3;
             object-fit: cover;
-            object-position: right center;
+            object-position: center center;
             transition: opacity 0.6s ease;
+        }
+        .work-item[data-index="1"] .media img {
+            object-position: right center;
         }
 
         /* ---- MARQUEE ---- */
@@ -506,27 +530,30 @@
             transform: scale(1.04);
             box-shadow: 0 0 24px rgba(255, 136, 33, 0.3);
         }
+
         .panel-content {
             max-width: 100%;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            padding-bottom: 40px;
         }
+
         .panel-main-image {
             width: 100%;
-            flex: 0 0 auto;
-            height: 55vh;
+            flex: 0 0 55vh;
+            min-height: 30vh;
             overflow: hidden;
             position: relative;
             cursor: pointer;
-            background: rgba(255, 255, 255, 0.05);
+            background: #0a0a0a;
         }
         .panel-main-image img,
         .panel-main-image video {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
             display: block;
             transition: transform 0.3s ease;
         }
@@ -556,8 +583,9 @@
         .panel-main-image:hover .click-hint {
             opacity: 1;
         }
+
         .panel-text-group {
-            padding: 20px 48px 12px 48px;
+            padding: 20px 48px 8px 48px;
             flex: 0 0 auto;
         }
         .panel-text-group .panel-year {
@@ -584,23 +612,18 @@
         .panel-text-group .panel-story.fade {
             opacity: 0.5;
         }
-        .panel-gallery-wrap {
-            flex: 1 1 auto;
-            min-height: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 0;
-        }
+
         .panel-gallery {
             display: flex;
-            gap: 0;
+            flex-wrap: wrap;
             width: 100%;
+            padding: 12px 44px 8px 44px;
             flex: 0 0 auto;
+            gap: 6px;
         }
         .panel-gallery .gallery-item {
-            flex: 1 1 25%;
-            min-width: 0;
+            flex: 0 0 calc(25% - 6px);
+            aspect-ratio: 4/3;
             background: rgba(255, 255, 255, 0.04);
             overflow: hidden;
             cursor: pointer;
@@ -608,6 +631,7 @@
             position: relative;
             border: none !important;
             outline: none !important;
+            border-radius: 6px;
         }
         .panel-gallery .gallery-item:hover {
             transform: scale(1.04);
@@ -615,26 +639,26 @@
             box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
         }
         .panel-gallery .gallery-item.active-thumb {
-            box-shadow: inset 0 0 0 2px rgba(255, 136, 33, 0.5);
+            box-shadow: inset 0 0 0 2px rgba(255, 136, 33, 0.6);
         }
         .panel-gallery .gallery-item img,
         .panel-gallery .gallery-item video {
             width: 100%;
+            height: 100%;
             display: block;
-            aspect-ratio: 4/3;
             object-fit: cover;
         }
         .panel-gallery .gallery-item video {
             object-fit: cover;
-            background: #000;
+            background: #0a0a0a;
         }
         .panel-gallery .gallery-item .play-overlay {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             background: rgba(255, 136, 33, 0.8);
             border-radius: 50%;
             display: flex;
@@ -644,35 +668,13 @@
             transition: transform 0.3s ease;
         }
         .panel-gallery .gallery-item .play-overlay svg {
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
             fill: #fff;
             margin-left: 4px;
         }
         .panel-gallery .gallery-item:hover .play-overlay {
             transform: translate(-50%, -50%) scale(1.1);
-        }
-
-        /* ---- HERO BREAK ---- */
-        .hero-break {
-            width: 100%;
-            height: 60vh;
-            overflow: hidden;
-            position: relative;
-            margin: 0;
-        }
-        .hero-break img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-        .hero-break .overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.25);
-            pointer-events: none;
-            z-index: 1;
         }
 
         /* ---- EDUCATION ---- */
@@ -1244,6 +1246,7 @@
             }
             .panel-main-image {
                 height: 40vh;
+                flex: 0 0 40vh;
             }
             .panel-close {
                 top: 16px;
@@ -1257,6 +1260,13 @@
             }
             .testimonial-carousel {
                 padding: 0 40px;
+            }
+            .panel-gallery {
+                padding: 12px 20px 8px 20px;
+                gap: 6px;
+            }
+            .panel-gallery .gallery-item {
+                flex: 0 0 calc(50% - 6px);
             }
         }
         @media (max-width: 700px) {
@@ -1299,6 +1309,7 @@
             }
             .panel-main-image {
                 height: 35vh;
+                flex: 0 0 35vh;
             }
             .panel-text-group .panel-title {
                 font-size: 1.6rem;
@@ -1308,7 +1319,7 @@
                 max-width: 100%;
             }
             .panel-gallery .gallery-item {
-                flex: 1 1 25%;
+                flex: 0 0 calc(50% - 6px);
             }
             .panel-gallery .gallery-item img,
             .panel-gallery .gallery-item video {
@@ -1325,6 +1336,9 @@
             .edu-item {
                 min-height: auto;
                 padding: 24px 18px 18px 18px;
+            }
+            .panel-gallery {
+                padding: 12px 16px 8px 16px;
             }
         }
         @media (max-width: 500px) {
@@ -1353,6 +1367,7 @@
             }
             .panel-main-image {
                 height: 30vh;
+                flex: 0 0 30vh;
             }
             .panel-text-group {
                 padding: 12px 16px 6px 16px;
@@ -1380,6 +1395,13 @@
                 width: 36px;
                 height: 36px;
                 font-size: 1rem;
+            }
+            .panel-gallery {
+                padding: 10px 12px 6px 12px;
+                gap: 4px;
+            }
+            .panel-gallery .gallery-item {
+                flex: 0 0 calc(50% - 4px);
             }
         }
     </style>
@@ -1428,7 +1450,7 @@
                 <div class="works-grid" id="worksGrid">
                     <div class="timeline-line" id="timelineLine"></div>
 
-                    <!-- Updated Work Item 1 -->
+                    <!-- Work Item 1 -->
                     <div class="work-item" data-index="1">
                         <div class="content">
                             <div class="project-name"><span class="accent">Barcelos</span> • Geodome</div>
@@ -1440,6 +1462,7 @@
                         </div>
                     </div>
 
+                    <!-- Work Item 2 -->
                     <div class="work-item" data-index="2">
                         <div class="content">
                             <div class="project-name"><span class="accent">He who seeks...</span> • Azul Game Jam</div>
@@ -1447,7 +1470,7 @@
                             <p>Concept • 3D modeling</p>
                         </div>
                         <div class="media">
-                            <img src="https://picsum.photos/seed/work2/800/600" alt="Azul Game Jam" />
+                            <img src="https://github.com/Rossinif/portfolio/blob/fd4e9a68c971c19044c42603a33fa7a86c3ddce6/assets/2_works/3_-_he_who/1_thumb.png?raw=true" alt="He who seeks... Azul Game Jam" />
                         </div>
                     </div>
 
@@ -1473,6 +1496,7 @@
                         </div>
                     </div>
 
+                    <!-- Work Item 5 - EIAM (reverted to placeholders) -->
                     <div class="work-item" data-index="5">
                         <div class="content">
                             <div class="project-name"><span class="accent">EIAM</span> • Personal</div>
@@ -1544,8 +1568,8 @@
             <div class="panel-content">
                 <div class="panel-main-image" id="panelMainImage">
                     <div id="panelMediaContainer" style="width:100%;height:100%;">
-                        <img id="panelImg" src="" alt="Detail" style="width:100%;height:100%;object-fit:cover;display:block;" />
-                        <video id="panelVideo" style="width:100%;height:100%;object-fit:contain;display:none;background:#000;" controls muted playsinline></video>
+                        <img id="panelImg" src="" alt="Detail" style="width:100%;height:100%;object-fit:contain;display:block;" />
+                        <video id="panelVideo" style="width:100%;height:100%;object-fit:contain;display:none;background:#000;" controls muted playsinline loop></video>
                     </div>
                     <span class="click-hint">Click to cycle images</span>
                 </div>
@@ -1554,14 +1578,16 @@
                     <div class="panel-title" id="panelTitle">Project</div>
                     <div class="panel-story" id="panelStory">Loading details...</div>
                 </div>
-                <div class="panel-gallery-wrap">
-                    <div class="panel-gallery" id="panelGallery"></div>
-                </div>
+                <div class="panel-gallery" id="panelGallery"></div>
             </div>
         </div>
 
+        <!-- HERO BREAK (Video - Looping, No Controls, Width-based) -->
         <section class="hero-break">
-            <img src="https://picsum.photos/seed/radianBreak/1920/800" alt="Radian EXR Action" />
+            <video class="hero-break-video" autoplay loop muted playsinline>
+                <source src="https://raw.githubusercontent.com/Rossinif/portfolio/7ecfd40652bfc802af88351183637e8229370b66/assets/1_main_page/6_jumping_invitation.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
             <div class="overlay"></div>
         </section>
 
@@ -2175,28 +2201,42 @@
                     subtitle: "The historical Portuguese rooster reinvented for Youtube.",
                     tags: "Concept • 3D modeling • Animation • Motion • Video editing",
                     story: "A deep dive into the Barcelos rooster reimagined for the digital age. This project blended traditional Portuguese iconography with modern 3D animation and motion design, creating a vibrant YouTube identity that honours heritage while pushing creative boundaries.",
-                    gallery: [
-                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/2787e4a3156d74fd9964da5f667ab16578031373/assets/2_works/1_-_barcelos/2_barcelos_ref.jpg",
-                            text: "Initial concept sketches." },
-                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/2787e4a3156d74fd9964da5f667ab16578031373/assets/2_works/1_-_barcelos/3_wireframe.jpg",
-                            text: "3D modelling phase." },
-                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/2787e4a3156d74fd9964da5f667ab16578031373/assets/2_works/1_-_barcelos/4_2026.png",
-                            text: "Animation and motion design." },
-                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/2787e4a3156d74fd9964da5f667ab16578031373/assets/2_works/1_-_barcelos/5_playlist.mp4",
-                            text: "Final video edit.", isVideo: true }
-                    ]
+                    gallery: [{
+                        img: "https://raw.githubusercontent.com/Rossinif/portfolio/2787e4a3156d74fd9964da5f667ab16578031373/assets/2_works/1_-_barcelos/2_barcelos_ref.jpg",
+                        text: "Initial concept sketches."
+                    }, {
+                        img: "https://raw.githubusercontent.com/Rossinif/portfolio/2787e4a3156d74fd9964da5f667ab16578031373/assets/2_works/1_-_barcelos/3_wireframe.jpg",
+                        text: "3D modelling phase."
+                    }, {
+                        img: "https://raw.githubusercontent.com/Rossinif/portfolio/2787e4a3156d74fd9964da5f667ab16578031373/assets/2_works/1_-_barcelos/4_2026.png",
+                        text: "Animation and motion design."
+                    }, {
+                        img: "https://raw.githubusercontent.com/Rossinif/portfolio/2787e4a3156d74fd9964da5f667ab16578031373/assets/2_works/1_-_barcelos/5_playlist.mp4",
+                        text: "Final video edit.",
+                        isVideo: true
+                    }]
                 },
                 "2": {
                     title: "He who seeks... • Azul Game Jam",
                     subtitle: "3 days, 1 game, 5 guys, no sleep.",
                     tags: "Concept • 3D modeling",
                     story: "A 72‑hour creative marathon where a team of five turned a wild idea into a playable game. We focused on rapid prototyping, lean 3D modelling, and a cohesive visual style that captured the jam's chaotic energy.",
-                    gallery: [
-                        { img: "https://picsum.photos/seed/azul1/800/600", text: "Whiteboard brainstorming." },
-                        { img: "https://picsum.photos/seed/azul2/800/600", text: "Blockout modelling in Blender." },
-                        { img: "https://picsum.photos/seed/azul3/800/600", text: "Final in‑game scene." },
-                        { img: "https://picsum.photos/seed/azul4/800/600", text: "Team photo after submission." }
-                    ]
+                    gallery: [{
+                        img: "https://github.com/Rossinif/portfolio/blob/fd4e9a68c971c19044c42603a33fa7a86c3ddce6/assets/2_works/3_-_he_who/2_intro_vid.mp4?raw=true",
+                        text: "Intro video.",
+                        isVideo: true
+                    }, {
+                        img: "https://github.com/Rossinif/portfolio/blob/69eae3103515e64f36077a67559cd12be3d5f6a3/assets/2_works/3_-_he_who/3_meet.png?raw=true",
+                        text: "Meet the team."
+                    }, {
+                        img: "https://github.com/Rossinif/portfolio/blob/8830b32bfef29525ef91ecc346a4f777b5a4d851/assets/2_works/3_-_he_who/4_main_room.mp4?raw=true",
+                        text: "Main room gameplay.",
+                        isVideo: true
+                    }, {
+                        img: "https://github.com/Rossinif/portfolio/blob/69eae3103515e64f36077a67559cd12be3d5f6a3/assets/2_works/3_-_he_who/5_clocking_out.mp4?raw=true",
+                        text: "Clocking out.",
+                        isVideo: true
+                    }]
                 },
                 "3": {
                     title: "Sour Cherry VR • Sizzling Shrimp VR Summer Jam",
@@ -2284,6 +2324,109 @@
                 }
             };
 
+            // ---- VIDEO POSTER GENERATOR ----
+            function generateVideoPoster(videoElement, url) {
+                if (videoElement.hasAttribute('poster') && videoElement.getAttribute('poster') && videoElement
+                    .getAttribute('poster').length > 0) {
+                    return;
+                }
+
+                const tempVideo = document.createElement('video');
+                tempVideo.src = url;
+                tempVideo.muted = true;
+                tempVideo.preload = 'metadata';
+                tempVideo.crossOrigin = 'anonymous';
+
+                let resolved = false;
+                let timeoutId = null;
+
+                function cleanup() {
+                    if (timeoutId) { clearTimeout(timeoutId);
+                        timeoutId = null; }
+                    tempVideo.pause();
+                    tempVideo.src = '';
+                    tempVideo.load();
+                }
+
+                function resolve(posterData) {
+                    if (resolved) return;
+                    resolved = true;
+                    if (posterData) {
+                        videoElement.setAttribute('poster', posterData);
+                    }
+                    cleanup();
+                }
+
+                timeoutId = setTimeout(() => {
+                    if (!resolved) {
+                        resolved = true;
+                        cleanup();
+                    }
+                }, 8000);
+
+                tempVideo.addEventListener('loadedmetadata', function() {
+                    const duration = tempVideo.duration;
+                    if (!duration || !isFinite(duration) || duration <= 0) {
+                        resolve(null);
+                        return;
+                    }
+                    const middle = Math.min(duration * 0.5, duration * 0.85);
+                    tempVideo.currentTime = middle;
+                });
+
+                tempVideo.addEventListener('seeked', function() {
+                    if (resolved) return;
+                    try {
+                        const canvas = document.createElement('canvas');
+                        const w = tempVideo.videoWidth || 640;
+                        const h = tempVideo.videoHeight || 360;
+                        canvas.width = w;
+                        canvas.height = h;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(tempVideo, 0, 0, w, h);
+                        const poster = canvas.toDataURL('image/jpeg', 0.7);
+                        resolve(poster);
+                    } catch (e) {
+                        resolve(null);
+                    }
+                });
+
+                tempVideo.addEventListener('error', function() {
+                    resolve(null);
+                });
+
+                tempVideo.addEventListener('timeupdate', function() {
+                    if (resolved) return;
+                    if (tempVideo.readyState >= 2) {
+                        try {
+                            const canvas = document.createElement('canvas');
+                            const w = tempVideo.videoWidth || 640;
+                            const h = tempVideo.videoHeight || 360;
+                            canvas.width = w;
+                            canvas.height = h;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(tempVideo, 0, 0, w, h);
+                            const poster = canvas.toDataURL('image/jpeg', 0.7);
+                            resolve(poster);
+                        } catch (e) {
+                            resolve(null);
+                        }
+                    }
+                });
+
+                tempVideo.load();
+            }
+
+            function generateAllVideoPosters() {
+                const videoElements = document.querySelectorAll('.panel-gallery .gallery-item video');
+                videoElements.forEach(function(video) {
+                    const url = video.src;
+                    if (url && url.length > 0) {
+                        generateVideoPoster(video, url);
+                    }
+                });
+            }
+
             // ---- PANEL ELEMENTS ----
             const panelBackdrop = document.getElementById('panelBackdrop');
             const sidePanel = document.getElementById('sidePanel');
@@ -2309,6 +2452,7 @@
                 if (isVideo) {
                     panelImg.style.display = 'none';
                     panelVideo.style.display = 'block';
+                    panelVideo.loop = true;
                     panelVideo.src = item.img;
                     panelVideo.load();
                     panelVideo.play().catch(function() {});
@@ -2352,27 +2496,31 @@
                     setMainMedia(currentGalleryItems[0]);
                 }
 
-                panelGallery.innerHTML = currentGalleryItems.map((item, idx) => {
+                panelGallery.innerHTML = currentGalleryItems.map(function(item, idx) {
                     const isVideo = item.isVideo || isVideoUrl(item.img);
                     if (isVideo) {
                         return `
-                                <div class="gallery-item ${idx === 0 ? 'active-thumb' : ''}" data-index="${idx}">
-                                    <video src="${item.img}" muted playsinline poster="${currentGalleryItems[0]?.img || ''}"></video>
-                                    <div class="play-overlay">
-                                        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21" fill="currentColor"/></svg>
-                                    </div>
+                            <div class="gallery-item ${idx === 0 ? 'active-thumb' : ''}" data-index="${idx}">
+                                <video src="${item.img}" muted playsinline loop></video>
+                                <div class="play-overlay">
+                                    <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21" fill="currentColor"/></svg>
                                 </div>
-                            `;
+                            </div>
+                        `;
                     } else {
                         return `
-                                <div class="gallery-item ${idx === 0 ? 'active-thumb' : ''}" data-index="${idx}">
-                                    <img src="${item.img}" alt="${item.text || ''}" />
-                                </div>
-                            `;
+                            <div class="gallery-item ${idx === 0 ? 'active-thumb' : ''}" data-index="${idx}">
+                                <img src="${item.img}" alt="${item.text || ''}" />
+                            </div>
+                        `;
                     }
                 }).join('');
 
-                document.querySelectorAll('.panel-gallery .gallery-item').forEach(el => {
+                requestAnimationFrame(function() {
+                    requestAnimationFrame(generateAllVideoPosters);
+                });
+
+                document.querySelectorAll('.panel-gallery .gallery-item').forEach(function(el) {
                     el.addEventListener('click', function() {
                         const idx = parseInt(this.dataset.index);
                         setMainImage(idx);
@@ -2390,13 +2538,13 @@
                 const item = currentGalleryItems[index];
 
                 panelStory.classList.add('fade');
-                setTimeout(() => {
+                setTimeout(function() {
                     setMainMedia(item);
                     panelStory.textContent = currentData.story || currentData.subtitle || '';
                     panelStory.classList.remove('fade');
                 }, 150);
 
-                document.querySelectorAll('.panel-gallery .gallery-item').forEach(el => {
+                document.querySelectorAll('.panel-gallery .gallery-item').forEach(function(el) {
                     el.classList.remove('active-thumb');
                     if (parseInt(el.dataset.index) === index) {
                         el.classList.add('active-thumb');
