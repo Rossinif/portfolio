@@ -810,6 +810,7 @@
             display: flex;
             gap: 0;
             will-change: transform;
+            touch-action: none;   /* allow pointer dragging without browser interference */
         }
         .interest-card {
             flex: 0 0 25%;
@@ -1165,6 +1166,7 @@
             justify-content: space-between;
             flex-wrap: wrap;
             gap: 12px;
+            align-items: center;
         }
         .footer a {
             color: #777;
@@ -1173,6 +1175,17 @@
         }
         .footer a:hover {
             color: #aaa;
+        }
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .footer-right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
         }
 
         /* ---- RESPONSIVE ---- */
@@ -1429,7 +1442,7 @@
         <div class="hero-wrapper" id="heroWrapper">
             <section class="hero-full" id="home">
                 <video id="heroVideo" class="hero-video" muted playsinline preload="metadata">
-                    <source src="https://raw.githubusercontent.com/Rossinif/portfolio/2787e4a3156d74fd9964da5f667ab16578031373/assets/1_main_page/1_hero_barcelos.mp4" type="video/mp4">
+                    <source src="https://raw.githubusercontent.com/Rossinif/portfolio/56ff5400b39b9085e35564950528cc27d5351fe6/assets/1_main_page/1_hero_barcelos.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
                 <div class="fade-bottom"></div>
@@ -1458,7 +1471,7 @@
                             <p>Concept • 3D modeling • Animation • Motion • Video editing</p>
                         </div>
                         <div class="media">
-                            <img src="https://raw.githubusercontent.com/Rossinif/portfolio/2787e4a3156d74fd9964da5f667ab16578031373/assets/2_works/1_-_barcelos/1_thumb.jpg" alt="Barcelos Geodome" />
+                            <img src="https://raw.githubusercontent.com/Rossinif/portfolio/56ff5400b39b9085e35564950528cc27d5351fe6/assets/2_works/1_-_barcelos/1_thumb.jpg" alt="Barcelos Geodome" />
                         </div>
                     </div>
 
@@ -1470,10 +1483,11 @@
                             <p>Concept • 3D modeling</p>
                         </div>
                         <div class="media">
-                            <img src="https://github.com/Rossinif/portfolio/blob/fd4e9a68c971c19044c42603a33fa7a86c3ddce6/assets/2_works/3_-_he_who/1_thumb.png?raw=true" alt="He who seeks... Azul Game Jam" />
+                            <img src="https://raw.githubusercontent.com/Rossinif/portfolio/56ff5400b39b9085e35564950528cc27d5351fe6/assets/2_works/2_-_he_who/1_thumb.png" alt="He who seeks... Azul Game Jam" />
                         </div>
                     </div>
 
+                    <!-- Work Item 3 - Sour Cherry VR -->
                     <div class="work-item" data-index="3">
                         <div class="content">
                             <div class="project-name"><span class="accent">Sour Cherry VR</span> • Sizzling Shrimp VR Summer Jam</div>
@@ -1481,10 +1495,11 @@
                             <p>Concept • Game development • 3D modeling • Music and SFX</p>
                         </div>
                         <div class="media">
-                            <img src="https://picsum.photos/seed/work3/800/600" alt="Sour Cherry VR" />
+                            <img src="https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/3_-_sour_cherry/1%20-%20thumb.png" alt="Sour Cherry VR" />
                         </div>
                     </div>
 
+                    <!-- Work Item 4 - Carpentry -->
                     <div class="work-item" data-index="4">
                         <div class="content">
                             <div class="project-name"><span class="accent">Carpentry</span> • Genève Confederation Centre</div>
@@ -1492,7 +1507,7 @@
                             <p>Technical design • Project management • Production</p>
                         </div>
                         <div class="media">
-                            <img src="https://picsum.photos/seed/work4/800/600" alt="Carpentry Genève" />
+                            <img src="https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/1.jpg" alt="Carpentry Genève" />
                         </div>
                     </div>
 
@@ -1585,7 +1600,7 @@
         <!-- HERO BREAK (Video - Looping, No Controls, Width-based) -->
         <section class="hero-break">
             <video class="hero-break-video" autoplay loop muted playsinline>
-                <source src="https://raw.githubusercontent.com/Rossinif/portfolio/7ecfd40652bfc802af88351183637e8229370b66/assets/1_main_page/6_jumping_invitation.mp4" type="video/mp4">
+                <source src="https://raw.githubusercontent.com/Rossinif/portfolio/56ff5400b39b9085e35564950528cc27d5351fe6/assets/1_main_page/6_jumping_invitation.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
             <div class="overlay"></div>
@@ -1639,7 +1654,7 @@
             <div class="container">
                 <h2>Other <span class="highlight">interests</span></h2>
             </div>
-            <div class="interests-wrapper">
+            <div class="interests-wrapper" id="interestsWrapper">
                 <div class="interests-track" id="interestsTrack">
                     <div class="interest-card">
                         <img src="https://picsum.photos/seed/carpentry/600/400" alt="Carpentry" />
@@ -1763,8 +1778,8 @@
         </section>
 
         <footer class="container footer">
-            <span>&copy; 2026 Radian. All rights reserved.</span>
-            <span><a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Contact</a></span>
+            <span class="footer-left">@Rossinif • Thanks for your visit.</span>
+            <span class="footer-right">Developed with Deepseek and hosted at Github</span>
         </footer>
 
     </main>
@@ -2021,7 +2036,7 @@
                 updateWorksAndLine();
             });
 
-            // ---- INTERESTS CAROUSEL ----
+            // ---- INTERESTS CAROUSEL (with free dragging) ----
             const interestsTrack = document.getElementById('interestsTrack');
             if (interestsTrack) {
                 const originalCards = Array.from(interestsTrack.children);
@@ -2038,12 +2053,13 @@
 
                 let offset = 0;
                 let animationId = null;
-                let paused = false;
+                let hoverPaused = false;
+                let isDragging = false;
                 let lastTimestamp = 0;
                 const speedPerSecond = 55;
 
                 function animateCarousel(timestamp) {
-                    if (paused) {
+                    if (hoverPaused || isDragging) {
                         animationId = requestAnimationFrame(animateCarousel);
                         return;
                     }
@@ -2070,13 +2086,55 @@
 
                 animationId = requestAnimationFrame(animateCarousel);
 
-                const wrapper = interestsTrack.closest('.interests-wrapper');
+                const wrapper = document.getElementById('interestsWrapper');
                 if (wrapper) {
-                    wrapper.addEventListener('mouseenter', function() { paused = true; });
-                    wrapper.addEventListener('mouseleave', function() { paused = false;
-                        lastTimestamp = 0; });
+                    wrapper.addEventListener('pointerenter', function() { hoverPaused = true; });
+                    wrapper.addEventListener('pointerleave', function() { hoverPaused = false; lastTimestamp = 0; });
                 }
 
+                // --- Pointer drag handling ---
+                let dragStartX = 0;
+                let dragStartOffset = 0;
+
+                interestsTrack.addEventListener('pointerdown', function(e) {
+                    if (e.pointerType === 'mouse' && e.button !== 0) return; // only primary button
+                    isDragging = true;
+                    dragStartX = e.clientX;
+                    dragStartOffset = offset;
+                    interestsTrack.setPointerCapture(e.pointerId);
+                    e.preventDefault(); // avoid text selection
+                });
+
+                interestsTrack.addEventListener('pointermove', function(e) {
+                    if (!isDragging) return;
+                    const dx = e.clientX - dragStartX;
+                    offset = dragStartOffset - dx;   // moving right decreases offset
+                    interestsTrack.style.transform = `translateX(-${offset}px)`;
+                });
+
+                function endDrag(e) {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    interestsTrack.releasePointerCapture(e.pointerId);
+
+                    // Normalize offset to [0, totalOriginalWidth) for smooth auto-continuation
+                    const totalOriginalWidth = originalCards.length * getCardWidth();
+                    offset = ((offset % totalOriginalWidth) + totalOriginalWidth) % totalOriginalWidth;
+
+                    interestsTrack.style.transition = 'none';
+                    interestsTrack.style.transform = `translateX(-${offset}px)`;
+                    interestsTrack.getBoundingClientRect();
+                    interestsTrack.style.transition = '';
+
+                    lastTimestamp = 0;   // restart animation timer
+                }
+
+                interestsTrack.addEventListener('pointerup', endDrag);
+                interestsTrack.addEventListener('pointercancel', endDrag);
+                // Prevent stray drag if pointer leaves the track while dragging
+                interestsTrack.addEventListener('pointerleave', endDrag);
+
+                // ---- Resize & cleanup ----
                 window.addEventListener('beforeunload', function() {
                     if (animationId) cancelAnimationFrame(animationId);
                 });
@@ -2201,42 +2259,37 @@
                     subtitle: "The historical Portuguese rooster reinvented for Youtube.",
                     tags: "Concept • 3D modeling • Animation • Motion • Video editing",
                     story: "A deep dive into the Barcelos rooster reimagined for the digital age. This project blended traditional Portuguese iconography with modern 3D animation and motion design, creating a vibrant YouTube identity that honours heritage while pushing creative boundaries.",
-                    gallery: [{
-                        img: "https://raw.githubusercontent.com/Rossinif/portfolio/2787e4a3156d74fd9964da5f667ab16578031373/assets/2_works/1_-_barcelos/2_barcelos_ref.jpg",
-                        text: "Initial concept sketches."
-                    }, {
-                        img: "https://raw.githubusercontent.com/Rossinif/portfolio/2787e4a3156d74fd9964da5f667ab16578031373/assets/2_works/1_-_barcelos/3_wireframe.jpg",
-                        text: "3D modelling phase."
-                    }, {
-                        img: "https://raw.githubusercontent.com/Rossinif/portfolio/2787e4a3156d74fd9964da5f667ab16578031373/assets/2_works/1_-_barcelos/4_2026.png",
-                        text: "Animation and motion design."
-                    }, {
-                        img: "https://raw.githubusercontent.com/Rossinif/portfolio/2787e4a3156d74fd9964da5f667ab16578031373/assets/2_works/1_-_barcelos/5_playlist.mp4",
-                        text: "Final video edit.",
-                        isVideo: true
-                    }]
+                    gallery: [
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/56ff5400b39b9085e35564950528cc27d5351fe6/assets/2_works/1_-_barcelos/2_barcelos_ref.jpg", text: "Initial concept sketches." },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/56ff5400b39b9085e35564950528cc27d5351fe6/assets/2_works/1_-_barcelos/3_wireframe.jpg", text: "3D modelling phase." },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/56ff5400b39b9085e35564950528cc27d5351fe6/assets/2_works/1_-_barcelos/4_2026.png", text: "Animation and motion design." },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/56ff5400b39b9085e35564950528cc27d5351fe6/assets/2_works/1_-_barcelos/5_playlist.mp4", text: "Final video edit.", isVideo: true },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/56ff5400b39b9085e35564950528cc27d5351fe6/assets/2_works/1_-_barcelos/6_pastel.mp4", text: "Pastel process", isVideo: true }
+                    ]
                 },
                 "2": {
                     title: "He who seeks... • Azul Game Jam",
                     subtitle: "3 days, 1 game, 5 guys, no sleep.",
                     tags: "Concept • 3D modeling",
                     story: "A 72‑hour creative marathon where a team of five turned a wild idea into a playable game. We focused on rapid prototyping, lean 3D modelling, and a cohesive visual style that captured the jam's chaotic energy.",
-                    gallery: [{
-                        img: "https://github.com/Rossinif/portfolio/blob/fd4e9a68c971c19044c42603a33fa7a86c3ddce6/assets/2_works/3_-_he_who/2_intro_vid.mp4?raw=true",
-                        text: "Intro video.",
-                        isVideo: true
-                    }, {
-                        img: "https://github.com/Rossinif/portfolio/blob/69eae3103515e64f36077a67559cd12be3d5f6a3/assets/2_works/3_-_he_who/3_meet.png?raw=true",
-                        text: "Meet the team."
-                    }, {
-                        img: "https://github.com/Rossinif/portfolio/blob/8830b32bfef29525ef91ecc346a4f777b5a4d851/assets/2_works/3_-_he_who/4_main_room.mp4?raw=true",
-                        text: "Main room gameplay.",
-                        isVideo: true
-                    }, {
-                        img: "https://github.com/Rossinif/portfolio/blob/69eae3103515e64f36077a67559cd12be3d5f6a3/assets/2_works/3_-_he_who/5_clocking_out.mp4?raw=true",
-                        text: "Clocking out.",
-                        isVideo: true
-                    }]
+                    gallery: [
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/56ff5400b39b9085e35564950528cc27d5351fe6/assets/2_works/2_-_he_who/2_intro_vid.mp4", text: "Intro video.", isVideo: true },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/56ff5400b39b9085e35564950528cc27d5351fe6/assets/2_works/2_-_he_who/3_main_room.mp4", text: "Main room gameplay.", isVideo: true },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/56ff5400b39b9085e35564950528cc27d5351fe6/assets/2_works/2_-_he_who/4%20-%20boss%20room.jpg", text: "Boss room" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/56ff5400b39b9085e35564950528cc27d5351fe6/assets/2_works/2_-_he_who/5%20-%20boss%20hiring.jpg", text: "Boss hiring" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/56ff5400b39b9085e35564950528cc27d5351fe6/assets/2_works/2_-_he_who/6%20-%20meet.png", text: "Meet the team" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/56ff5400b39b9085e35564950528cc27d5351fe6/assets/2_works/2_-_he_who/7%20-%20pawn%20working.jpg", text: "Pawn working" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/56ff5400b39b9085e35564950528cc27d5351fe6/assets/2_works/2_-_he_who/8%20-%20print%20room.jpg", text: "Print room" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/56ff5400b39b9085e35564950528cc27d5351fe6/assets/2_works/2_-_he_who/9%20-%20gf.jpg", text: "GF" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/56ff5400b39b9085e35564950528cc27d5351fe6/assets/2_works/2_-_he_who/10%20-%20fat%20friend.jpg", text: "Fat friend" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/56ff5400b39b9085e35564950528cc27d5351fe6/assets/2_works/2_-_he_who/11%20-%20kitchen.jpg", text: "Kitchen" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/56ff5400b39b9085e35564950528cc27d5351fe6/assets/2_works/2_-_he_who/12%20-%20Sandwhich%20Minigame.jpg", text: "Sandwich minigame" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/56ff5400b39b9085e35564950528cc27d5351fe6/assets/2_works/2_-_he_who/13%20-%20Coffee%20Minigame.jpg", text: "Coffee minigame" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/56ff5400b39b9085e35564950528cc27d5351fe6/assets/2_works/2_-_he_who/14%20-%20Cellphone%20Minigame.jpg", text: "Cellphone minigame" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/56ff5400b39b9085e35564950528cc27d5351fe6/assets/2_works/2_-_he_who/15%20-%20clocking_out.mp4", text: "Clocking out", isVideo: true },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/56ff5400b39b9085e35564950528cc27d5351fe6/assets/2_works/2_-_he_who/16%20-%20chars.jpg", text: "Characters" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/56ff5400b39b9085e35564950528cc27d5351fe6/assets/2_works/2_-_he_who/17%20-%20props.jpg", text: "Props" }
+                    ]
                 },
                 "3": {
                     title: "Sour Cherry VR • Sizzling Shrimp VR Summer Jam",
@@ -2244,10 +2297,14 @@
                     tags: "Concept • Game development • 3D modeling • Music and SFX",
                     story: "A virtual reality survival game where you're stranded on a desert island with nothing but a single game. We built the entire experience from scratch – environment design, mechanics, audio, and VR optimisation – in just one week.",
                     gallery: [
-                        { img: "https://picsum.photos/seed/vr1/800/600", text: "Early VR prototype test." },
-                        { img: "https://picsum.photos/seed/vr2/800/600", text: "Island environment modelling." },
-                        { img: "https://picsum.photos/seed/vr3/800/600", text: "UI and interaction design." },
-                        { img: "https://picsum.photos/seed/vr4/800/600", text: "Final gameplay capture." }
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/ecfd8d53f75c332f1bbc25f79bd3b24cc79a38ab/assets/2_works/3_-_sour_cherry/2%20-%20Sour%20cherry%20-%20Trailer.mp4", text: "Sour Cherry Trailer", isVideo: true },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/3_-_sour_cherry/3%20-%20clouds.jpg", text: "Clouds" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/3_-_sour_cherry/4%20-%20prancha.jpg", text: "Prancha" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/3_-_sour_cherry/5%20-%20tenda.jpg", text: "Tenda" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/3_-_sour_cherry/6%20-%20maze%201.jpg", text: "Maze 1" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/3_-_sour_cherry/7%20-%20maze%202.jpg", text: "Maze 2" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/3_-_sour_cherry/8%20-%20maze%203.jpg", text: "Maze 3" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/3_-_sour_cherry/9%20-%20raios%20e%20trovoes.jpg", text: "Raios e trovões" }
                     ]
                 },
                 "4": {
@@ -2256,10 +2313,35 @@
                     tags: "Technical design • Project management • Production",
                     story: "A large‑scale carpentry project for a prestigious venue in Geneva. We designed and produced custom furniture for the food court, including modular sofas, standing tables, and a striking pergola for the cocktail bar – blending functionality with timeless craft.",
                     gallery: [
-                        { img: "https://picsum.photos/seed/carp1/800/600", text: "Technical drawings and CAD." },
-                        { img: "https://picsum.photos/seed/carp2/800/600", text: "Workshop production phase." },
-                        { img: "https://picsum.photos/seed/carp3/800/600", text: "Installation at the Centre." },
-                        { img: "https://picsum.photos/seed/carp4/800/600", text: "Final interior view." }
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/1.jpg", text: "Project overview" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/2.jpg", text: "Detail" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/3.jpg", text: "Detail" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/4.jpg", text: "Detail" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/5.jpg", text: "Detail" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/6.jpg", text: "Detail" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/7.jpg", text: "Detail" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/8.jpg", text: "Detail" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/9.jpg", text: "Detail" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/10.jpg", text: "Detail" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/11.jpg", text: "Detail" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/12.jpg", text: "Detail" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/13.jpg", text: "Detail" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/14.jpg", text: "Detail" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/15.jpg", text: "Detail" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/16.jpg", text: "Detail" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/17.jpg", text: "Detail" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/18.jpg", text: "Detail" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/19.jpg", text: "Detail" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/20.jpg", text: "Detail" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/21.jpg", text: "Detail" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/22.jpg", text: "Detail" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/23.jpg", text: "Detail" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/24.jpg", text: "Detail" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/25.jpg", text: "Detail" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/26.jpg", text: "Detail" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/27.jpg", text: "Detail" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/28.jpg", text: "Detail" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/762b13cd8470761fb8908b81cf299657f1f90f2f/assets/2_works/4_-_geneve/29.jpg", text: "Detail" }
                     ]
                 },
                 "5": {
