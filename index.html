@@ -26,8 +26,7 @@
             margin: 0 auto;
             padding: 0 24px;
         }
-        .highlight,
-        .accent {
+        .highlight, .accent {
             color: #FF8821;
         }
 
@@ -271,8 +270,7 @@
             opacity: 1;
         }
         @keyframes bounce {
-            0%,
-            100% {
+            0%, 100% {
                 transform: translateX(-50%) translateY(0);
             }
             50% {
@@ -287,7 +285,7 @@
             background: transparent;
         }
 
-        /* ---- HERO BREAK (Video - Looping, No Controls, Width-based) ---- */
+        /* ---- HERO BREAK ---- */
         .hero-break {
             width: 100%;
             overflow: hidden;
@@ -449,12 +447,8 @@
             flex-shrink: 0;
         }
         @keyframes marqueeScroll {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-50%);
-            }
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
 
         /* ---- SIDE PANEL ---- */
@@ -507,10 +501,10 @@
         .side-panel::-webkit-scrollbar-thumb:hover {
             background: rgba(255, 255, 255, 0.15);
         }
-        .panel-close {
+        .panel-close,
+        .panel-sound-toggle {
             position: fixed;
             top: 24px;
-            right: 24px;
             background: transparent;
             border: 1px solid rgba(255, 255, 255, 0.4);
             color: #fff;
@@ -526,12 +520,34 @@
             z-index: 10;
             line-height: 1;
         }
-        .panel-close:hover {
+        .panel-close {
+            right: 24px;
+        }
+        .panel-sound-toggle {
+            left: 24px;
+            display: none; /* hidden by default, shown when video is active */
+        }
+        .panel-sound-toggle.visible {
+            display: flex;
+        }
+        .panel-close:hover,
+        .panel-sound-toggle:hover {
             background: #FF8821;
             border-color: #FF8821;
             color: #0b0b0b;
             transform: scale(1.04);
             box-shadow: 0 0 24px rgba(255, 136, 33, 0.3);
+        }
+        .sound-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .sound-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            fill: none;
         }
 
         .panel-content {
@@ -541,6 +557,7 @@
             flex-direction: column;
             min-height: 100vh;
             padding-bottom: 40px;
+            position: relative;
         }
 
         .panel-main-image {
@@ -567,24 +584,38 @@
         .panel-main-image:hover img {
             transform: scale(1.02);
         }
-        .panel-main-image .click-hint {
+
+        .panel-nav-arrow {
             position: absolute;
-            bottom: 16px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.6);
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.4);
             color: #fff;
-            padding: 4px 16px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            letter-spacing: 0.05em;
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-            white-space: nowrap;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+            z-index: 5;
+            line-height: 1;
         }
-        .panel-main-image:hover .click-hint {
-            opacity: 1;
+        .panel-nav-arrow:hover {
+            background: #FF8821;
+            border-color: #FF8821;
+            color: #0b0b0b;
+            transform: translateY(-50%) scale(1.04);
+            box-shadow: 0 0 24px rgba(255, 136, 33, 0.3);
+        }
+        .panel-nav-arrow.prev {
+            left: 12px;
+        }
+        .panel-nav-arrow.next {
+            right: 12px;
         }
 
         .panel-text-group {
@@ -813,7 +844,7 @@
             display: flex;
             gap: 0;
             will-change: transform;
-            touch-action: none;   /* allow pointer dragging without browser interference */
+            touch-action: none;
         }
         .interest-card {
             flex: 0 0 25%;
@@ -898,13 +929,14 @@
             font-size: 1.1rem;
             color: #FF8821;
         }
+        /* Testimonial arrows – match close button style */
         .testimonial-arrow {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
             z-index: 10;
             background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             color: #fff;
             width: 48px;
             height: 48px;
@@ -913,13 +945,16 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
-            font-size: 1.4rem;
+            transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+            font-size: 1.6rem;
             line-height: 1;
         }
         .testimonial-arrow:hover {
-            background: rgba(255, 136, 33, 0.15);
+            background: #FF8821;
             border-color: #FF8821;
+            color: #0b0b0b;
+            transform: translateY(-50%) scale(1.04);
+            box-shadow: 0 0 24px rgba(255, 136, 33, 0.3);
         }
         .testimonial-arrow:active {
             transform: translateY(-50%) scale(0.92);
@@ -1193,232 +1228,80 @@
 
         /* ---- RESPONSIVE ---- */
         @media (max-width: 1024px) {
-            .interest-card {
-                flex: 0 0 33.333%;
-            }
-            .hero-content {
-                padding-bottom: 70px;
-            }
-            .education-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 30px;
-            }
-            .testimonial-carousel {
-                padding: 0 50px;
-            }
+            .interest-card { flex: 0 0 33.333%; }
+            .hero-content { padding-bottom: 70px; }
+            .education-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; }
+            .testimonial-carousel { padding: 0 50px; }
         }
         @media (max-width: 768px) {
-            .interest-card {
-                flex: 0 0 50%;
-            }
-            .hero-full .hero-text h1 {
-                font-size: 3.2rem;
-            }
-            .hero-content {
-                padding-bottom: 60px;
-            }
-            .work-item {
-                flex-direction: column !important;
-                gap: 24px;
-                text-align: center;
-                gap: 40px;
-            }
-            .work-item .content {
-                text-align: center;
-            }
-            .work-item .content p {
-                max-width: 100%;
-            }
-            .works-grid {
-                gap: 80px;
-            }
-            .timeline-line {
-                display: none;
-            }
-            .contact-section .contact-grid {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-            .contact-section .contact-info .intro {
-                max-width: 100%;
-            }
-            .contact-section .contact-info .divider {
-                max-width: 100%;
-            }
-            .contact-section .contact-form .btn-submit {
-                align-self: flex-start;
-                width: 100%;
-                text-align: center;
-                justify-content: center;
-            }
-            .side-panel {
-                padding: 0;
-            }
-            .panel-text-group {
-                padding: 16px 24px 8px 24px;
-            }
-            .panel-text-group .panel-title {
-                font-size: 2rem;
-            }
-            .panel-main-image {
-                height: 40vh;
-                flex: 0 0 40vh;
-            }
-            .panel-close {
-                top: 16px;
-                right: 16px;
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
-            }
-            .testimonial-slide .quote {
-                font-size: 1.05rem;
-            }
-            .testimonial-carousel {
-                padding: 0 40px;
-            }
-            .panel-gallery {
-                padding: 12px 20px 8px 20px;
-                gap: 6px;
-            }
-            .panel-gallery .gallery-item {
-                flex: 0 0 calc(50% - 6px);
-            }
+            .interest-card { flex: 0 0 50%; }
+            .hero-full .hero-text h1 { font-size: 3.2rem; }
+            .hero-content { padding-bottom: 60px; }
+            .work-item { flex-direction: column !important; gap: 40px; text-align: center; }
+            .work-item .content { text-align: center; }
+            .work-item .content p { max-width: 100%; }
+            .works-grid { gap: 80px; }
+            .timeline-line { display: none; }
+            .contact-section .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+            .contact-section .contact-info .intro { max-width: 100%; }
+            .contact-section .contact-info .divider { max-width: 100%; }
+            .contact-section .contact-form .btn-submit { align-self: flex-start; width: 100%; text-align: center; }
+            .side-panel { padding: 0; }
+            .panel-text-group { padding: 16px 24px 8px 24px; }
+            .panel-text-group .panel-title { font-size: 2rem; }
+            .panel-main-image { height: 40vh; flex: 0 0 40vh; }
+            .panel-close, .panel-sound-toggle { top: 16px; width: 40px; height: 40px; font-size: 1.2rem; }
+            .panel-close { right: 16px; }
+            .panel-sound-toggle { left: 16px; }
+            .sound-icon svg { width: 20px; height: 20px; }
+            .testimonial-slide .quote { font-size: 1.05rem; }
+            .testimonial-carousel { padding: 0 40px; }
+            .panel-gallery { padding: 12px 20px 8px 20px; gap: 6px; }
+            .panel-gallery .gallery-item { flex: 0 0 calc(50% - 6px); }
+            .panel-nav-arrow { width: 40px; height: 40px; font-size: 1.2rem; }
+            .testimonial-arrow { width: 40px; height: 40px; font-size: 1.2rem; }
         }
         @media (max-width: 700px) {
-            .menu-toggle {
-                display: flex;
-            }
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 280px;
-                height: 100vh;
-                background: rgba(11, 11, 11, 0.96);
-                backdrop-filter: blur(20px);
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                gap: 28px;
-                font-size: 1.2rem;
-                transition: right 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
-                padding: 40px;
-                border-left: 1px solid rgba(255, 255, 255, 0.06);
-            }
-            .nav-links.open {
-                right: 0;
-            }
-            .hero-full .hero-text h1 {
-                font-size: 2.6rem;
-            }
-            .hero-content {
-                padding-bottom: 50px;
-            }
-            .contact-section .contact-form .btn-submit {
-                align-self: flex-start;
-                width: 100%;
-                text-align: center;
-            }
-            .interest-card {
-                flex: 0 0 100%;
-            }
-            .panel-main-image {
-                height: 35vh;
-                flex: 0 0 35vh;
-            }
-            .panel-text-group .panel-title {
-                font-size: 1.6rem;
-            }
-            .panel-text-group .panel-story {
-                font-size: 0.9rem;
-                max-width: 100%;
-            }
-            .panel-gallery .gallery-item {
-                flex: 0 0 calc(50% - 6px);
-            }
+            .menu-toggle { display: flex; }
+            .nav-links { position: fixed; top: 0; right: -100%; width: 280px; height: 100vh; background: rgba(11,11,11,0.96); backdrop-filter: blur(20px); flex-direction: column; justify-content: center; align-items: center; gap: 28px; font-size: 1.2rem; transition: right 0.4s cubic-bezier(0.2,0.9,0.3,1); padding: 40px; border-left: 1px solid rgba(255,255,255,0.06); }
+            .nav-links.open { right: 0; }
+            .hero-full .hero-text h1 { font-size: 2.6rem; }
+            .hero-content { padding-bottom: 50px; }
+            .contact-section .contact-form .btn-submit { align-self: flex-start; width: 100%; text-align: center; }
+            .interest-card { flex: 0 0 100%; }
+            .panel-main-image { height: 35vh; flex: 0 0 35vh; }
+            .panel-text-group .panel-title { font-size: 1.6rem; }
+            .panel-text-group .panel-story { font-size: 0.9rem; max-width: 100%; }
+            .panel-gallery .gallery-item { flex: 0 0 calc(50% - 6px); }
             .panel-gallery .gallery-item img,
-            .panel-gallery .gallery-item video {
-                aspect-ratio: 1/1;
-            }
-            .education-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            .education-section h2 {
-                font-size: 2rem;
-                margin-bottom: 40px;
-            }
-            .edu-item {
-                min-height: auto;
-                padding: 24px 18px 18px 18px;
-            }
-            .panel-gallery {
-                padding: 12px 16px 8px 16px;
-            }
+            .panel-gallery .gallery-item video { aspect-ratio: 1/1; }
+            .education-grid { grid-template-columns: 1fr; gap: 20px; }
+            .education-section h2 { font-size: 2rem; margin-bottom: 40px; }
+            .edu-item { min-height: auto; padding: 24px 18px 18px 18px; }
+            .panel-gallery { padding: 12px 16px 8px 16px; }
         }
         @media (max-width: 500px) {
-            .hero-full .hero-text h1 {
-                font-size: 2rem;
-            }
-            .hero-content {
-                padding-bottom: 40px;
-            }
-            .work-item .content .project-name {
-                font-size: 1.5rem;
-            }
-            .work-item .content h3 {
-                font-size: 1.125rem;
-            }
-            .work-item .content p {
-                font-size: 0.65rem;
-            }
-            .contact-section .contact-info h2 {
-                font-size: 2rem;
-            }
-            .contact-section .contact-form .btn-submit {
-                align-self: flex-start;
-                width: 100%;
-                text-align: center;
-            }
-            .panel-main-image {
-                height: 30vh;
-                flex: 0 0 30vh;
-            }
-            .panel-text-group {
-                padding: 12px 16px 6px 16px;
-            }
-            .panel-text-group .panel-title {
-                font-size: 1.4rem;
-            }
-            .panel-text-group .panel-story {
-                font-size: 0.8rem;
-            }
-            .panel-close {
-                top: 12px;
-                right: 12px;
-                width: 36px;
-                height: 36px;
-                font-size: 1rem;
-            }
-            .testimonial-slide .quote {
-                font-size: 0.95rem;
-            }
-            .testimonial-carousel {
-                padding: 0 30px;
-            }
-            .testimonial-arrow {
-                width: 36px;
-                height: 36px;
-                font-size: 1rem;
-            }
-            .panel-gallery {
-                padding: 10px 12px 6px 12px;
-                gap: 4px;
-            }
-            .panel-gallery .gallery-item {
-                flex: 0 0 calc(50% - 4px);
-            }
+            .hero-full .hero-text h1 { font-size: 2rem; }
+            .hero-content { padding-bottom: 40px; }
+            .work-item .content .project-name { font-size: 1.5rem; }
+            .work-item .content h3 { font-size: 1.125rem; }
+            .work-item .content p { font-size: 0.65rem; }
+            .contact-section .contact-info h2 { font-size: 2rem; }
+            .contact-section .contact-form .btn-submit { align-self: flex-start; width: 100%; text-align: center; }
+            .panel-main-image { height: 30vh; flex: 0 0 30vh; }
+            .panel-text-group { padding: 12px 16px 6px 16px; }
+            .panel-text-group .panel-title { font-size: 1.4rem; }
+            .panel-text-group .panel-story { font-size: 0.8rem; }
+            .panel-close, .panel-sound-toggle { top: 12px; width: 36px; height: 36px; font-size: 1rem; }
+            .panel-close { right: 12px; }
+            .panel-sound-toggle { left: 12px; }
+            .sound-icon svg { width: 18px; height: 18px; }
+            .testimonial-slide .quote { font-size: 0.95rem; }
+            .testimonial-carousel { padding: 0 30px; }
+            .testimonial-arrow { width: 36px; height: 36px; font-size: 1rem; }
+            .panel-gallery { padding: 10px 12px 6px 12px; gap: 4px; }
+            .panel-gallery .gallery-item { flex: 0 0 calc(50% - 4px); }
+            .panel-nav-arrow { width: 36px; height: 36px; font-size: 1rem; }
         }
     </style>
 </head>
@@ -1466,7 +1349,6 @@
                 <div class="works-grid" id="worksGrid">
                     <div class="timeline-line" id="timelineLine"></div>
 
-                    <!-- Work Item 1 - Links Perdidos -->
                     <div class="work-item" data-index="1">
                         <div class="content">
                             <div class="project-name"><span class="accent">Links Perdidos</span> • Algar Group</div>
@@ -1478,7 +1360,6 @@
                         </div>
                     </div>
 
-                    <!-- Work Item 2 - Barcelos -->
                     <div class="work-item" data-index="2">
                         <div class="content">
                             <div class="project-name"><span class="accent">Barcelos</span> • Geodome</div>
@@ -1490,7 +1371,6 @@
                         </div>
                     </div>
 
-                    <!-- Work Item 3 - Carpentry -->
                     <div class="work-item" data-index="3">
                         <div class="content">
                             <div class="project-name"><span class="accent">Carpentry</span> • Genève Confederation Centre</div>
@@ -1502,7 +1382,6 @@
                         </div>
                     </div>
 
-                    <!-- Work Item 4 - He who seeks... -->
                     <div class="work-item" data-index="4">
                         <div class="content">
                             <div class="project-name"><span class="accent">He who seeks...</span> • Azul Game Jam</div>
@@ -1514,7 +1393,6 @@
                         </div>
                     </div>
 
-                    <!-- Work Item 5 - Sour Cherry VR -->
                     <div class="work-item" data-index="5">
                         <div class="content">
                             <div class="project-name"><span class="accent">Sour Cherry VR</span> • Sizzling Shrimp VR Summer Jam</div>
@@ -1526,7 +1404,6 @@
                         </div>
                     </div>
 
-                    <!-- Work Item 6 - EIAM -->
                     <div class="work-item" data-index="6">
                         <div class="content">
                             <div class="project-name"><span class="accent">EIAM</span> • Personal</div>
@@ -1538,7 +1415,6 @@
                         </div>
                     </div>
 
-                    <!-- Work Item 7 - Diário (Good news!) -->
                     <div class="work-item" data-index="7">
                         <div class="content">
                             <div class="project-name"><span class="accent">Good news!</span> • Diário</div>
@@ -1546,11 +1422,10 @@
                             <p>Artwork • Prepress</p>
                         </div>
                         <div class="media">
-                            <img src="https://picsum.photos/seed/work9/800/600" alt="Good news Diário" />
+                            <img src="https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/7_-_diario/1%20-%20thumb.gif" alt="Good news Diário" />
                         </div>
                     </div>
 
-                    <!-- Work Item 8 - Rally Unimed -->
                     <div class="work-item" data-index="8">
                         <div class="content">
                             <div class="project-name"><span class="accent">Rally Unimed</span> • Unimed</div>
@@ -1558,11 +1433,10 @@
                             <p>Art direction • Prepress</p>
                         </div>
                         <div class="media">
-                            <img src="https://picsum.photos/seed/work6/800/600" alt="Rally Unimed" />
+                            <img src="https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/8_-_rally_unimed/1%20-%20thumb.jpg" alt="Rally Unimed" />
                         </div>
                     </div>
 
-                    <!-- Work Item 9 - Alberto -->
                     <div class="work-item" data-index="9">
                         <div class="content">
                             <div class="project-name"><span class="accent">Alberto</span> • Gran Toro Residential</div>
@@ -1570,25 +1444,22 @@
                             <p>Artwork • Motion • Prepress</p>
                         </div>
                         <div class="media">
-                            <img src="https://picsum.photos/seed/work8/800/600" alt="Alberto Gran Toro" />
+                            <img src="https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/9_-_gran_toro/1%20-%20thumb.jpg" alt="Alberto Gran Toro" />
                         </div>
                     </div>
 
-                    <!-- Work Item 10 - Akkar Restaurant -->
                     <div class="work-item" data-index="10">
                         <div class="content">
-                            <div class="project-name"><span class="accent">25 anos</span> • Akkar Restaurant</div>
+                            <div class="project-name"><span class="accent">25 years</span> • Akkar Restaurant</div>
                             <h3>When social media start to be about numbers, we brought reality.</h3>
                             <p>Artwork • Social Media • Illustration • Motion • Prepress</p>
                         </div>
                         <div class="media">
-                            <img src="https://picsum.photos/seed/akkar/800/600" alt="25 anos • Akkar Restaurant" />
+                            <img src="https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/2%20-%20header.jpg" alt="25 years • Akkar Restaurant" />
                         </div>
                     </div>
-
                 </div>
             </div>
-
             <div class="works-titles-marquee">
                 <div class="marquee-track">
                     <span class="marquee-content">Editor <span class="accent">•</span> 3D Modeling <span class="accent">•</span> Animation <span class="accent">•</span> Game Development <span class="accent">•</span> Carpentry <span class="accent">•</span> Graphic Design <span class="accent">•</span> Illustration <span class="accent">•</span> Motion Design <span class="accent">•</span> Video &nbsp;</span>
@@ -1600,13 +1471,30 @@
         <div class="panel-backdrop" id="panelBackdrop"></div>
         <div class="side-panel" id="sidePanel">
             <button class="panel-close" id="panelClose">✕</button>
+            <button class="panel-sound-toggle" id="panelSoundToggle">
+                <span class="sound-icon sound-off">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <line x1="23" y1="9" x2="17" y2="15"></line>
+                        <line x1="17" y1="9" x2="23" y2="15"></line>
+                    </svg>
+                </span>
+                <span class="sound-icon sound-on" style="display: none;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    </svg>
+                </span>
+            </button>
             <div class="panel-content">
                 <div class="panel-main-image" id="panelMainImage">
                     <div id="panelMediaContainer" style="width:100%;height:100%;">
                         <img id="panelImg" src="" alt="" style="width:100%;height:100%;object-fit:contain;display:block;" />
-                        <video id="panelVideo" style="width:100%;height:100%;object-fit:contain;display:none;background:#000;" controls muted playsinline loop></video>
+                        <video id="panelVideo" style="width:100%;height:100%;object-fit:contain;display:none;background:#000;" muted playsinline loop></video>
                     </div>
-                    <span class="click-hint">Click to cycle images</span>
+                    <button class="panel-nav-arrow prev" id="panelPrev">‹</button>
+                    <button class="panel-nav-arrow next" id="panelNext">›</button>
                 </div>
                 <div class="panel-text-group">
                     <div class="panel-year" id="panelYear">—</div>
@@ -1617,7 +1505,6 @@
             </div>
         </div>
 
-        <!-- HERO BREAK (Video - Looping, No Controls, Width-based) -->
         <section class="hero-break">
             <video class="hero-break-video" autoplay loop muted playsinline>
                 <source src="https://raw.githubusercontent.com/Rossinif/portfolio/56ff5400b39b9085e35564950528cc27d5351fe6/assets/1_main_page/6_jumping_invitation.mp4" type="video/mp4">
@@ -1630,76 +1517,24 @@
             <div class="container">
                 <h2>My <span class="highlight">education</span></h2>
                 <div class="education-grid">
-                    <div class="edu-item">
-                        <div class="edu-line"></div>
-                        <div class="edu-content">
-                            <span class="edu-date">2018 – 2022</span>
-                            <span class="edu-city">Porto</span>
-                            <span class="edu-institution">University of Porto</span>
-                            <span class="edu-title">B.A. in Communication Design</span>
-                        </div>
-                    </div>
-                    <div class="edu-item">
-                        <div class="edu-line"></div>
-                        <div class="edu-content">
-                            <span class="edu-date">2022 – 2023</span>
-                            <span class="edu-city">Lisbon</span>
-                            <span class="edu-institution">IADE – Universidade Europeia</span>
-                            <span class="edu-title">Post‑grad in Motion Design</span>
-                        </div>
-                    </div>
-                    <div class="edu-item">
-                        <div class="edu-line"></div>
-                        <div class="edu-content">
-                            <span class="edu-date">2023 – 2024</span>
-                            <span class="edu-city">Barcelona</span>
-                            <span class="edu-institution">ELISAVA</span>
-                            <span class="edu-title">M.A. in Interaction Design</span>
-                        </div>
-                    </div>
-                    <div class="edu-item">
-                        <div class="edu-line"></div>
-                        <div class="edu-content">
-                            <span class="edu-date">2024 – 2026</span>
-                            <span class="edu-city">Remote</span>
-                            <span class="edu-institution">CIID – Copenhagen</span>
-                            <span class="edu-title">M.Sc. in Digital Design</span>
-                        </div>
-                    </div>
+                    <div class="edu-item"><div class="edu-line"></div><div class="edu-content"><span class="edu-date">2018 – 2022</span><span class="edu-city">Porto</span><span class="edu-institution">University of Porto</span><span class="edu-title">B.A. in Communication Design</span></div></div>
+                    <div class="edu-item"><div class="edu-line"></div><div class="edu-content"><span class="edu-date">2022 – 2023</span><span class="edu-city">Lisbon</span><span class="edu-institution">IADE – Universidade Europeia</span><span class="edu-title">Post‑grad in Motion Design</span></div></div>
+                    <div class="edu-item"><div class="edu-line"></div><div class="edu-content"><span class="edu-date">2023 – 2024</span><span class="edu-city">Barcelona</span><span class="edu-institution">ELISAVA</span><span class="edu-title">M.A. in Interaction Design</span></div></div>
+                    <div class="edu-item"><div class="edu-line"></div><div class="edu-content"><span class="edu-date">2024 – 2026</span><span class="edu-city">Remote</span><span class="edu-institution">CIID – Copenhagen</span><span class="edu-title">M.Sc. in Digital Design</span></div></div>
                 </div>
             </div>
         </section>
 
         <section class="interests-section" id="interests">
-            <div class="container">
-                <h2>Other <span class="highlight">interests</span></h2>
-            </div>
+            <div class="container"><h2>Other <span class="highlight">interests</span></h2></div>
             <div class="interests-wrapper" id="interestsWrapper">
                 <div class="interests-track" id="interestsTrack">
-                    <div class="interest-card">
-                        <img src="https://picsum.photos/seed/carpentry/600/400" alt="Carpentry" />
-                        <div class="info"><h4 class="highlight">Carpentry</h4><p>Building functional art</p></div>
-                    </div>
-                    <div class="interest-card">
-                        <img src="https://picsum.photos/seed/modeling/600/400" alt="3D Modeling" />
-                        <div class="info"><h4 class="highlight">3D Modeling</h4><p>Bringing ideas to life</p></div>
-                    </div>
-                    <div class="interest-card">
-                        <img src="https://picsum.photos/seed/illustration/600/400" alt="Illustration" />
-                        <div class="info"><h4 class="highlight">Illustration</h4><p>Daily visual exploration</p></div>
-                    </div>
-                    <div class="interest-card">
-                        <img src="https://picsum.photos/seed/game-dev/600/400" alt="Game Development" />
-                        <div class="info"><h4 class="highlight">Game Dev</h4><p>Interactive storytelling</p></div>
-                    </div>
-                    <div class="interest-card">
-                        <img src="https://picsum.photos/seed/animation/600/400" alt="Animation" />
-                        <div class="info"><h4 class="highlight">Animation</h4><p>Breathing life into motion</p></div>
-                    </div>
-                    <div class="interest-card">
-                        <img src="https://picsum.photos/seed/video-edit/600/400" alt="Video Editing" />
-                        <div class="info"><h4 class="highlight">Video Editing</h4><p>Crafting narratives</p></div>
-                    </div>
+                    <div class="interest-card"><img src="https://picsum.photos/seed/carpentry/600/400" alt="Carpentry" /><div class="info"><h4 class="highlight">Carpentry</h4><p>Building functional art</p></div></div>
+                    <div class="interest-card"><img src="https://picsum.photos/seed/modeling/600/400" alt="3D Modeling" /><div class="info"><h4 class="highlight">3D Modeling</h4><p>Bringing ideas to life</p></div></div>
+                    <div class="interest-card"><img src="https://picsum.photos/seed/illustration/600/400" alt="Illustration" /><div class="info"><h4 class="highlight">Illustration</h4><p>Daily visual exploration</p></div></div>
+                    <div class="interest-card"><img src="https://picsum.photos/seed/game-dev/600/400" alt="Game Development" /><div class="info"><h4 class="highlight">Game Dev</h4><p>Interactive storytelling</p></div></div>
+                    <div class="interest-card"><img src="https://picsum.photos/seed/animation/600/400" alt="Animation" /><div class="info"><h4 class="highlight">Animation</h4><p>Breathing life into motion</p></div></div>
+                    <div class="interest-card"><img src="https://picsum.photos/seed/video-edit/600/400" alt="Video Editing" /><div class="info"><h4 class="highlight">Video Editing</h4><p>Crafting narratives</p></div></div>
                 </div>
             </div>
         </section>
@@ -1710,42 +1545,16 @@
                 <div class="testimonial-carousel">
                     <button class="testimonial-arrow prev" id="testPrev" aria-label="Previous testimonial">‹</button>
                     <button class="testimonial-arrow next" id="testNext" aria-label="Next testimonial">›</button>
-                    <div class="testimonial-slides">
-                        <div class="testimonial-track" id="testTrack">
-                            <div class="testimonial-slide">
-                                <p class="quote">"The attention to detail is absolutely breathtaking. A true master of the craft."</p>
-                                <p class="author">Jane Doe</p>
-                            </div>
-                            <div class="testimonial-slide">
-                                <p class="quote">"Working with them was a breeze. They understood our vision perfectly and delivered beyond expectations."</p>
-                                <p class="author">John Smith</p>
-                            </div>
-                            <div class="testimonial-slide">
-                                <p class="quote">"Creativity flows naturally. Every project feels fresh and innovative."</p>
-                                <p class="author">Alice Johnson</p>
-                            </div>
-                            <div class="testimonial-slide">
-                                <p class="quote">"A reliable partner who consistently produces top-tier work under tight deadlines."</p>
-                                <p class="author">Robert Chen</p>
-                            </div>
-                            <div class="testimonial-slide">
-                                <p class="quote">"The designs are not only beautiful but highly functional. A rare combination."</p>
-                                <p class="author">Maria Garcia</p>
-                            </div>
-                            <div class="testimonial-slide">
-                                <p class="quote">"They brought our brand to life with stunning visuals and a cohesive strategy."</p>
-                                <p class="author">David Kim</p>
-                            </div>
-                            <div class="testimonial-slide">
-                                <p class="quote">"An absolute professional with an incredible eye for aesthetics."</p>
-                                <p class="author">Sarah O'Brien</p>
-                            </div>
-                            <div class="testimonial-slide">
-                                <p class="quote">"The best creative collaboration we've ever had. Highly recommend."</p>
-                                <p class="author">Michael Torres</p>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="testimonial-slides"><div class="testimonial-track" id="testTrack">
+                        <div class="testimonial-slide"><p class="quote">"The attention to detail is absolutely breathtaking. A true master of the craft."</p><p class="author">Jane Doe</p></div>
+                        <div class="testimonial-slide"><p class="quote">"Working with them was a breeze. They understood our vision perfectly and delivered beyond expectations."</p><p class="author">John Smith</p></div>
+                        <div class="testimonial-slide"><p class="quote">"Creativity flows naturally. Every project feels fresh and innovative."</p><p class="author">Alice Johnson</p></div>
+                        <div class="testimonial-slide"><p class="quote">"A reliable partner who consistently produces top-tier work under tight deadlines."</p><p class="author">Robert Chen</p></div>
+                        <div class="testimonial-slide"><p class="quote">"The designs are not only beautiful but highly functional. A rare combination."</p><p class="author">Maria Garcia</p></div>
+                        <div class="testimonial-slide"><p class="quote">"They brought our brand to life with stunning visuals and a cohesive strategy."</p><p class="author">David Kim</p></div>
+                        <div class="testimonial-slide"><p class="quote">"An absolute professional with an incredible eye for aesthetics."</p><p class="author">Sarah O'Brien</p></div>
+                        <div class="testimonial-slide"><p class="quote">"The best creative collaboration we've ever had. Highly recommend."</p><p class="author">Michael Torres</p></div>
+                    </div></div>
                     <div class="testimonial-dots" id="testDots"></div>
                 </div>
             </div>
@@ -1758,18 +1567,9 @@
                         <h2>Contact <span class="highlight">info</span></h2>
                         <p class="intro">I'm always open to new projects, collaborations, or just a friendly chat.</p>
                         <ul class="contact-list">
-                            <li>
-                                <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="M22 7L12 13 2 7" /></svg></span>
-                                <a href="mailto:contato.sini@gmail.com">contato.sini@gmail.com</a>
-                            </li>
-                            <li>
-                                <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" /></svg></span>
-                                <a href="tel:+351961530632">+351 961 530 632</a>
-                            </li>
-                            <li>
-                                <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg></span>
-                                <a href="https://maps.app.goo.gl/LMe9SSxxCm1nhy1x6" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">Remote from Portugal · Worldwide</a>
-                            </li>
+                            <li><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="M22 7L12 13 2 7" /></svg></span><a href="mailto:contato.sini@gmail.com">contato.sini@gmail.com</a></li>
+                            <li><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" /></svg></span><a href="tel:+351961530632">+351 961 530 632</a></li>
+                            <li><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg></span><a href="https://maps.app.goo.gl/LMe9SSxxCm1nhy1x6" target="_blank" rel="noopener noreferrer">Remote from Portugal · Worldwide</a></li>
                         </ul>
                         <hr class="divider" />
                         <a href="https://wa.me/351961530632" class="whatsapp-link" target="_blank" rel="noopener">
@@ -1777,20 +1577,10 @@
                             Chat on WhatsApp
                         </a>
                     </div>
-
                     <form class="contact-form" id="contactForm" action="https://formspree.io/f/mrenrakk" method="POST">
-                        <div class="form-group">
-                            <label for="contactMessage">Your Message</label>
-                            <textarea id="contactMessage" name="message" placeholder="Tell me about your project..." required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="contactName">Your Name</label>
-                            <input type="text" id="contactName" name="name" placeholder="Your Name" required />
-                        </div>
-                        <div class="form-group">
-                            <label for="contactEmail">Your Email</label>
-                            <input type="email" id="contactEmail" name="email" placeholder="Your Email" required />
-                        </div>
+                        <div class="form-group"><label for="contactMessage">Your Message</label><textarea id="contactMessage" name="message" placeholder="Tell me about your project..." required></textarea></div>
+                        <div class="form-group"><label for="contactName">Your Name</label><input type="text" id="contactName" name="name" placeholder="Your Name" required /></div>
+                        <div class="form-group"><label for="contactEmail">Your Email</label><input type="email" id="contactEmail" name="email" placeholder="Your Email" required /></div>
                         <button type="submit" class="btn-submit">Send Message</button>
                     </form>
                 </div>
@@ -1801,7 +1591,6 @@
             <span class="footer-left">@Rossinif • Thanks for your visit.</span>
             <span class="footer-right">Developed with Deepseek and hosted at Github</span>
         </footer>
-
     </main>
 
     <a href="https://wa.me/351961530632" class="whatsapp-btn" id="whatsappBtn" target="_blank" rel="noopener">
@@ -1817,14 +1606,11 @@
             const video = document.getElementById('heroVideo');
             const spacer = document.getElementById('heroSpacer');
             let isVideoEndReached = false;
-
             if (video) video.pause();
-
             const heroText = document.getElementById('heroText');
 
             if (video && spacer) {
                 let isVideoReady = false;
-
                 video.addEventListener('loadedmetadata', function() {
                     isVideoReady = true;
                     video.pause();
@@ -1832,13 +1618,10 @@
                     const spacerHeight = Math.max(300, video.duration * sensitivity);
                     spacer.style.height = spacerHeight + 'vh';
                     video.currentTime = 0;
-                    video.play().then(function() {
-                        video.pause();
-                    }).catch(function() {});
+                    video.play().then(function() { video.pause(); }).catch(function() {});
                     handleVideoScroll();
                     updateNavbarVisibility();
                 });
-
                 if (video.readyState >= 1) {
                     isVideoReady = true;
                     video.pause();
@@ -1846,11 +1629,8 @@
                     const spacerHeight = Math.max(300, video.duration * sensitivity);
                     spacer.style.height = spacerHeight + 'vh';
                     video.currentTime = 0;
-                    video.play().then(function() {
-                        video.pause();
-                    }).catch(function() {});
+                    video.play().then(function() { video.pause(); }).catch(function() {});
                 }
-
                 function handleVideoScroll() {
                     if (!isVideoReady || !video.duration) return;
                     const maxScroll = spacer.offsetHeight;
@@ -1859,47 +1639,21 @@
                     let progress = scrollY / maxScroll;
                     progress = Math.max(0, Math.min(1, progress));
                     const targetTime = progress * video.duration;
-
                     if (isFinite(targetTime) && targetTime >= 0 && targetTime <= video.duration) {
-                        if (video.fastSeek) {
-                            video.fastSeek(targetTime);
-                        } else {
-                            video.currentTime = targetTime;
-                        }
-                        if (video.paused) {
-                            video.play().then(function() {
-                                video.pause();
-                            }).catch(function() {});
-                        }
+                        if (video.fastSeek) { video.fastSeek(targetTime); } else { video.currentTime = targetTime; }
+                        if (video.paused) { video.play().then(function() { video.pause(); }).catch(function() {}); }
                     }
-
-                    if (progress >= 0.72) {
-                        heroText.classList.add('revealed');
-                    } else {
-                        heroText.classList.remove('revealed');
-                    }
+                    if (progress >= 0.72) { heroText.classList.add('revealed'); } else { heroText.classList.remove('revealed'); }
                 }
-
                 let ticking = false;
                 window.addEventListener('scroll', function() {
                     if (!ticking) {
-                        window.requestAnimationFrame(function() {
-                            handleVideoScroll();
-                            updateNavbarVisibility();
-                            ticking = false;
-                        });
+                        window.requestAnimationFrame(function() { handleVideoScroll(); updateNavbarVisibility(); ticking = false; });
                         ticking = true;
                     }
                 });
-
-                window.addEventListener('resize', function() {
-                    handleVideoScroll();
-                    updateNavbarVisibility();
-                });
-                setTimeout(function() {
-                    handleVideoScroll();
-                    updateNavbarVisibility();
-                }, 200);
+                window.addEventListener('resize', function() { handleVideoScroll(); updateNavbarVisibility(); });
+                setTimeout(function() { handleVideoScroll(); updateNavbarVisibility(); }, 200);
             }
 
             function checkVideoEnd() {
@@ -1909,71 +1663,35 @@
                 const scrollY = window.scrollY;
                 let progress = scrollY / maxScroll;
                 progress = Math.max(0, Math.min(1, progress));
-
                 if (progress >= 0.98) {
-                    if (!isVideoEndReached) {
-                        isVideoEndReached = true;
-                        navbar.classList.add('visible');
-                    }
+                    if (!isVideoEndReached) { isVideoEndReached = true; navbar.classList.add('visible'); }
                 } else {
-                    if (isVideoEndReached && progress < 0.95) {
-                        isVideoEndReached = false;
-                        navbar.classList.remove('visible');
-                    }
+                    if (isVideoEndReached && progress < 0.95) { isVideoEndReached = false; navbar.classList.remove('visible'); }
                 }
             }
-
             const heading = document.querySelector('#works h2');
-
             function checkHeading() {
                 if (!heading || !navbar) return;
                 const headingRect = heading.getBoundingClientRect();
-                if (headingRect.top <= 0) {
-                    if (!isVideoEndReached) {
-                        isVideoEndReached = true;
-                        navbar.classList.add('visible');
-                    }
-                }
+                if (headingRect.top <= 0) { if (!isVideoEndReached) { isVideoEndReached = true; navbar.classList.add('visible'); } }
             }
-
-            function updateNavbarVisibility() {
-                checkVideoEnd();
-                if (!isVideoEndReached) {
-                    checkHeading();
-                }
-            }
-
+            function updateNavbarVisibility() { checkVideoEnd(); if (!isVideoEndReached) checkHeading(); }
             window.addEventListener('scroll', function() {
-                if (navbar.classList.contains('visible')) {
-                    navbar.classList.toggle('scrolled', window.scrollY > 20);
-                } else {
-                    navbar.classList.remove('scrolled');
-                }
+                if (navbar.classList.contains('visible')) { navbar.classList.toggle('scrolled', window.scrollY > 20); } else { navbar.classList.remove('scrolled'); }
             });
 
             // ---- MOBILE MENU ----
             const menuToggle = document.getElementById('menuToggle');
             const navLinks = document.getElementById('navLinks');
             const overlay = document.getElementById('navOverlay');
-
             function toggleMenu(forceClose) {
                 const isOpen = navLinks.classList.contains('open');
-                if (forceClose || isOpen) {
-                    navLinks.classList.remove('open');
-                    overlay.classList.remove('active');
-                    menuToggle.classList.remove('active');
-                } else {
-                    navLinks.classList.add('open');
-                    overlay.classList.add('active');
-                    menuToggle.classList.add('active');
-                }
+                if (forceClose || isOpen) { navLinks.classList.remove('open'); overlay.classList.remove('active'); menuToggle.classList.remove('active'); }
+                else { navLinks.classList.add('open'); overlay.classList.add('active'); menuToggle.classList.add('active'); }
             }
-            menuToggle.addEventListener('click', function(e) { e.stopPropagation();
-                toggleMenu(); });
+            menuToggle.addEventListener('click', function(e) { e.stopPropagation(); toggleMenu(); });
             overlay.addEventListener('click', function() { toggleMenu(true); });
-            document.querySelectorAll('.nav-links a').forEach(function(link) {
-                link.addEventListener('click', function() { if (window.innerWidth <= 700) toggleMenu(true); });
-            });
+            document.querySelectorAll('.nav-links a').forEach(function(link) { link.addEventListener('click', function() { if (window.innerWidth <= 700) toggleMenu(true); }); });
 
             // ---- SMOOTH ANCHOR ----
             document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
@@ -1981,12 +1699,7 @@
                     const targetId = this.getAttribute('href');
                     if (targetId === '#') return;
                     const target = document.querySelector(targetId);
-                    if (target) {
-                        e.preventDefault();
-                        const navH = navbar.offsetHeight;
-                        window.scrollTo({ top: target.getBoundingClientRect().top + window.pageYOffset - navH - 12,
-                            behavior: 'smooth' });
-                    }
+                    if (target) { e.preventDefault(); const navH = navbar.offsetHeight; window.scrollTo({ top: target.getBoundingClientRect().top + window.pageYOffset - navH - 12, behavior: 'smooth' }); }
                 });
             });
 
@@ -1998,52 +1711,25 @@
             let lineHeight = 200;
             const firstMedia = document.querySelector('.work-item .media');
             if (firstMedia) lineHeight = firstMedia.offsetHeight || 200;
-
-            function updateLineHeight() {
-                const media = document.querySelector('.work-item .media');
-                if (media) {
-                    const h = media.offsetHeight;
-                    if (h > 0) lineHeight = h;
-                }
-            }
+            function updateLineHeight() { const media = document.querySelector('.work-item .media'); if (media) { const h = media.offsetHeight; if (h > 0) lineHeight = h; } }
             window.addEventListener('resize', updateLineHeight);
             timelineLine.style.height = lineHeight + 'px';
 
             function updateWorksAndLine() {
                 const viewportCenter = window.innerHeight / 2;
-                let closestItem = null;
-                let closestDistance = Infinity;
-
+                let closestItem = null, closestDistance = Infinity;
                 workItems.forEach(item => {
                     const rect = item.getBoundingClientRect();
                     const itemCenter = rect.top + rect.height / 2;
                     const distance = Math.abs(viewportCenter - itemCenter);
-
-                    if (distance < closestDistance) {
-                        closestDistance = distance;
-                        closestItem = item;
-                    }
-
-                    let opacity = 0.1;
-                    let scale = 0.85;
-                    let translateY = 20;
-
-                    if (distance < 150) {
-                        opacity = 1;
-                        scale = 1;
-                        translateY = 0;
-                    } else if (distance < 400) {
-                        const factor = 1 - (distance - 150) / 250;
-                        opacity = 0.1 + factor * 0.9;
-                        scale = 0.85 + factor * 0.15;
-                        translateY = 20 * (1 - factor);
-                    }
-
+                    if (distance < closestDistance) { closestDistance = distance; closestItem = item; }
+                    let opacity = 0.1, scale = 0.85, translateY = 20;
+                    if (distance < 150) { opacity = 1; scale = 1; translateY = 0; }
+                    else if (distance < 400) { const factor = 1 - (distance - 150) / 250; opacity = 0.1 + factor * 0.9; scale = 0.85 + factor * 0.15; translateY = 20 * (1 - factor); }
                     item.style.opacity = opacity;
                     item.style.transform = `scale(${scale}) translateY(${translateY}px)`;
                     item.classList.toggle('active', opacity > 0.8);
                 });
-
                 if (closestItem && worksGrid && timelineLine) {
                     const gridRect = worksGrid.getBoundingClientRect();
                     const itemRect = closestItem.getBoundingClientRect();
@@ -2055,135 +1741,38 @@
                 }
                 worksTicking = false;
             }
+            window.addEventListener('load', function() { updateLineHeight(); timelineLine.style.height = lineHeight + 'px'; updateWorksAndLine(); });
+            window.addEventListener('scroll', function() { if (!worksTicking) { window.requestAnimationFrame(updateWorksAndLine); worksTicking = true; } });
+            window.addEventListener('resize', function() { updateLineHeight(); timelineLine.style.height = lineHeight + 'px'; updateWorksAndLine(); });
 
-            window.addEventListener('load', function() {
-                updateLineHeight();
-                timelineLine.style.height = lineHeight + 'px';
-                updateWorksAndLine();
-            });
-
-            window.addEventListener('scroll', function() {
-                if (!worksTicking) {
-                    window.requestAnimationFrame(updateWorksAndLine);
-                    worksTicking = true;
-                }
-            });
-
-            window.addEventListener('resize', function() {
-                updateLineHeight();
-                timelineLine.style.height = lineHeight + 'px';
-                updateWorksAndLine();
-            });
-
-            // ---- INTERESTS CAROUSEL (with free dragging) ----
+            // ---- INTERESTS CAROUSEL ----
             const interestsTrack = document.getElementById('interestsTrack');
             if (interestsTrack) {
                 const originalCards = Array.from(interestsTrack.children);
-                originalCards.forEach(card => {
-                    const clone = card.cloneNode(true);
-                    interestsTrack.appendChild(clone);
-                });
-
-                function getCardWidth() {
-                    const firstCard = interestsTrack.querySelector('.interest-card');
-                    if (!firstCard) return 320;
-                    return firstCard.offsetWidth;
-                }
-
-                let offset = 0;
-                let animationId = null;
-                let hoverPaused = false;
-                let isDragging = false;
-                let lastTimestamp = 0;
+                originalCards.forEach(card => { const clone = card.cloneNode(true); interestsTrack.appendChild(clone); });
+                function getCardWidth() { const firstCard = interestsTrack.querySelector('.interest-card'); return firstCard ? firstCard.offsetWidth : 320; }
+                let offset = 0, animationId = null, hoverPaused = false, isDragging = false, lastTimestamp = 0;
                 const speedPerSecond = 55;
-
                 function animateCarousel(timestamp) {
-                    if (hoverPaused || isDragging) {
-                        animationId = requestAnimationFrame(animateCarousel);
-                        return;
-                    }
+                    if (hoverPaused || isDragging) { animationId = requestAnimationFrame(animateCarousel); return; }
                     if (!lastTimestamp) lastTimestamp = timestamp;
-                    const delta = timestamp - lastTimestamp;
-                    lastTimestamp = timestamp;
-
-                    const cardWidth = getCardWidth();
-                    const totalOriginalWidth = originalCards.length * cardWidth;
-
+                    const delta = timestamp - lastTimestamp; lastTimestamp = timestamp;
+                    const cardWidth = getCardWidth(), totalOriginalWidth = originalCards.length * cardWidth;
                     offset += (speedPerSecond * delta) / 1000;
-
-                    if (offset >= totalOriginalWidth) {
-                        offset = 0;
-                        interestsTrack.style.transition = 'none';
-                        interestsTrack.style.transform = 'translateX(0px)';
-                        interestsTrack.getBoundingClientRect();
-                        interestsTrack.style.transition = '';
-                    }
-
+                    if (offset >= totalOriginalWidth) { offset = 0; interestsTrack.style.transition = 'none'; interestsTrack.style.transform = 'translateX(0px)'; interestsTrack.getBoundingClientRect(); interestsTrack.style.transition = ''; }
                     interestsTrack.style.transform = `translateX(-${offset}px)`;
                     animationId = requestAnimationFrame(animateCarousel);
                 }
-
                 animationId = requestAnimationFrame(animateCarousel);
-
                 const wrapper = document.getElementById('interestsWrapper');
-                if (wrapper) {
-                    wrapper.addEventListener('pointerenter', function() { hoverPaused = true; });
-                    wrapper.addEventListener('pointerleave', function() { hoverPaused = false; lastTimestamp = 0; });
-                }
-
-                // --- Pointer drag handling ---
-                let dragStartX = 0;
-                let dragStartOffset = 0;
-
-                interestsTrack.addEventListener('pointerdown', function(e) {
-                    if (e.pointerType === 'mouse' && e.button !== 0) return; // only primary button
-                    isDragging = true;
-                    dragStartX = e.clientX;
-                    dragStartOffset = offset;
-                    interestsTrack.setPointerCapture(e.pointerId);
-                    e.preventDefault(); // avoid text selection
-                });
-
-                interestsTrack.addEventListener('pointermove', function(e) {
-                    if (!isDragging) return;
-                    const dx = e.clientX - dragStartX;
-                    offset = dragStartOffset - dx; // moving right decreases offset
-                    interestsTrack.style.transform = `translateX(-${offset}px)`;
-                });
-
-                function endDrag(e) {
-                    if (!isDragging) return;
-                    isDragging = false;
-                    interestsTrack.releasePointerCapture(e.pointerId);
-
-                    // Normalize offset to [0, totalOriginalWidth) for smooth auto-continuation
-                    const totalOriginalWidth = originalCards.length * getCardWidth();
-                    offset = ((offset % totalOriginalWidth) + totalOriginalWidth) % totalOriginalWidth;
-
-                    interestsTrack.style.transition = 'none';
-                    interestsTrack.style.transform = `translateX(-${offset}px)`;
-                    interestsTrack.getBoundingClientRect();
-                    interestsTrack.style.transition = '';
-
-                    lastTimestamp = 0; // restart animation timer
-                }
-
-                interestsTrack.addEventListener('pointerup', endDrag);
-                interestsTrack.addEventListener('pointercancel', endDrag);
-                interestsTrack.addEventListener('pointerleave', endDrag);
-
-                window.addEventListener('beforeunload', function() {
-                    if (animationId) cancelAnimationFrame(animationId);
-                });
-
-                window.addEventListener('resize', function() {
-                    offset = 0;
-                    interestsTrack.style.transition = 'none';
-                    interestsTrack.style.transform = 'translateX(0px)';
-                    interestsTrack.getBoundingClientRect();
-                    interestsTrack.style.transition = '';
-                    lastTimestamp = 0;
-                });
+                if (wrapper) { wrapper.addEventListener('pointerenter', function() { hoverPaused = true; }); wrapper.addEventListener('pointerleave', function() { hoverPaused = false; lastTimestamp = 0; }); }
+                let dragStartX = 0, dragStartOffset = 0;
+                interestsTrack.addEventListener('pointerdown', function(e) { if (e.pointerType === 'mouse' && e.button !== 0) return; isDragging = true; dragStartX = e.clientX; dragStartOffset = offset; interestsTrack.setPointerCapture(e.pointerId); e.preventDefault(); });
+                interestsTrack.addEventListener('pointermove', function(e) { if (!isDragging) return; const dx = e.clientX - dragStartX; offset = dragStartOffset - dx; interestsTrack.style.transform = `translateX(-${offset}px)`; });
+                function endDrag(e) { if (!isDragging) return; isDragging = false; interestsTrack.releasePointerCapture(e.pointerId); const totalOriginalWidth = originalCards.length * getCardWidth(); offset = ((offset % totalOriginalWidth) + totalOriginalWidth) % totalOriginalWidth; interestsTrack.style.transition = 'none'; interestsTrack.style.transform = `translateX(-${offset}px)`; interestsTrack.getBoundingClientRect(); interestsTrack.style.transition = ''; lastTimestamp = 0; }
+                interestsTrack.addEventListener('pointerup', endDrag); interestsTrack.addEventListener('pointercancel', endDrag); interestsTrack.addEventListener('pointerleave', endDrag);
+                window.addEventListener('beforeunload', function() { if (animationId) cancelAnimationFrame(animationId); });
+                window.addEventListener('resize', function() { offset = 0; interestsTrack.style.transition = 'none'; interestsTrack.style.transform = 'translateX(0px)'; interestsTrack.getBoundingClientRect(); interestsTrack.style.transition = ''; lastTimestamp = 0; });
             }
 
             // ---- TESTIMONIALS ----
@@ -2192,104 +1781,28 @@
             const prevBtn = document.getElementById('testPrev');
             const nextBtn = document.getElementById('testNext');
             const slides = track ? track.querySelectorAll('.testimonial-slide') : [];
-            let currentIndex = 0;
-            let slideCount = slides.length;
-            let autoPlayTimer = null;
-
+            let currentIndex = 0, slideCount = slides.length, autoPlayTimer = null;
             if (slides.length > 0) {
-                for (let i = 0; i < slideCount; i++) {
-                    const dot = document.createElement('button');
-                    dot.className = 'testimonial-dot' + (i === 0 ? ' active' : '');
-                    dot.dataset.index = i;
-                    dot.addEventListener('click', function() {
-                        goToSlide(parseInt(this.dataset.index));
-                    });
-                    dots.appendChild(dot);
-                }
-
-                function goToSlide(index) {
-                    if (index < 0) index = slideCount - 1;
-                    if (index >= slideCount) index = 0;
-                    currentIndex = index;
-                    const slideWidth = slides[0].offsetWidth || track.offsetWidth / slideCount;
-                    track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-
-                    document.querySelectorAll('.testimonial-dot').forEach((dot, i) => {
-                        dot.classList.toggle('active', i === currentIndex);
-                    });
-
-                    resetAutoPlay();
-                }
-
-                function resetAutoPlay() {
-                    if (autoPlayTimer) clearInterval(autoPlayTimer);
-                    autoPlayTimer = setInterval(function() {
-                        goToSlide(currentIndex + 1);
-                    }, 8000);
-                }
-
+                for (let i = 0; i < slideCount; i++) { const dot = document.createElement('button'); dot.className = 'testimonial-dot' + (i === 0 ? ' active' : ''); dot.dataset.index = i; dot.addEventListener('click', function() { goToSlide(parseInt(this.dataset.index)); }); dots.appendChild(dot); }
+                function goToSlide(index) { if (index < 0) index = slideCount - 1; if (index >= slideCount) index = 0; currentIndex = index; const slideWidth = slides[0].offsetWidth || track.offsetWidth / slideCount; track.style.transform = `translateX(-${currentIndex * slideWidth}px)`; document.querySelectorAll('.testimonial-dot').forEach((dot, i) => { dot.classList.toggle('active', i === currentIndex); }); resetAutoPlay(); }
+                function resetAutoPlay() { if (autoPlayTimer) clearInterval(autoPlayTimer); autoPlayTimer = setInterval(function() { goToSlide(currentIndex + 1); }, 8000); }
                 function nextSlide() { goToSlide(currentIndex + 1); }
-
                 function prevSlide() { goToSlide(currentIndex - 1); }
-
-                prevBtn.addEventListener('click', function(e) { e.stopPropagation();
-                    prevSlide(); });
-                nextBtn.addEventListener('click', function(e) { e.stopPropagation();
-                    nextSlide(); });
-
-                document.addEventListener('keydown', function(e) {
-                    if (e.key === 'ArrowLeft') prevSlide();
-                    if (e.key === 'ArrowRight') nextSlide();
-                });
-
-                let touchStartX = 0,
-                    touchEndX = 0;
+                prevBtn.addEventListener('click', function(e) { e.stopPropagation(); prevSlide(); });
+                nextBtn.addEventListener('click', function(e) { e.stopPropagation(); nextSlide(); });
+                document.addEventListener('keydown', function(e) { if (e.key === 'ArrowLeft') prevSlide(); if (e.key === 'ArrowRight') nextSlide(); });
+                let touchStartX = 0, touchEndX = 0;
                 const carouselEl = document.querySelector('.testimonial-carousel');
-                if (carouselEl) {
-                    carouselEl.addEventListener('touchstart', function(e) {
-                        touchStartX = e.changedTouches[0].screenX;
-                    }, { passive: true });
-                    carouselEl.addEventListener('touchend', function(e) {
-                        touchEndX = e.changedTouches[0].screenX;
-                        const diff = touchStartX - touchEndX;
-                        if (Math.abs(diff) > 30) {
-                            if (diff > 0) nextSlide();
-                            else prevSlide();
-                        }
-                    }, { passive: true });
-                }
-
+                if (carouselEl) { carouselEl.addEventListener('touchstart', function(e) { touchStartX = e.changedTouches[0].screenX; }, { passive: true }); carouselEl.addEventListener('touchend', function(e) { touchEndX = e.changedTouches[0].screenX; const diff = touchStartX - touchEndX; if (Math.abs(diff) > 30) { if (diff > 0) nextSlide(); else prevSlide(); } }, { passive: true }); }
                 let resizeTimeout;
-                window.addEventListener('resize', function() {
-                    clearTimeout(resizeTimeout);
-                    resizeTimeout = setTimeout(function() {
-                        const slideWidth = slides[0].offsetWidth || track.offsetWidth / slideCount;
-                        track.style.transition = 'none';
-                        track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-                        track.getBoundingClientRect();
-                        track.style.transition = '';
-                    }, 200);
-                });
-
+                window.addEventListener('resize', function() { clearTimeout(resizeTimeout); resizeTimeout = setTimeout(function() { const slideWidth = slides[0].offsetWidth || track.offsetWidth / slideCount; track.style.transition = 'none'; track.style.transform = `translateX(-${currentIndex * slideWidth}px)`; track.getBoundingClientRect(); track.style.transition = ''; }, 200); });
                 resetAutoPlay();
-
                 const carouselContainer = document.querySelector('.testimonial-carousel');
-                if (carouselContainer) {
-                    carouselContainer.addEventListener('mouseenter', function() {
-                        if (autoPlayTimer) clearInterval(autoPlayTimer);
-                    });
-                    carouselContainer.addEventListener('mouseleave', function() {
-                        resetAutoPlay();
-                    });
-                }
-
-                setTimeout(function() {
-                    const slideWidth = slides[0].offsetWidth || track.offsetWidth / slideCount;
-                    track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-                }, 100);
+                if (carouselContainer) { carouselContainer.addEventListener('mouseenter', function() { if (autoPlayTimer) clearInterval(autoPlayTimer); }); carouselContainer.addEventListener('mouseleave', function() { resetAutoPlay(); }); }
+                setTimeout(function() { const slideWidth = slides[0].offsetWidth || track.offsetWidth / slideCount; track.style.transform = `translateX(-${currentIndex * slideWidth}px)`; }, 100);
             }
 
-            // ---- PANEL DATA ----
+            // ---- PANEL DATA (unchanged galleries) ----
             const worksDetails = {
                 "1": {
                     title: "Links Perdidos • Algar Group",
@@ -2450,10 +1963,26 @@
                     tags: "Artwork • Prepress",
                     story: "A respectful yet fresh design update for a historic city newspaper. We modernised the layout, typography, and visual language while preserving the publication's trusted character – making it more accessible for today's readers while honouring its legacy.",
                     gallery: [
-                        { img: "https://picsum.photos/seed/diario1/800/600" },
-                        { img: "https://picsum.photos/seed/diario2/800/600" },
-                        { img: "https://picsum.photos/seed/diario3/800/600" },
-                        { img: "https://picsum.photos/seed/diario4/800/600" }
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/7_-_diario/2%20-%20vid%20diario.mp4", isVideo: true },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/7_-_diario/3%20-%20capa-falsa-diario-de-uberlandia-1-706x1024.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/7_-_diario/4%20-%20Jornal%20antigo.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/7_-_diario/5%20-%20Jornal%20antigo%203.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/7_-_diario/6%20-%20Jornal%20antigo%202.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/7_-_diario/7%20-%20Jornal%20novo%20header%202.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/7_-_diario/8%20-%20Jornal%20novo%20header.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/7_-_diario/9%20-%20Jornal%20novo%20melhor%20e%20menor.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/7_-_diario/10%20-%20Jornal%20novo.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/7_-_diario/11%20-%20logo%20antigo.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/7_-_diario/12%20-%20logo%20novo.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/7_-_diario/13%20-%20meia_pagina_-_entenda_cedo_297x22cm.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/7_-_diario/14%20-%20politicos_meia-pg_297x22cm_f39.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/7_-_diario/15%20-%20pagina_assine_297x44cm-691x1024.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/7_-_diario/16%20-%20verdade-ou-conseq_quarto-pg_146x22cm_f39-680x1024.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/7_-_diario/17%20-%20anuncio_enganar_21x28cm_revista-777x1024.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/7_-_diario/18%20-%20mao-boba_quarto-pg_146x22cm_f39-680x1024.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/7_-_diario/19%20-%20promessas_quarto-pg_146x22cm_f39.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/7_-_diario/20%20-%20direita-esquerda_meia-pg_297x22cm_f39.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/7_-_diario/21%20-%20mobile-abertura.jpg" }
                     ]
                 },
                 "8": {
@@ -2462,10 +1991,24 @@
                     tags: "Art direction • Prepress",
                     story: "A celebratory rally event for Unimed's 50th anniversary. I led the art direction and prepress for all event materials – from vehicle wraps and banners to invitation kits and wayfinding signage – ensuring a cohesive, energetic visual identity.",
                     gallery: [
-                        { img: "https://picsum.photos/seed/unimed1/800/600" },
-                        { img: "https://picsum.photos/seed/unimed2/800/600" },
-                        { img: "https://picsum.photos/seed/unimed3/800/600" },
-                        { img: "https://picsum.photos/seed/unimed4/800/600" }
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/8_-_rally_unimed/3%20-%20STD-Whats.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/8_-_rally_unimed/4%20-%20Save-the-Date-whats.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/8_-_rally_unimed/5%20-%20STD-Email-2.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/8_-_rally_unimed/6%20-%20Count-3.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/8_-_rally_unimed/7%20-%20Count-2.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/8_-_rally_unimed/8%20-%20Count-1.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/8_-_rally_unimed/9%20-%20Capa.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/8_-_rally_unimed/10%20-%20Programa%C3%A7%C3%A3o.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/8_-_rally_unimed/11%20-%20DRE-Resumo-2020.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/8_-_rally_unimed/12%20-%20Pr%C3%A9-Requisitos-PPR-Condi%C3%A7%C3%B5es.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/8_-_rally_unimed/13%20-%20Composi%C3%A7%C3%A3o-e-estrutura.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/8_-_rally_unimed/14%20-%20Resultados-estrat%C3%A9gicos.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/8_-_rally_unimed/15%20-%20Aspectos-a-serem-destacados.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/8_-_rally_unimed/16%20-%20Whats-Sert%C3%B5es.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/8_-_rally_unimed/17%20-%20Template-PPT-2.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/8_-_rally_unimed/18%20-%20Template-PPT-3.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/8_-_rally_unimed/19%20-%20Template-PPT-1.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/8_-_rally_unimed/20%20-%2050%20anos%20Unimed%20Uberl%C3%A2ndia%20-%20Unimed%20Uberl%C3%A2ndia%20(840p).mp4", isVideo: true }
                     ]
                 },
                 "9": {
@@ -2474,133 +2017,81 @@
                     tags: "Artwork • Motion • Prepress",
                     story: "A playful campaign for Gran Toro Residential that highlights the joy of finding the perfect home. We created a series of whimsical illustrations, motion graphics, and printed materials that make the house‑hunting journey feel like an adventure.",
                     gallery: [
-                        { img: "https://picsum.photos/seed/alberto1/800/600" },
-                        { img: "https://picsum.photos/seed/alberto2/800/600" },
-                        { img: "https://picsum.photos/seed/alberto3/800/600" },
-                        { img: "https://picsum.photos/seed/alberto4/800/600" }
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/9_-_gran_toro/2%20-%20gran_toro_-_mudanca_-_full%20(540p).mp4", isVideo: true },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/9_-_gran_toro/3%20-%20destaque_desk_gran_toro.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/9_-_gran_toro/4%20-%20outdoor3.webp" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/9_-_gran_toro/5%20-%20outdoor%201.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/9_-_gran_toro/6%20-%20outdoor.webp" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/9_-_gran_toro/7%20-%20social.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/9_-_gran_toro/8%20-%20social.png" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/9_-_gran_toro/9%20-%20outdoor_simples2.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/9_-_gran_toro/10%20-%20outdoor_simples5.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/9_-_gran_toro/11%20-%20outdoor_simples6.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/9_-_gran_toro/12%20-%20outdoor2.webp" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/9_-_gran_toro/13%20-%20social.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/9_-_gran_toro/14%20-%20gran_toro_-_redes_sociais_01%20(540p).mp4", isVideo: true },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/9_-_gran_toro/15%20-%20social.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/9_-_gran_toro/16%20-%20social.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/9_-_gran_toro/17%20-%20social%201.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/9_-_gran_toro/18%20-%20social.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/9_-_gran_toro/19%20-%20social.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/9_-_gran_toro/20%20-%20social%20(2).jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/9_-_gran_toro/21%20-%20GIF.gif" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/9_-_gran_toro/22%20-%20gran_toro_-_redes_sociais_02%20(540p).mp4", isVideo: true }
                     ]
                 },
                 "10": {
-                    title: "25 anos • Akkar Restaurant",
+                    title: "25 years • Akkar Restaurant",
                     subtitle: "When social media start to be about numbers, we brought reality.",
                     tags: "Artwork • Social Media • Illustration • Motion • Prepress",
                     story: "A celebration of 25 years of Akkar Restaurant. When social media started to be about numbers, we brought reality back to the forefront. Through a series of artworks, social media campaigns, illustrations, motion graphics, and prepress materials, we told the authentic story of the people behind the brand — showing that real connections matter more than metrics.",
                     gallery: [
-                        { img: "https://picsum.photos/seed/akkar1/800/600" },
-                        { img: "https://picsum.photos/seed/akkar2/800/600" },
-                        { img: "https://picsum.photos/seed/akkar3/800/600" },
-                        { img: "https://picsum.photos/seed/akkar4/800/600" }
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/1%20-%20thumb.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/3%20-%20esfiha.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/4%20-%20esfiha.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/5%20-%20facebook_akkar.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/6%20-%20instagram.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/7%20-%20chopp.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/8%20-%20suuco.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/9%20-%20suco%20chopp.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/10%20-%20post.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/11%20-%20shrimps.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/12%20-%20kaftas.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/13%20-%20kibes.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/14%20-%20post.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/15%20-%20like%20share.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/16%20-%20bandeira%20minas.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/17%20-%20esfiha.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/18%20-%2025percent.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/19%20-%203%20esfihas.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/20%20-%20carnaval.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/21%20-%204%20esfihas.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/22%20-%20post.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/23%20-%20bolinhos.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/24%20-%20esfiha%20bandeira%20udia.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/25%20-%2018e30.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/26%20-%20br%20uru.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/27%20-%20atl%20cru.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/28%20-%20esfiha.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/29%20-%20kibes%20namorados.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/30%20-%20te%20espero.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/31%20-%20esfiha%20elements.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/32%20-%20esfiha%20pensamento.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/34%20-%20rolinhos%20pensamentp.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/35%20-%20esfiha%20emojis.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/36%20-%20esfiha%20relogio.jpg" },
+                        { img: "https://raw.githubusercontent.com/Rossinif/portfolio/4c25d8350be91730de8b1aba8638823f679f3b70/assets/2_works/10_-_akkar/37%20-%20esfiha%20lua.jpg" }
                     ]
                 }
             };
-
-            // ---- VIDEO POSTER GENERATOR ----
-            function generateVideoPoster(videoElement, url) {
-                if (videoElement.hasAttribute('poster') && videoElement.getAttribute('poster') && videoElement
-                    .getAttribute('poster').length > 0) {
-                    return;
-                }
-
-                const tempVideo = document.createElement('video');
-                tempVideo.src = url;
-                tempVideo.muted = true;
-                tempVideo.preload = 'metadata';
-                tempVideo.crossOrigin = 'anonymous';
-
-                let resolved = false;
-                let timeoutId = null;
-
-                function cleanup() {
-                    if (timeoutId) { clearTimeout(timeoutId);
-                        timeoutId = null; }
-                    tempVideo.pause();
-                    tempVideo.src = '';
-                    tempVideo.load();
-                }
-
-                function resolve(posterData) {
-                    if (resolved) return;
-                    resolved = true;
-                    if (posterData) {
-                        videoElement.setAttribute('poster', posterData);
-                    }
-                    cleanup();
-                }
-
-                timeoutId = setTimeout(() => {
-                    if (!resolved) {
-                        resolved = true;
-                        cleanup();
-                    }
-                }, 8000);
-
-                tempVideo.addEventListener('loadedmetadata', function() {
-                    const duration = tempVideo.duration;
-                    if (!duration || !isFinite(duration) || duration <= 0) {
-                        resolve(null);
-                        return;
-                    }
-                    const middle = Math.min(duration * 0.5, duration * 0.85);
-                    tempVideo.currentTime = middle;
-                });
-
-                tempVideo.addEventListener('seeked', function() {
-                    if (resolved) return;
-                    try {
-                        const canvas = document.createElement('canvas');
-                        const w = tempVideo.videoWidth || 640;
-                        const h = tempVideo.videoHeight || 360;
-                        canvas.width = w;
-                        canvas.height = h;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(tempVideo, 0, 0, w, h);
-                        const poster = canvas.toDataURL('image/jpeg', 0.7);
-                        resolve(poster);
-                    } catch (e) {
-                        resolve(null);
-                    }
-                });
-
-                tempVideo.addEventListener('error', function() {
-                    resolve(null);
-                });
-
-                tempVideo.addEventListener('timeupdate', function() {
-                    if (resolved) return;
-                    if (tempVideo.readyState >= 2) {
-                        try {
-                            const canvas = document.createElement('canvas');
-                            const w = tempVideo.videoWidth || 640;
-                            const h = tempVideo.videoHeight || 360;
-                            canvas.width = w;
-                            canvas.height = h;
-                            const ctx = canvas.getContext('2d');
-                            ctx.drawImage(tempVideo, 0, 0, w, h);
-                            const poster = canvas.toDataURL('image/jpeg', 0.7);
-                            resolve(poster);
-                        } catch (e) {
-                            resolve(null);
-                        }
-                    }
-                });
-
-                tempVideo.load();
-            }
-
-            function generateAllVideoPosters() {
-                const videoElements = document.querySelectorAll('.panel-gallery .gallery-item video');
-                videoElements.forEach(function(video) {
-                    const url = video.src;
-                    if (url && url.length > 0) {
-                        generateVideoPoster(video, url);
-                    }
-                });
-            }
 
             // ---- PANEL ELEMENTS ----
             const panelBackdrop = document.getElementById('panelBackdrop');
             const sidePanel = document.getElementById('sidePanel');
             const panelClose = document.getElementById('panelClose');
+            const panelSoundToggle = document.getElementById('panelSoundToggle');
+            const soundOffIcon = panelSoundToggle.querySelector('.sound-off');
+            const soundOnIcon = panelSoundToggle.querySelector('.sound-on');
             const panelImg = document.getElementById('panelImg');
             const panelVideo = document.getElementById('panelVideo');
             const panelYear = document.getElementById('panelYear');
@@ -2608,10 +2099,32 @@
             const panelStory = document.getElementById('panelStory');
             const panelGallery = document.getElementById('panelGallery');
             const panelMainImage = document.getElementById('panelMainImage');
+            const panelPrev = document.getElementById('panelPrev');
+            const panelNext = document.getElementById('panelNext');
 
             let currentGalleryItems = [];
             let currentIndexPanel = 0;
             let currentData = null;
+            let globalMuted = true;
+
+            function updateSoundIcon() {
+                if (globalMuted) {
+                    soundOffIcon.style.display = 'flex';
+                    soundOnIcon.style.display = 'none';
+                } else {
+                    soundOffIcon.style.display = 'none';
+                    soundOnIcon.style.display = 'flex';
+                }
+            }
+
+            panelSoundToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                globalMuted = !globalMuted;
+                if (panelVideo.src && panelVideo.style.display !== 'none') {
+                    panelVideo.muted = globalMuted;
+                }
+                updateSoundIcon();
+            });
 
             function isVideoUrl(url) {
                 return url && /\.(mp4|webm|ogg|mov)$/i.test(url);
@@ -2622,31 +2135,21 @@
                 if (isVideo) {
                     panelImg.style.display = 'none';
                     panelVideo.style.display = 'block';
-                    panelVideo.loop = true;
                     panelVideo.src = item.img;
+                    panelVideo.muted = globalMuted;
+                    panelVideo.loop = true;
+                    panelVideo.removeAttribute('controls');
                     panelVideo.load();
                     panelVideo.play().catch(function() {});
-                    panelMainImage.onclick = function() {
-                        if (panelVideo.paused) {
-                            panelVideo.play().catch(function() {});
-                        } else {
-                            panelVideo.pause();
-                        }
-                    };
-                    const hint = panelMainImage.querySelector('.click-hint');
-                    if (hint) hint.textContent = 'Click to play / pause';
+                    panelSoundToggle.classList.add('visible');
+                    updateSoundIcon();
                 } else {
+                    panelVideo.pause();
                     panelImg.style.display = 'block';
                     panelVideo.style.display = 'none';
-                    panelVideo.pause();
                     panelImg.src = item.img;
                     panelImg.alt = '';
-                    panelMainImage.onclick = function() {
-                        const nextIndex = (currentIndexPanel + 1) % currentGalleryItems.length;
-                        setMainImage(nextIndex);
-                    };
-                    const hint = panelMainImage.querySelector('.click-hint');
-                    if (hint) hint.textContent = 'Click to cycle images';
+                    panelSoundToggle.classList.remove('visible');
                 }
             }
 
@@ -2686,20 +2189,18 @@
                     }
                 }).join('');
 
-                requestAnimationFrame(function() {
-                    requestAnimationFrame(generateAllVideoPosters);
-                });
-
                 document.querySelectorAll('.panel-gallery .gallery-item').forEach(function(el) {
                     el.addEventListener('click', function() {
                         const idx = parseInt(this.dataset.index);
                         setMainImage(idx);
+                        sidePanel.scrollTo({ top: 0, behavior: 'smooth' });
                     });
                 });
 
                 sidePanel.classList.add('active');
                 panelBackdrop.classList.add('active');
                 document.body.style.overflow = 'hidden';
+                sidePanel.scrollTo(0, 0);
             }
 
             function setMainImage(index) {
@@ -2728,7 +2229,26 @@
                 document.body.style.overflow = '';
                 panelVideo.pause();
                 panelVideo.src = '';
+                panelSoundToggle.classList.remove('visible');
             }
+
+            panelPrev.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (currentIndexPanel > 0) {
+                    setMainImage(currentIndexPanel - 1);
+                } else {
+                    setMainImage(currentGalleryItems.length - 1);
+                }
+            });
+
+            panelNext.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (currentIndexPanel < currentGalleryItems.length - 1) {
+                    setMainImage(currentIndexPanel + 1);
+                } else {
+                    setMainImage(0);
+                }
+            });
 
             document.getElementById('worksGrid').addEventListener('click', function(e) {
                 const item = e.target.closest('.work-item');
@@ -2745,34 +2265,24 @@
 
             // ---- FLOATING WHATSAPP ----
             const whatsappBtn = document.getElementById('whatsappBtn');
-
             function handleFloatingWhatsApp() {
                 const works = document.getElementById('works');
                 const testimonials = document.getElementById('testimonials');
                 if (!works || !testimonials || !whatsappBtn) return;
-
                 const rect1 = works.getBoundingClientRect();
                 const rect2 = testimonials.getBoundingClientRect();
                 const windowHeight = window.innerHeight;
-
                 const isWorksDone = rect1.bottom <= windowHeight;
                 const isTestimonialsDone = rect2.bottom <= windowHeight;
-
-                if (isTestimonialsDone) {
-                    whatsappBtn.classList.remove('visible');
-                } else if (isWorksDone) {
-                    whatsappBtn.classList.add('visible');
-                } else {
-                    whatsappBtn.classList.remove('visible');
-                }
+                if (isTestimonialsDone) { whatsappBtn.classList.remove('visible'); }
+                else if (isWorksDone) { whatsappBtn.classList.add('visible'); }
+                else { whatsappBtn.classList.remove('visible'); }
             }
-
             window.addEventListener('scroll', handleFloatingWhatsApp);
             window.addEventListener('resize', handleFloatingWhatsApp);
             window.addEventListener('load', handleFloatingWhatsApp);
 
         })();
     </script>
-
 </body>
 </html>
