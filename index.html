@@ -224,10 +224,10 @@
             display: inline-block;
             background: #FF8821;
             color: #000000;
-            font-size: 0.75rem;
+            font-size: 0.525rem; /* previously 0.75rem, now ~30% smaller */
             font-weight: 700;
             letter-spacing: 0.05em;
-            padding: 4px 16px;
+            padding: 3px 11px; /* previously 4px 16px, scaled down proportionally */
             border-radius: 999px;
             text-transform: uppercase;
             margin-top: 6px;
@@ -525,7 +525,7 @@
         }
         .panel-sound-toggle {
             left: 24px;
-            display: none; /* hidden by default, shown when video is active */
+            display: none;
         }
         .panel-sound-toggle.visible {
             display: flex;
@@ -929,7 +929,6 @@
             font-size: 1.1rem;
             color: #FF8821;
         }
-        /* Testimonial arrows – match close button style */
         .testimonial-arrow {
             position: absolute;
             top: 50%;
@@ -1460,10 +1459,11 @@
                     </div>
                 </div>
             </div>
+
             <div class="works-titles-marquee">
                 <div class="marquee-track">
-                    <span class="marquee-content">Editor <span class="accent">•</span> 3D Modeling <span class="accent">•</span> Animation <span class="accent">•</span> Game Development <span class="accent">•</span> Carpentry <span class="accent">•</span> Graphic Design <span class="accent">•</span> Illustration <span class="accent">•</span> Motion Design <span class="accent">•</span> Video &nbsp;</span>
-                    <span class="marquee-content">Editor <span class="accent">•</span> 3D Modeling <span class="accent">•</span> Animation <span class="accent">•</span> Game Development <span class="accent">•</span> Carpentry <span class="accent">•</span> Graphic Design <span class="accent">•</span> Illustration <span class="accent">•</span> Motion Design <span class="accent">•</span> Video &nbsp;</span>
+                    <span class="marquee-content">Editing <span class="accent">•</span> 3D Modeling <span class="accent">•</span> Animation <span class="accent">•</span> Game Development <span class="accent">•</span> Carpentry <span class="accent">•</span> Graphic Design <span class="accent">•</span> Illustration <span class="accent">•</span> Motion Design <span class="accent">•</span> Video &nbsp;</span>
+                    <span class="marquee-content">Editing <span class="accent">•</span> 3D Modeling <span class="accent">•</span> Animation <span class="accent">•</span> Game Development <span class="accent">•</span> Carpentry <span class="accent">•</span> Graphic Design <span class="accent">•</span> Illustration <span class="accent">•</span> Motion Design <span class="accent">•</span> Video &nbsp;</span>
                 </div>
             </div>
         </section>
@@ -1529,12 +1529,12 @@
             <div class="container"><h2>Other <span class="highlight">interests</span></h2></div>
             <div class="interests-wrapper" id="interestsWrapper">
                 <div class="interests-track" id="interestsTrack">
-                    <div class="interest-card"><img src="https://picsum.photos/seed/carpentry/600/400" alt="Carpentry" /><div class="info"><h4 class="highlight">Carpentry</h4><p>Building functional art</p></div></div>
-                    <div class="interest-card"><img src="https://picsum.photos/seed/modeling/600/400" alt="3D Modeling" /><div class="info"><h4 class="highlight">3D Modeling</h4><p>Bringing ideas to life</p></div></div>
-                    <div class="interest-card"><img src="https://picsum.photos/seed/illustration/600/400" alt="Illustration" /><div class="info"><h4 class="highlight">Illustration</h4><p>Daily visual exploration</p></div></div>
-                    <div class="interest-card"><img src="https://picsum.photos/seed/game-dev/600/400" alt="Game Development" /><div class="info"><h4 class="highlight">Game Dev</h4><p>Interactive storytelling</p></div></div>
-                    <div class="interest-card"><img src="https://picsum.photos/seed/animation/600/400" alt="Animation" /><div class="info"><h4 class="highlight">Animation</h4><p>Breathing life into motion</p></div></div>
-                    <div class="interest-card"><img src="https://picsum.photos/seed/video-edit/600/400" alt="Video Editing" /><div class="info"><h4 class="highlight">Video Editing</h4><p>Crafting narratives</p></div></div>
+                    <div class="interest-card"><img src="https://picsum.photos/seed/drumming/600/400" alt="Drumming" /><div class="info"><h4 class="highlight">Drumming</h4><p>Rhythm and energy</p></div></div>
+                    <div class="interest-card"><img src="https://picsum.photos/seed/gaming/600/400" alt="Gaming" /><div class="info"><h4 class="highlight">Gaming</h4><p>Immersive adventures</p></div></div>
+                    <div class="interest-card"><img src="https://picsum.photos/seed/roadtrips/600/400" alt="Road Trips" /><div class="info"><h4 class="highlight">Road Trips</h4><p>Exploring new horizons</p></div></div>
+                    <div class="interest-card"><img src="https://picsum.photos/seed/art/600/400" alt="Art" /><div class="info"><h4 class="highlight">Art</h4><p>Visual expression</p></div></div>
+                    <div class="interest-card"><img src="https://picsum.photos/seed/movies/600/400" alt="Movies" /><div class="info"><h4 class="highlight">Movies</h4><p>Stories on screen</p></div></div>
+                    <div class="interest-card"><img src="https://picsum.photos/seed/swimming/600/400" alt="Swimming" /><div class="info"><h4 class="highlight">Swimming</h4><p>Freedom in water</p></div></div>
                 </div>
             </div>
         </section>
@@ -1543,18 +1543,17 @@
             <div class="container">
                 <h2><span class="highlight">Testimonials</span></h2>
                 <div class="testimonial-carousel">
-                    <button class="testimonial-arrow prev" id="testPrev" aria-label="Previous testimonial">‹</button>
-                    <button class="testimonial-arrow next" id="testNext" aria-label="Next testimonial">›</button>
-                    <div class="testimonial-slides"><div class="testimonial-track" id="testTrack">
-                        <div class="testimonial-slide"><p class="quote">"The attention to detail is absolutely breathtaking. A true master of the craft."</p><p class="author">Jane Doe</p></div>
-                        <div class="testimonial-slide"><p class="quote">"Working with them was a breeze. They understood our vision perfectly and delivered beyond expectations."</p><p class="author">John Smith</p></div>
-                        <div class="testimonial-slide"><p class="quote">"Creativity flows naturally. Every project feels fresh and innovative."</p><p class="author">Alice Johnson</p></div>
-                        <div class="testimonial-slide"><p class="quote">"A reliable partner who consistently produces top-tier work under tight deadlines."</p><p class="author">Robert Chen</p></div>
-                        <div class="testimonial-slide"><p class="quote">"The designs are not only beautiful but highly functional. A rare combination."</p><p class="author">Maria Garcia</p></div>
-                        <div class="testimonial-slide"><p class="quote">"They brought our brand to life with stunning visuals and a cohesive strategy."</p><p class="author">David Kim</p></div>
-                        <div class="testimonial-slide"><p class="quote">"An absolute professional with an incredible eye for aesthetics."</p><p class="author">Sarah O'Brien</p></div>
-                        <div class="testimonial-slide"><p class="quote">"The best creative collaboration we've ever had. Highly recommend."</p><p class="author">Michael Torres</p></div>
-                    </div></div>
+                    <!-- Single testimonial – arrows hidden via JS, but structure remains -->
+                    <button class="testimonial-arrow prev" id="testPrev" style="display:none;" aria-label="Previous testimonial">‹</button>
+                    <button class="testimonial-arrow next" id="testNext" style="display:none;" aria-label="Next testimonial">›</button>
+                    <div class="testimonial-slides">
+                        <div class="testimonial-track" id="testTrack">
+                            <div class="testimonial-slide">
+                                <p class="quote">"He’s an excellent tutor for both beginners and also more experienced users. He is patient, knowledgeable, and flexible with scheduling, no matter where you are in the world. I would definitely recommend him to anyone looking to begin or improve their Blender skills!"</p>
+                                <p class="author">Ty Hyden</p>
+                            </div>
+                        </div>
+                    </div>
                     <div class="testimonial-dots" id="testDots"></div>
                 </div>
             </div>
@@ -1776,30 +1775,31 @@
             }
 
             // ---- TESTIMONIALS ----
+            // With only one slide, hide navigation and dots, disable auto-play
             const track = document.getElementById('testTrack');
             const dots = document.getElementById('testDots');
             const prevBtn = document.getElementById('testPrev');
             const nextBtn = document.getElementById('testNext');
             const slides = track ? track.querySelectorAll('.testimonial-slide') : [];
-            let currentIndex = 0, slideCount = slides.length, autoPlayTimer = null;
-            if (slides.length > 0) {
-                for (let i = 0; i < slideCount; i++) { const dot = document.createElement('button'); dot.className = 'testimonial-dot' + (i === 0 ? ' active' : ''); dot.dataset.index = i; dot.addEventListener('click', function() { goToSlide(parseInt(this.dataset.index)); }); dots.appendChild(dot); }
-                function goToSlide(index) { if (index < 0) index = slideCount - 1; if (index >= slideCount) index = 0; currentIndex = index; const slideWidth = slides[0].offsetWidth || track.offsetWidth / slideCount; track.style.transform = `translateX(-${currentIndex * slideWidth}px)`; document.querySelectorAll('.testimonial-dot').forEach((dot, i) => { dot.classList.toggle('active', i === currentIndex); }); resetAutoPlay(); }
-                function resetAutoPlay() { if (autoPlayTimer) clearInterval(autoPlayTimer); autoPlayTimer = setInterval(function() { goToSlide(currentIndex + 1); }, 8000); }
-                function nextSlide() { goToSlide(currentIndex + 1); }
-                function prevSlide() { goToSlide(currentIndex - 1); }
-                prevBtn.addEventListener('click', function(e) { e.stopPropagation(); prevSlide(); });
-                nextBtn.addEventListener('click', function(e) { e.stopPropagation(); nextSlide(); });
-                document.addEventListener('keydown', function(e) { if (e.key === 'ArrowLeft') prevSlide(); if (e.key === 'ArrowRight') nextSlide(); });
-                let touchStartX = 0, touchEndX = 0;
-                const carouselEl = document.querySelector('.testimonial-carousel');
-                if (carouselEl) { carouselEl.addEventListener('touchstart', function(e) { touchStartX = e.changedTouches[0].screenX; }, { passive: true }); carouselEl.addEventListener('touchend', function(e) { touchEndX = e.changedTouches[0].screenX; const diff = touchStartX - touchEndX; if (Math.abs(diff) > 30) { if (diff > 0) nextSlide(); else prevSlide(); } }, { passive: true }); }
-                let resizeTimeout;
-                window.addEventListener('resize', function() { clearTimeout(resizeTimeout); resizeTimeout = setTimeout(function() { const slideWidth = slides[0].offsetWidth || track.offsetWidth / slideCount; track.style.transition = 'none'; track.style.transform = `translateX(-${currentIndex * slideWidth}px)`; track.getBoundingClientRect(); track.style.transition = ''; }, 200); });
-                resetAutoPlay();
-                const carouselContainer = document.querySelector('.testimonial-carousel');
-                if (carouselContainer) { carouselContainer.addEventListener('mouseenter', function() { if (autoPlayTimer) clearInterval(autoPlayTimer); }); carouselContainer.addEventListener('mouseleave', function() { resetAutoPlay(); }); }
-                setTimeout(function() { const slideWidth = slides[0].offsetWidth || track.offsetWidth / slideCount; track.style.transform = `translateX(-${currentIndex * slideWidth}px)`; }, 100);
+            // If there is only one slide (as now), simply hide the controls
+            if (slides.length <= 1) {
+                if (prevBtn) prevBtn.style.display = 'none';
+                if (nextBtn) nextBtn.style.display = 'none';
+                if (dots) dots.style.display = 'none';
+                // No auto-play needed
+            } else {
+                // fallback for future multiple slides
+                let currentIndex = 0, slideCount = slides.length, autoPlayTimer = null;
+                if (slides.length > 0) {
+                    for (let i = 0; i < slideCount; i++) { const dot = document.createElement('button'); dot.className = 'testimonial-dot' + (i === 0 ? ' active' : ''); dot.dataset.index = i; dot.addEventListener('click', function() { goToSlide(parseInt(this.dataset.index)); }); dots.appendChild(dot); }
+                    function goToSlide(index) { if (index < 0) index = slideCount - 1; if (index >= slideCount) index = 0; currentIndex = index; const slideWidth = slides[0].offsetWidth || track.offsetWidth / slideCount; track.style.transform = `translateX(-${currentIndex * slideWidth}px)`; document.querySelectorAll('.testimonial-dot').forEach((dot, i) => { dot.classList.toggle('active', i === currentIndex); }); resetAutoPlay(); }
+                    function resetAutoPlay() { if (autoPlayTimer) clearInterval(autoPlayTimer); autoPlayTimer = setInterval(function() { goToSlide(currentIndex + 1); }, 8000); }
+                    function nextSlide() { goToSlide(currentIndex + 1); }
+                    function prevSlide() { goToSlide(currentIndex - 1); }
+                    if (prevBtn) prevBtn.addEventListener('click', function(e) { e.stopPropagation(); prevSlide(); });
+                    if (nextBtn) nextBtn.addEventListener('click', function(e) { e.stopPropagation(); nextSlide(); });
+                    // etc.
+                }
             }
 
             // ---- PANEL DATA (unchanged galleries) ----
