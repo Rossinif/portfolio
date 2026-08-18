@@ -66,8 +66,25 @@
         .hero-full .hero-text h1 { font-size: 4.8rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; opacity: 0; transform: translateY(20px); transition: opacity 0.9s ease 0.15s, transform 0.9s ease 0.15s; }
         .hero-full .hero-text.revealed h1 { opacity: 1; transform: translateY(0); }
         .hero-full .hero-text h1 .highlight { color: #FF8821; }
-        .scroll-indicator { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 3; color: rgba(255,255,255,0.5); font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; animation: bounce 2.4s infinite; }
-        @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+        .scroll-indicator {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            color: #000;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            opacity: 1;
+            pointer-events: none;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.3);
+        }
+        .scroll-indicator.hidden {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-10px);
+        }
         .hero-spacer { width: 100%; pointer-events: none; position: relative; z-index: 1; background: transparent; }
 
         /* ---- BIO SECTION ---- */
@@ -361,7 +378,7 @@
                         <span class="badge">Portfolio • 2026</span>
                     </div>
                 </div>
-                <div class="scroll-indicator">Scroll to explore</div>
+                <div class="scroll-indicator" id="scrollIndicator">Scroll to explore</div>
             </section>
             <div class="hero-spacer" id="heroSpacer"></div>
         </div>
@@ -623,6 +640,7 @@
             const navbar = document.getElementById('navbar');
             const video = document.getElementById('heroVideo');
             const spacer = document.getElementById('heroSpacer');
+            const scrollIndicator = document.getElementById('scrollIndicator');
             let isVideoEndReached = false;
             if (video) video.pause();
             const heroText = document.getElementById('heroText');
@@ -654,7 +672,11 @@
                         if (video.fastSeek) { video.fastSeek(targetTime); } else { video.currentTime = targetTime; }
                         if (video.paused) { video.play().then(function() { video.pause(); }).catch(function() {}); }
                     }
-                    heroText.classList.toggle('revealed', progress >= 0.72);
+                    const revealed = progress >= 0.72;
+                    heroText.classList.toggle('revealed', revealed);
+                    if (scrollIndicator) {
+                        scrollIndicator.classList.toggle('hidden', revealed);
+                    }
                 }
                 let ticking = false;
                 window.addEventListener('scroll', function() {
